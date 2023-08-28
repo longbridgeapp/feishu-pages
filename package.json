@@ -1,0 +1,14 @@
+{
+  "name": "feishu-pages",
+  "description": "Generate static pages from Feishu Wiki.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsc && node dist/index.js"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.20.0",
+    "@types/node": "^20.5.7",
+    "dotenv": "^16.3.1",
+    "typescript": "^5.2.2"
+  }
+}
