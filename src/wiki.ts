@@ -1,5 +1,5 @@
 import { withTenantToken } from '@larksuiteoapi/node-sdk';
-import { Doc, feishuClient, feishuConfig } from './feishu';
+import { Doc, feishuClient, feishuConfig, requestWait } from './feishu';
 
 /**
  * 获取某个空间下的所有文档列表
@@ -14,8 +14,7 @@ export const fetchAllDocs = async (
   if (!depth) {
     depth = 0;
   }
-  // Feishu Rate Limit 5 times/s
-  await new Promise((resolve) => setTimeout(resolve, 300));
+  await requestWait();
 
   const docs: Doc[] = [];
 

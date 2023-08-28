@@ -60,6 +60,13 @@ const feishuClient = new Client({
   disableTokenCache: true,
 });
 
+/**
+ * Feishu Rate Limit 5 times/s
+ */
+export const requestWait = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 220));
+};
+
 export interface Doc {
   title: string;
   node_token: string;
