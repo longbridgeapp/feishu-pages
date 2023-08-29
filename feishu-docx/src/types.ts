@@ -359,7 +359,7 @@ export class Renderer {
   blockMap: Record<string, Block> = {};
   parentId?: string;
   imageTokens: string[];
-  nextBlock?: Block;
+  nextBlock?: Block | null;
 
   constructor(doc: any) {
     this.documentId = doc?.document?.document_id || '';
@@ -369,6 +369,10 @@ export class Renderer {
     });
   }
 
+  /**
+   * Parse Feishu doc to new format
+   * @returns Text of new format content.
+   */
   parse(): string {
     const entryBlock = this.blockMap[this.documentId];
     return this.parseBlock(entryBlock, 0);

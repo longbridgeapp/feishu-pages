@@ -128,7 +128,7 @@ export class MarkdownRenderer extends Renderer {
     buf.write('\n');
 
     let listBlocks = [];
-    let lastBlock = null;
+    let lastBlock: any = null;
 
     block.children?.forEach((childId, idx) => {
       const child = this.blockMap[childId];

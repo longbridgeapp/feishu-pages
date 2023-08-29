@@ -1,0 +1,31 @@
+{
+  "name": "feishu-docx",
+  "version": "0.1.0",
+  "description": "Generate static pages from Feishu Wiki.",
+  "main": "dist/index.js",
+  "repository": {
+    "url": "https://github.com/huacnlee/feishu-pages"
+  },
+  "publisher": "Jason Lee",
+  "author": {
+    "name": "Jason Lee",
+    "email": "huacnlee@gmail.com"
+  },
+  "scripts": {
+    "dev": "tsc && node dist/index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/node": "^20.5.7",
+    "dotenv": "^16.3.1",
+    "jsdom": "^22.1.0",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.6.4",
+    "@types/jsdom": "^21.1.2",
+    "jest": "^29.6.4",
+    "ts-jest": "^29.1.1"
+  },
+  "license": "MIT"
+}

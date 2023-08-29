@@ -1,0 +1,16 @@
+on:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          check-latest: true
+          cache: yarn
+          cache-dependency-path: 'yarn.lock'
+      - name: Test
+        run: yarn workspace feishu-docx test

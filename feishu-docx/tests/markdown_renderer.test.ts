@@ -2,7 +2,7 @@ import { describe, test } from '@jest/globals';
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
-import { MarkdownRenderer } from '../src/feishu-docx';
+import { MarkdownRenderer } from '../src';
 
 const fixture = (filename: string): string => {
   return fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf8');
