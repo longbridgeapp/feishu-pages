@@ -12,11 +12,12 @@ import { fetchAllDocs } from './wiki';
   console.info('App Id:', feishuConfig.appId);
   console.info('Space Id:', feishuConfig.spaceId);
 
-  const content = await fetchDocBody('OfD9dsSMIodxAOx5AFZcVoQ3nGe');
-  console.log(content);
+  // const text = await fetchDocBody('MmAEdaJB3og1idxJ8Dxca8EjnEg');
+  // console.log('----------- text:', text);
+  // return;
 
   const docs = await fetchAllDocs(feishuConfig.spaceId);
-  // await fetchDocAndWriteFile(outputDir, docs);
+  await fetchDocAndWriteFile(outputDir, docs);
 })();
 
 const fetchDocAndWriteFile = async (outputDir: string, docs: Doc[]) => {

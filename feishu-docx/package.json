@@ -1,7 +1,9 @@
 {
   "name": "feishu-docx",
+  "private": true,
   "version": "0.1.0",
   "description": "Generate static pages from Feishu Wiki.",
+  "module": "src/index.ts",
   "main": "dist/index.js",
   "repository": {
     "url": "https://github.com/huacnlee/feishu-pages"
@@ -12,7 +14,7 @@
     "email": "huacnlee@gmail.com"
   },
   "scripts": {
-    "dev": "tsc && node dist/index.js",
+    "build": "tsc",
     "test": "jest"
   },
   "dependencies": {

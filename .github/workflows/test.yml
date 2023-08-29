@@ -15,4 +15,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Test
-        run: yarn workspace feishu-docx test
+        run: |
+          yarn build
+          yarn test
