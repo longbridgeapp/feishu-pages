@@ -4,8 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { MarkdownRenderer } from '../src/feishu-docx';
 
-const readFile = (filename: string): string => {
-  return fs.readFileSync(path.join(__dirname, filename), 'utf8');
+const fixture = (filename: string): string => {
+  return fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf8');
 };
 
 describe('MarkdownRenderer', () => {
@@ -17,12 +17,15 @@ describe('MarkdownRenderer', () => {
   });
 
   test('parse file', () => {
-    const doc = JSON.parse(readFile('example.raw.json'));
-    const expected = readFile('example.expected.md');
+    ['case0', 'case1', 'case2'].forEach((caseName) => {
+      const raw = fixture(`${caseName}.raw.json`);
+      const doc = JSON.parse(raw);
+      const expected = fixture(`${caseName}.expect.md`);
 
-    let renderer = new MarkdownRenderer(doc);
-    let result = renderer.parse();
+      let renderer = new MarkdownRenderer(doc);
+      let result = renderer.parse();
 
-    assert.equal(result, expected);
+      assert.equal(result.trim(), expected.trim(), caseName);
+    });
   });
 });

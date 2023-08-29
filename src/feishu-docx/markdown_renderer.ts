@@ -39,7 +39,7 @@ export class MarkdownRenderer extends Renderer {
         buf.write(this.parseTextBlock(block.text));
         break;
       case BlockType.Heading1:
-        buf.write('# 1');
+        buf.write('# ');
         buf.write(this.parseTextBlock(block.heading1));
         break;
       case BlockType.Heading2:
@@ -165,20 +165,24 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
 
     buf.write('- ');
-    buf.write(this.parseTextBlock(block.bullet));
+    let itemText = this.parseTextBlock(block.bullet);
+    if (
+      this.nextBlock?.block_type == block.block_type &&
+      this.nextBlock?.parent_id == block.parent_id &&
+      !block.children?.length
+    ) {
+      itemText = trimLastNewline(itemText);
+    }
 
-    block.children?.forEach((childId) => {
+    buf.write(itemText);
+
+    block.children?.forEach((childId, idx) => {
       const child = this.blockMap[childId];
+      this.nextBlock = null;
       buf.write(this.parseBlock(child, indent + 1));
     });
 
-    const isLastItem = this.nextBlock?.block_type != BlockType.Bullet;
-
-    if (isLastItem) {
-      return buf.toString();
-    } else {
-      return trimLastNewline(buf.toString());
-    }
+    return buf.toString();
   }
 
   parseOrderedBlock(block: Block, indent: number = 0) {
@@ -187,6 +191,7 @@ export class MarkdownRenderer extends Renderer {
     const parent = this.blockMap[block.parent_id];
     let order = 1;
 
+    // Calc the order number
     parent?.children?.forEach((childId, idx) => {
       if (childId == block.block_id) {
         for (let i = idx - 1; i >= 0; i--) {
@@ -202,20 +207,25 @@ export class MarkdownRenderer extends Renderer {
     });
 
     buf.write(`${order}. `);
-    buf.write(this.parseTextBlock(block.ordered));
+    let itemText = this.parseTextBlock(block.ordered);
+    if (
+      this.nextBlock?.block_type == block.block_type &&
+      this.nextBlock?.parent_id == block.parent_id &&
+      !block.children?.length
+    ) {
+      itemText = trimLastNewline(itemText);
+    }
+    buf.write(itemText);
 
-    block.children?.forEach((childId) => {
+    // Sub items
+    block.children?.forEach((childId, idx) => {
       const child = this.blockMap[childId];
+      // Peek next block
+      this.nextBlock = null;
       buf.write(this.parseBlock(child, indent + 1));
     });
 
-    const isLastItem = this.nextBlock?.block_type != BlockType.Ordered;
-
-    if (isLastItem) {
-      return buf.toString();
-    } else {
-      return trimLastNewline(buf.toString());
-    }
+    return buf.toString();
   }
 
   parseTextElement(el: TextElement, inline: boolean) {
@@ -313,7 +323,8 @@ export class MarkdownRenderer extends Renderer {
 
     table.cells.forEach((blockId, idx) => {
       const block = this.blockMap[blockId];
-      const cellText = this.parseBlock(block, 0).replace(/\n/, '<br>');
+      let cellText = this.parseBlock(block, 0);
+      cellText = trimLastNewline(cellText).replace(/\n/, '<br>');
       const row = Math.floor(idx / table.property.column_size);
 
       if (rows.length < row + 1) {

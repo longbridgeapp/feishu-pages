@@ -157,7 +157,7 @@ export const getCodeLanguage = (code: CodeLanguage) => {
     case CodeLanguage.Markdown:
       return 'md';
     default:
-      return CodeLanguage[code].toLowerCase();
+      return CodeLanguage[code]?.toLowerCase() || '';
   }
 };
 
