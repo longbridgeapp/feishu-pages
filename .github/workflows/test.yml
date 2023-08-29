@@ -12,5 +12,7 @@ jobs:
           check-latest: true
           cache: yarn
           cache-dependency-path: 'yarn.lock'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
       - name: Test
         run: yarn workspace feishu-docx test
