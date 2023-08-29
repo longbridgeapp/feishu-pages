@@ -490,7 +490,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "Feishu2Md 已开源并发布在 Github中： https://github.com/Wsine/feishu2md",
+              "content": "Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md",
               "text_element_style": {}
             }
           }
@@ -744,7 +744,7 @@
           },
           {
             "text_run": {
-              "content": "feishu2md \u003c你的飞书文档链接\u003e",
+              "content": "feishu2md 你的飞书文档链接",
               "text_element_style": {
                 "inline_code": true
               }

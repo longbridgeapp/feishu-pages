@@ -10,7 +10,7 @@ export enum BlockType {
   Heading7 = 9,
   Heading8 = 10,
   Heading9 = 11,
-  Bulleted = 12,
+  Bullet = 12,
   Ordered = 13,
   Code = 14,
   Quote = 15,
@@ -359,19 +359,31 @@ export class Renderer {
   blockMap: Record<string, Block> = {};
   parentId?: string;
   imageTokens: string[];
+  nextBlock?: Block;
 
-  parse(documentId: string, blocks: Block[]): string {
-    this.documentId = documentId;
+  constructor(doc: any) {
+    this.documentId = doc?.document?.document_id || '';
     this.imageTokens = [];
+    doc?.blocks?.forEach((block) => {
+      this.blockMap[block?.block_id] = block;
+    });
+  }
 
-    for (const block of blocks) {
-      this.blockMap[block.block_id] = block;
-    }
-
-    return this.parseBlock(this.blockMap[documentId], 0);
+  parse(): string {
+    const entryBlock = this.blockMap[this.documentId];
+    return this.parseBlock(entryBlock, 0);
   }
 
   parseBlock(block: Block, indent: number): string {
     throw new Error('Not implemented');
   }
 }
+
+/**
+ * 去掉末尾 1 个换行
+ * @param str
+ * @returns
+ */
+export const trimLastNewline = (str: string) => {
+  return str.replace(/\n$/, '');
+};

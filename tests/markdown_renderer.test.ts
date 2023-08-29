@@ -10,18 +10,19 @@ const readFile = (filename: string): string => {
 
 describe('MarkdownRenderer', () => {
   test('parse', () => {
-    let renderer = new MarkdownRenderer();
-    let result = renderer.parse('OfD9dsSMIodxAOx5AFZcVoQ3nGe', []);
+    let renderer = new MarkdownRenderer({});
+    let result = renderer.parse();
 
     assert.strictEqual(result, '');
   });
 
   test('parse file', () => {
     const doc = JSON.parse(readFile('example.raw.json'));
-    let renderer = new MarkdownRenderer();
-    let result = renderer.parse(doc.document.document_id, doc.blocks as any);
-    console.log('--------- result:\n', result);
+    const expected = readFile('example.expected.md');
 
-    assert.strictEqual(result, '');
+    let renderer = new MarkdownRenderer(doc);
+    let result = renderer.parse();
+
+    assert.equal(result, expected);
   });
 });

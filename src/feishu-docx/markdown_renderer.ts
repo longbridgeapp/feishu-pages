@@ -1,4 +1,5 @@
-import { Buffer } from 'node:buffer';
+import { createElement } from './dom';
+import { Buffer } from './string_buffer';
 import {
   Block,
   BlockType,
@@ -10,12 +11,16 @@ import {
   TextRun,
   getAlignStyle,
   getCodeLanguage,
+  trimLastNewline,
 } from './types';
 
 /**
  * Markdown Renderer
  *
  * Convert Feishu Docx to Markdown GFM
+ *
+ * This is inspired by feishu2md (Go version)
+ * https://github.com/Wsine/feishu2md/blob/cb906109235b07b82b5a6348bdf1103c9fa1e62c/core/parser.go
  */
 export class MarkdownRenderer extends Renderer {
   parseBlock(block: Block, indent: number) {
@@ -23,11 +28,9 @@ export class MarkdownRenderer extends Renderer {
       return '';
     }
 
-    console.log('parseBlock:', block);
+    const buf = new Buffer();
 
-    let buf = Buffer.alloc(0);
-
-    buf.write(' '.repeat(indent * 2));
+    buf.write(' '.repeat(indent * 4));
     switch (block.block_type) {
       case BlockType.Page:
         buf.write(this.parsePageBlock(block));
@@ -36,7 +39,7 @@ export class MarkdownRenderer extends Renderer {
         buf.write(this.parseTextBlock(block.text));
         break;
       case BlockType.Heading1:
-        buf.write('# ');
+        buf.write('# 1');
         buf.write(this.parseTextBlock(block.heading1));
         break;
       case BlockType.Heading2:
@@ -71,7 +74,7 @@ export class MarkdownRenderer extends Renderer {
         buf.write('######### ');
         buf.write(this.parseTextBlock(block.heading9));
         break;
-      case BlockType.Bulleted:
+      case BlockType.Bullet:
         buf.write(this.parseBulletBlock(block, indent));
         break;
       case BlockType.Ordered:
@@ -118,41 +121,48 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parsePageBlock(block: Block) {
-    if (block.block_type != BlockType.Page) {
-      return '';
-    }
+    const buf = new Buffer();
 
-    const buf = Buffer.from('');
-
-    buf.write('#');
+    buf.write('# ');
     buf.write(this.parseTextBlock(block.page));
     buf.write('\n');
 
-    block.children?.forEach((childId) => {
+    let listBlocks = [];
+    let lastBlock = null;
+
+    block.children?.forEach((childId, idx) => {
       const child = this.blockMap[childId];
-      buf.write(this.parseBlock(child, 0));
-      buf.write('\n');
+      this.nextBlock = this.blockMap[block.children[idx + 1]];
+
+      let childText = this.parseBlock(child, 0);
+      if (childText.length > 0) {
+        buf.write(childText);
+        buf.write('\n');
+      }
+
+      lastBlock = child;
     });
 
     return buf.toString();
   }
 
   parseTextBlock(block: TextBlock) {
-    const buf = Buffer.from('');
-    const elLen = block.elements.length;
+    const buf = new Buffer();
+    const inline = block.elements.length > 1;
 
     block.elements?.forEach((el) => {
-      const inline = elLen > 1;
       buf.write(this.parseTextElement(el, inline));
     });
 
-    buf.write('\n');
+    if (buf.length > 0) {
+      buf.write('\n');
+    }
 
     return buf.toString();
   }
 
   parseBulletBlock(block: Block, indent: number = 0) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
 
     buf.write('- ');
     buf.write(this.parseTextBlock(block.bullet));
@@ -162,11 +172,17 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, indent + 1));
     });
 
-    return buf.toString();
+    const isLastItem = this.nextBlock?.block_type != BlockType.Bullet;
+
+    if (isLastItem) {
+      return buf.toString();
+    } else {
+      return trimLastNewline(buf.toString());
+    }
   }
 
   parseOrderedBlock(block: Block, indent: number = 0) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
 
     const parent = this.blockMap[block.parent_id];
     let order = 1;
@@ -188,26 +204,39 @@ export class MarkdownRenderer extends Renderer {
     buf.write(`${order}. `);
     buf.write(this.parseTextBlock(block.ordered));
 
-    return buf.toString();
+    block.children?.forEach((childId) => {
+      const child = this.blockMap[childId];
+      buf.write(this.parseBlock(child, indent + 1));
+    });
+
+    const isLastItem = this.nextBlock?.block_type != BlockType.Ordered;
+
+    if (isLastItem) {
+      return buf.toString();
+    } else {
+      return trimLastNewline(buf.toString());
+    }
   }
 
   parseTextElement(el: TextElement, inline: boolean) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
     if (el.text_run) {
       buf.write(this.parseTextRun(el.text_run));
     } else if (el.equation) {
-      buf.write('$$');
-      buf.write(this.parseTextRun(el.equation));
-      buf.write('$$');
+      let symbol = inline ? '$' : '$$';
+      buf.write(symbol);
+      buf.write(el.equation.content.trimEnd());
+      buf.write(symbol);
     } else if (el.mention_doc) {
-      buf.write(`[${el.mention_doc.title}](${el.mention_doc.url})`);
+      const url = decodeURIComponent(el.mention_doc.url);
+      buf.write(`[${el.mention_doc.title}](${url})`);
     }
 
     return buf.toString();
   }
 
   parseTextRun(textRun: TextRun) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
     let postWrite = '';
 
     let style = textRun.text_element_style;
@@ -240,11 +269,27 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseImage(image: ImageBlock) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
 
     const align = getAlignStyle(image.align);
-    const imageHTML = `<img src="${image.token}" width="${image.width}" height="${image.height}" align="${align} />`;
-    buf.write(imageHTML);
+    let alignAttr = '';
+    if (align != 'left') {
+      alignAttr = ` align="${align}"`;
+    }
+
+    const el = createElement('img');
+    el.setAttribute('src', image.token);
+    if (image.width) {
+      el.setAttribute('width', image.width.toString());
+    }
+    if (image.height) {
+      el.setAttribute('height', image.height.toString());
+    }
+    if (align && align != 'left') {
+      el.setAttribute('align', align);
+    }
+
+    buf.write(el.outerHTML);
     buf.write('\n');
 
     this.imageTokens.push(image.token);
@@ -253,7 +298,7 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseTableCell(block: Block) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
 
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
@@ -278,7 +323,7 @@ export class MarkdownRenderer extends Renderer {
       rows[row].push(cellText);
     });
 
-    const buf = Buffer.from('');
+    const buf = new Buffer();
     // Render markdown table
     buf.write('|');
     for (let i = 0; i < table.property?.column_size; i++) {
@@ -299,7 +344,7 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseQuoteContainer(block: Block) {
-    const buf = Buffer.from('');
+    const buf = new Buffer();
 
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
@@ -311,8 +356,8 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseUnsupport(block: Block) {
-    const buf = Buffer.from('');
-    buf.write(`[Unsupport] ${BlockType[block.block_type]}\n`);
+    const buf = new Buffer();
+    buf.write(`--- [Unsupport] ${BlockType[block.block_type]} ---\n`);
     buf.write('```\n');
     buf.write(JSON.stringify(block, null, 2));
     buf.write('\n```\n');
