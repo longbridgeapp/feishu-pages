@@ -292,7 +292,8 @@ export class MarkdownRenderer extends Renderer {
     if (image.width) {
       el.setAttribute('width', image.width.toString());
     }
-    if (image.height) {
+    // Only give height when width is not given
+    if (!image.width && image.height) {
       el.setAttribute('height', image.height.toString());
     }
     if (align && align != 'left') {
