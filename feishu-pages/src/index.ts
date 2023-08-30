@@ -80,7 +80,7 @@ const downloadImages = async (content: string, imageTokens: string[]) => {
       imageToken,
       path.join(OUTPUT_DIR, 'assets', imageToken)
     );
-    content = content.replace(`](${imageToken})`, `](${imagePath})`);
+    content = content.replace(imageToken, imagePath);
   });
 
   return content;

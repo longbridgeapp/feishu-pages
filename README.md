@@ -13,7 +13,7 @@
 
 - `docx:document:readonly`
 - `wiki:wiki:readonly`
-- `drive:file:readonly`
+- `drive:drive:readonly`
 
 ## Usage
 

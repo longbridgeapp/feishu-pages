@@ -137,7 +137,7 @@ axios.interceptors.response.use(
     if (data?.code === 99991400) {
       const rateLimitResetSeconds = headers['x-ogw-ratelimit-reset'];
       console.warn(
-        'Rate Limit: ',
+        '[RATE LIMIT]',
         data.code,
         data.msg,
         `delay ${rateLimitResetSeconds}s to retry...`
@@ -199,23 +199,26 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   const result = '/assets/' + fileToken;
 
   if (fs.existsSync(localPath)) {
-    console.info('File exists, skip download:', localPath);
+    console.info('File exists, skip download:', fileToken);
     return result;
   }
 
   console.info('Download file', fileToken, '...');
   const data = await axios
     .get(
-      `${feishuConfig.endpoint}/open-apis/drive/v1/files/${fileToken}/download`,
+      `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
       {
+        responseType: 'blob',
         headers: {
           Authorization: `Bearer ${feishuConfig.tenantAccessToken}`,
+          'User-Agent': 'feishu-pages',
         },
       }
     )
     .then((response) => response.data)
     .catch((err) => {
-      console.error('-> Failed to download image', fileToken, err.response);
+      const { message } = err;
+      console.error('-> Failed to download image', fileToken, message);
     });
 
   if (data) {
