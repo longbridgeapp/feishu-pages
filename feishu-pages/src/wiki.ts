@@ -31,13 +31,11 @@ export const fetchAllDocs = async (
   };
   const options = withTenantToken(feishuConfig.tenantAccessToken);
 
-  console.log('---- options', options);
-
   for await (const result of await feishuClient.wiki.spaceNode.listWithIterator(
     payload,
     options
   )) {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await requestWait();
     const { items = [] } = result;
 
     items

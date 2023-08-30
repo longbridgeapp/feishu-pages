@@ -1,6 +1,13 @@
 # Feishu Pages
 
-Generate Feishu Wiki into a markdown pages for work with static page generators.
+导出飞书知识库，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
+
+## Features
+
+- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（目前只支持 Markdown）
+- 目录结构组织
+- 图片下载
+- 与 GitHub Actions 结合
 
 ## Feishu Permissions
 

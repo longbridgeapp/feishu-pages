@@ -34,10 +34,11 @@ export const fetchDocBody = async (document_id: string) => {
     payload,
     options
   )) {
+    await requestWait();
+
     data.items?.forEach((item) => {
       doc.blocks.push(item);
     });
-    await requestWait();
   }
 
   const render = new MarkdownRenderer(doc as any);
