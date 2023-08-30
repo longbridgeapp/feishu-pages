@@ -75,13 +75,13 @@ const fetchDocAndWriteFile = async (
 };
 
 const downloadImages = async (content: string, imageTokens: string[]) => {
-  imageTokens.forEach(async (imageToken) => {
-    const imagePath = await await feishuDownload(
+  for (const imageToken of imageTokens) {
+    const imagePath = await feishuDownload(
       imageToken,
       path.join(OUTPUT_DIR, 'assets', imageToken)
     );
-    content = content.replace(imageToken, imagePath);
-  });
+    content = content.replace(/${imageToken}/g, imagePath);
+  }
 
   return content;
 };
