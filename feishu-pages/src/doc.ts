@@ -1,6 +1,6 @@
 import { withTenantToken } from '@larksuiteoapi/node-sdk';
 import { MarkdownRenderer } from 'feishu-docx';
-import { feishuClient, feishuConfig, requestWait } from './feishu';
+import { Doc, feishuClient, feishuConfig, requestWait } from './feishu';
 
 /**
  * Fetch doc content
@@ -42,4 +42,35 @@ export const fetchDocBody = async (document_id: string) => {
   const render = new MarkdownRenderer(doc as any);
 
   return render.parse();
+};
+
+/**
+ * Generate a Markdown doc meta for describe sidebar info.
+ * @param doc
+ * @param urlPath
+ * @param position
+ * @returns
+ */
+export const generateFileMeta = (
+  doc: Doc,
+  urlPath: string,
+  position: number
+) => {
+  const meta = {
+    title: doc.title,
+    slug: urlPath,
+    sidebar_position: position,
+  };
+
+  let output = `---\n`;
+  for (const key in meta) {
+    const val = meta[key];
+    if (!val) {
+      continue;
+    }
+    output += `${key}: ${val}\n`;
+  }
+  output += `---\n`;
+
+  return output;
 };

@@ -360,13 +360,22 @@ export class Renderer {
   parentId?: string;
   imageTokens: string[];
   nextBlock?: Block | null;
+  debug: boolean;
+  output_unsupported: boolean = false;
 
-  constructor(doc: any) {
+  constructor(
+    doc: any,
+    options: { debug?: boolean; output_unsupported?: boolean } = {}
+  ) {
+    const { debug = false, output_unsupported } = options;
+
     this.documentId = doc?.document?.document_id || '';
     this.imageTokens = [];
     doc?.blocks?.forEach((block) => {
       this.blockMap[block?.block_id] = block;
     });
+    this.debug = debug;
+    this.output_unsupported = output_unsupported;
   }
 
   /**

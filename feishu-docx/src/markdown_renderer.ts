@@ -324,7 +324,7 @@ export class MarkdownRenderer extends Renderer {
     table.cells.forEach((blockId, idx) => {
       const block = this.blockMap[blockId];
       let cellText = this.parseBlock(block, 0);
-      cellText = trimLastNewline(cellText).replace(/\n/, '<br>');
+      cellText = trimLastNewline(cellText).replace(/\n/, '<br/>');
       const row = Math.floor(idx / table.property.column_size);
 
       if (rows.length < row + 1) {
@@ -367,9 +367,14 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseUnsupport(block: Block) {
+    if (!this.output_unsupported) {
+      return '';
+    }
+
     const buf = new Buffer();
-    buf.write(`--- [Unsupport] ${BlockType[block.block_type]} ---\n`);
+
     buf.write('```\n');
+    buf.write(`// [Unsupport] ${BlockType[block.block_type]}\n`);
     buf.write(JSON.stringify(block, null, 2));
     buf.write('\n```\n');
     return buf.toString();
