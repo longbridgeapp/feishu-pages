@@ -1,20 +1,18 @@
 import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFileMeta } from './doc';
-import { Doc, feishuConfig } from './feishu';
+import { Doc, feishuConfig, fetchTenantAccessToken } from './feishu';
 import { fetchAllDocs } from './wiki';
 
 // App entry
 (async () => {
   const outputDir: string = path.join(__dirname, '../out');
 
+  await fetchTenantAccessToken();
+
   console.info('outdir: ', outputDir);
   console.info('App Id:', feishuConfig.appId);
   console.info('Space Id:', feishuConfig.spaceId);
-
-  // const text = await fetchDocBody('MmAEdaJB3og1idxJ8Dxca8EjnEg');
-  // console.log('----------- text:', text);
-  // return;
 
   const docs = await fetchAllDocs(feishuConfig.spaceId);
   await fetchDocAndWriteFile(outputDir, '', docs);

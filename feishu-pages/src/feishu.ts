@@ -23,7 +23,7 @@ const feishuConfig: Record<string, string> = {
    *
    * https://open.feishu.cn/document/faq/trouble-shooting/how-to-choose-which-type-of-token-to-use
    */
-  tenantAccessToken: process.env.FEISHU_TENANT_ACCESS_TOKEN,
+  tenantAccessToken: null,
 
   /**
    * Wiki Space Id of Feishu App
@@ -43,10 +43,6 @@ const checkEnv = () => {
     throw new Error('FEISHU_APP_SECRET is required');
   }
 
-  if (!feishuConfig.tenantAccessToken) {
-    throw new Error('FEISHU_TENANT_ACCESS_TOKEN is required');
-  }
-
   if (!feishuConfig.spaceId) {
     throw new Error('FEISHU_SPACE_ID is required');
   }
@@ -59,6 +55,43 @@ const feishuClient = new Client({
   loggerLevel: feishuConfig.logLevel as any,
   disableTokenCache: true,
 });
+
+/**
+ * 获取 tenantAccessToken
+ *
+ * Max-Age: 2 hours
+ *
+ * https://open.feishu.cn/document/server-docs/authentication-management/access-token/tenant_access_token
+ * @returns
+ */
+export const fetchTenantAccessToken = async () => {
+  console.log('Fetching tenantAccessToken...');
+  const res: Record<string, any> =
+    await feishuClient.auth.tenantAccessToken.internal({
+      data: {
+        app_id: feishuConfig.appId,
+        app_secret: feishuConfig.appSecret,
+      },
+    });
+  const access_token = res?.tenant_access_token || '';
+  console.info('=> tenant_access_token:', maskToken(access_token));
+  feishuConfig.tenantAccessToken = access_token;
+};
+
+/**
+ * ji
+ * @param token
+ * @returns
+ */
+export const maskToken = (token) => {
+  const len = token.length;
+  const mashLen = len * 0.6;
+  return (
+    token.substring(0, len - mashLen + 5) +
+    '*'.repeat(mashLen) +
+    token.substring(len - 5)
+  );
+};
 
 /**
  * Feishu Rate Limit 5 times/s

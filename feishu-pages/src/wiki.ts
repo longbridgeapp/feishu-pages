@@ -31,6 +31,8 @@ export const fetchAllDocs = async (
   };
   const options = withTenantToken(feishuConfig.tenantAccessToken);
 
+  console.log('---- options', options);
+
   for await (const result of await feishuClient.wiki.spaceNode.listWithIterator(
     payload,
     options
