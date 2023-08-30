@@ -2,6 +2,8 @@
 import { Client } from '@larksuiteoapi/node-sdk';
 import axios from 'axios';
 import 'dotenv/config';
+import fs from 'fs';
+import path from 'path';
 
 const feishuConfig = {
   endpoint: 'https://open.feishu.cn',
@@ -103,8 +105,8 @@ const RATE_LIMITS = {};
  * - 100 times/min
  * - 5 times/s in Max
  */
-const requestWait = async (ms?: number) => {
-  ms = ms || 10;
+export const requestWait = async (ms?: number) => {
+  ms = ms || 5;
 
   const minuteLockKey = new Date().getMinutes();
   if (!RATE_LIMITS[minuteLockKey]) {
@@ -112,7 +114,7 @@ const requestWait = async (ms?: number) => {
   }
 
   // If overload 100 times/min, wait 1 minute
-  if (RATE_LIMITS[minuteLockKey] >= 99) {
+  if (RATE_LIMITS[minuteLockKey] >= 100) {
     console.warn(
       '[RATE LIMIT] Overload request 100 times/min, wait 1 minute...'
     );
@@ -185,6 +187,46 @@ export const feishuFetch = async (method, path, payload): Promise<any> => {
 };
 
 /**
+ * Download Feishu File into a Local path
+ * @param fileToken
+ * @param localPath
+ * @returns
+ */
+export const feishuDownload = async (fileToken: string, localPath: string) => {
+  const dir = path.dirname(localPath);
+  fs.mkdirSync(dir, { recursive: true });
+
+  const result = '/assets/' + fileToken;
+
+  if (fs.existsSync(localPath)) {
+    console.info('File exists, skip download:', localPath);
+    return result;
+  }
+
+  console.info('Download file', fileToken, '...');
+  const data = await axios
+    .get(
+      `${feishuConfig.endpoint}/open-apis/drive/v1/files/${fileToken}/download`,
+      {
+        headers: {
+          Authorization: `Bearer ${feishuConfig.tenantAccessToken}`,
+        },
+      }
+    )
+    .then((response) => response.data)
+    .catch((err) => {
+      console.error('-> Failed to download image', fileToken, err.response);
+    });
+
+  if (data) {
+    console.info(' => bytes', data.length);
+    fs.writeFileSync(localPath, data);
+  }
+
+  return result;
+};
+
+/**
  * Request Feishu List API with iterator
  *
  * @param method
@@ -196,7 +238,7 @@ export const feishuFetch = async (method, path, payload): Promise<any> => {
 export const feishuFetchWithIterator = async (
   method: string,
   path: string,
-  payload: Record<string, any>
+  payload: Record<string, any> = {}
 ): Promise<any[]> => {
   let pageToken = '';
   let hasMore = true;

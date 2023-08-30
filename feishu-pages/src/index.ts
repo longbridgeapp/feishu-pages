@@ -1,22 +1,27 @@
 import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFileMeta } from './doc';
-import { Doc, feishuConfig, fetchTenantAccessToken } from './feishu';
+import {
+  Doc,
+  feishuConfig,
+  feishuDownload,
+  fetchTenantAccessToken,
+} from './feishu';
 import { normalizeSlug } from './utils';
 import { fetchAllDocs } from './wiki';
 
+const OUTPUT_DIR: string = path.join(__dirname, '../out');
+
 // App entry
 (async () => {
-  const outputDir: string = path.join(__dirname, '../out');
-
   await fetchTenantAccessToken();
 
-  console.info('Out Dir:', outputDir);
+  console.info('Out Dir:', OUTPUT_DIR);
   console.info('App Id:', feishuConfig.appId);
   console.info('Space Id:', feishuConfig.spaceId);
 
   const docs = await fetchAllDocs(feishuConfig.spaceId);
-  await fetchDocAndWriteFile(outputDir, '', docs);
+  await fetchDocAndWriteFile(OUTPUT_DIR, '', docs);
 })();
 
 const fetchDocAndWriteFile = async (
@@ -49,7 +54,9 @@ const fetchDocAndWriteFile = async (
     let out = '';
     out += meta + '\n\n';
 
-    let content = await fetchDocBody(doc.obj_token);
+    let { content, imageTokens } = await fetchDocBody(doc.obj_token);
+    content = await downloadImages(content, imageTokens);
+
     out += content;
 
     console.info(
@@ -65,4 +72,16 @@ const fetchDocAndWriteFile = async (
     const subDir = path.join(outputDir, fileKey);
     await fetchDocAndWriteFile(subDir, fileKey, doc.children);
   });
+};
+
+const downloadImages = async (content: string, imageTokens: string[]) => {
+  imageTokens.forEach(async (imageToken) => {
+    const imagePath = await await feishuDownload(
+      imageToken,
+      path.join(OUTPUT_DIR, 'assets', imageToken)
+    );
+    content = content.replace(`](${imageToken})`, `](${imagePath})`);
+  });
+
+  return content;
 };

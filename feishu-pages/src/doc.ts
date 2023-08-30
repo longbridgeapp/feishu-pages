@@ -27,8 +27,13 @@ export const fetchDocBody = async (document_id: string) => {
   );
 
   const render = new MarkdownRenderer(doc as any);
+  const content = render.parse();
+  const imageTokens = render.imageTokens;
 
-  return render.parse();
+  return {
+    content,
+    imageTokens,
+  };
 };
 
 /**
