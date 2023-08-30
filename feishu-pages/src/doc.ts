@@ -1,6 +1,5 @@
-import { withTenantToken } from '@larksuiteoapi/node-sdk';
 import { MarkdownRenderer } from 'feishu-docx';
-import { Doc, feishuClient, feishuConfig, feishuRequest } from './feishu';
+import { Doc, feishuFetchWithIterator } from './feishu';
 
 /**
  * Fetch doc content
@@ -11,16 +10,6 @@ import { Doc, feishuClient, feishuConfig, feishuRequest } from './feishu';
 export const fetchDocBody = async (document_id: string) => {
   console.info('Fetching doc: ', document_id, '...');
 
-  let payload: any = {
-    path: {
-      document_id: document_id,
-    },
-    params: {
-      page_size: 500,
-      document_revision_id: -1,
-    },
-  };
-
   const doc = {
     document: {
       document_id,
@@ -28,16 +17,14 @@ export const fetchDocBody = async (document_id: string) => {
     blocks: [],
   };
 
-  const options = withTenantToken(feishuConfig.tenantAccessToken);
-  for await (const data of await feishuRequest(
-    feishuClient.docx.documentBlock.listWithIterator,
-    payload,
-    options
-  )) {
-    data.items?.forEach((item) => {
-      doc.blocks.push(item);
-    });
-  }
+  doc.blocks = await feishuFetchWithIterator(
+    'GET',
+    `/open-apis/docx/v1/documents/${document_id}/blocks`,
+    {
+      page_size: 500,
+      document_revision_id: -1,
+    }
+  );
 
   const render = new MarkdownRenderer(doc as any);
 

@@ -1,8 +1,10 @@
 // node-sdk 使用说明：https://github.com/larksuite/node-sdk/blob/main/README.zh.md
 import { Client } from '@larksuiteoapi/node-sdk';
+import axios from 'axios';
 import 'dotenv/config';
 
-const feishuConfig: Record<string, string> = {
+const feishuConfig = {
+  endpoint: 'https://open.feishu.cn',
   /**
    * App Id of Feishu App
    *
@@ -122,6 +124,32 @@ const requestWait = async (ms?: number) => {
   RATE_LIMITS[minuteLockKey] += 1;
 };
 
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const { headers, data } = error.response;
+
+    // Rate Limit code: 99991400, delay to retry
+    if (data?.code === 99991400) {
+      const rateLimitResetSeconds = headers['x-ogw-ratelimit-reset'];
+      console.warn(
+        'Rate Limit: ',
+        data.code,
+        data.msg,
+        `delay ${rateLimitResetSeconds}s to retry...`
+      );
+
+      // Delay to retry
+      await requestWait(rateLimitResetSeconds * 1000);
+      return await axios.request(error.config);
+    }
+
+    throw error;
+  }
+);
+
 /**
  * 带有全局 RateLimit 的 Feishu 网络请求方式
  * @param fn
@@ -129,9 +157,65 @@ const requestWait = async (ms?: number) => {
  * @param options
  * @returns
  */
-export const feishuRequest = async (fn, payload, options): Promise<any> => {
-  await requestWait(300);
-  return await fn(payload, options);
+export const feishuFetch = async (method, path, payload): Promise<any> => {
+  const authorization = `Bearer ${feishuConfig.tenantAccessToken}`;
+  const headers = {
+    Authorization: authorization,
+    'Content-Type': 'application/json; charset=utf-8',
+    'User-Agent': 'feishu-pages',
+  };
+
+  const url = `${feishuConfig.endpoint}${path}`;
+
+  const { code, data, msg } = await axios
+    .request({
+      method,
+      url,
+      params: payload,
+      headers,
+    })
+    .then((res) => res.data);
+
+  if (code !== 0) {
+    console.warn('feishuFetch code:', code, 'msg:', msg);
+    return null;
+  }
+
+  return data;
+};
+
+/**
+ * Request Feishu List API with iterator
+ *
+ * @param method
+ * @param path
+ * @param payload
+ * @param options
+ * @returns
+ */
+export const feishuFetchWithIterator = async (
+  method: string,
+  path: string,
+  payload: Record<string, any>
+): Promise<any[]> => {
+  let pageToken = '';
+  let hasMore = true;
+  let results: any[] = [];
+
+  while (hasMore) {
+    const data = await feishuFetch(method, path, {
+      ...payload,
+      page_token: pageToken,
+    });
+
+    if (data.items) {
+      results = results.concat(data.items);
+    }
+    hasMore = data.has_more;
+    pageToken = data.page_token;
+  }
+
+  return results;
 };
 
 export interface Doc {
@@ -146,4 +230,4 @@ export interface Doc {
   has_child?: boolean;
 }
 
-export { checkEnv, feishuClient, feishuConfig };
+export { checkEnv, feishuConfig };

@@ -1,5 +1,4 @@
-import { withTenantToken } from '@larksuiteoapi/node-sdk';
-import { Doc, feishuClient, feishuConfig, feishuRequest } from './feishu';
+import { Doc, feishuFetchWithIterator } from './feishu';
 
 /**
  * 获取某个空间下的所有文档列表
@@ -14,48 +13,43 @@ export const fetchAllDocs = async (
   if (!depth) {
     depth = 0;
   }
-  const docs: Doc[] = [];
 
-  const prefix = '|--'.repeat(depth + 1);
+  const prefix = '|__' + '___'.repeat(depth) + ' ';
 
-  let payload = {
-    path: {
-      space_id: spaceId,
-    },
-    params: {
+  let items = await feishuFetchWithIterator(
+    'GET',
+    `/open-apis/wiki/v2/spaces/${spaceId}/nodes`,
+    {
       parent_node_token,
       page_size: 50,
-    },
-  };
-  const options = withTenantToken(feishuConfig.tenantAccessToken);
+    }
+  );
 
-  for await (const result of await feishuRequest(
-    feishuClient.wiki.spaceNode.listWithIterator,
-    payload,
-    options
-  )) {
-    const { items = [] } = result;
+  const docs: Doc[] = [];
 
-    items
-      .filter((item) => item.obj_type == 'doc' || item.obj_type == 'docx')
-      .map(async (item) => {
-        const doc: Doc = {
-          depth: depth,
-          title: item.title,
-          node_token: item.node_token,
-          parent_node_token: parent_node_token,
-          obj_create_time: item.obj_create_time,
-          obj_edit_time: item.obj_edit_time,
-          obj_token: item.obj_token,
-          children: [],
-          has_child: item.has_child,
-        };
+  items
+    .filter((item) => item.obj_type == 'doc' || item.obj_type == 'docx')
+    .forEach((item) => {
+      const doc: Doc = {
+        depth: depth,
+        title: item.title,
+        node_token: item.node_token,
+        parent_node_token: parent_node_token,
+        obj_create_time: item.obj_create_time,
+        obj_edit_time: item.obj_edit_time,
+        obj_token: item.obj_token,
+        children: [],
+        has_child: item.has_child,
+      };
 
-        docs.push(doc);
-      });
-  }
+      docs.push(doc);
+    });
 
-  console.info(prefix + 'node:', parent_node_token, docs.length, 'children.');
+  console.info(
+    prefix + 'node:',
+    parent_node_token || 'root',
+    docs.length > 0 ? `${docs.length} docs` : ''
+  );
 
   for (const doc of docs) {
     doc.children = await fetchAllDocs(spaceId, depth + 1, doc.node_token);
