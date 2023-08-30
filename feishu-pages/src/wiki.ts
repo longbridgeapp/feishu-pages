@@ -1,5 +1,5 @@
 import { withTenantToken } from '@larksuiteoapi/node-sdk';
-import { Doc, feishuClient, feishuConfig, requestWait } from './feishu';
+import { Doc, feishuClient, feishuConfig, feishuRequest } from './feishu';
 
 /**
  * 获取某个空间下的所有文档列表
@@ -14,8 +14,6 @@ export const fetchAllDocs = async (
   if (!depth) {
     depth = 0;
   }
-  await requestWait();
-
   const docs: Doc[] = [];
 
   const prefix = '|--'.repeat(depth + 1);
@@ -31,11 +29,11 @@ export const fetchAllDocs = async (
   };
   const options = withTenantToken(feishuConfig.tenantAccessToken);
 
-  for await (const result of await feishuClient.wiki.spaceNode.listWithIterator(
+  for await (const result of await feishuRequest(
+    feishuClient.wiki.spaceNode.listWithIterator,
     payload,
     options
   )) {
-    await requestWait();
     const { items = [] } = result;
 
     items

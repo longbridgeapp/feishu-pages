@@ -1,6 +1,6 @@
 import { withTenantToken } from '@larksuiteoapi/node-sdk';
 import { MarkdownRenderer } from 'feishu-docx';
-import { Doc, feishuClient, feishuConfig, requestWait } from './feishu';
+import { Doc, feishuClient, feishuConfig, feishuRequest } from './feishu';
 
 /**
  * Fetch doc content
@@ -9,7 +9,7 @@ import { Doc, feishuClient, feishuConfig, requestWait } from './feishu';
  * @returns
  */
 export const fetchDocBody = async (document_id: string) => {
-  await requestWait();
+  console.info('Fetching doc: ', document_id, '...');
 
   let payload: any = {
     path: {
@@ -29,13 +29,11 @@ export const fetchDocBody = async (document_id: string) => {
   };
 
   const options = withTenantToken(feishuConfig.tenantAccessToken);
-
-  for await (const data of await feishuClient.docx.documentBlock.listWithIterator(
+  for await (const data of await feishuRequest(
+    feishuClient.docx.documentBlock.listWithIterator,
     payload,
     options
   )) {
-    await requestWait();
-
     data.items?.forEach((item) => {
       doc.blocks.push(item);
     });
@@ -67,7 +65,7 @@ export const generateFileMeta = (
   let output = `---\n`;
   for (const key in meta) {
     const val = meta[key];
-    if (!val) {
+    if (val === null || val === undefined) {
       continue;
     }
     output += `${key}: ${val}\n`;

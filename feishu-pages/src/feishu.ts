@@ -79,7 +79,7 @@ export const fetchTenantAccessToken = async () => {
 };
 
 /**
- * ji
+ * Mask part of token as ****
  * @param token
  * @returns
  */
@@ -93,11 +93,45 @@ export const maskToken = (token) => {
   );
 };
 
+const RATE_LIMITS = {};
+
 /**
- * Feishu Rate Limit 5 times/s
+ * Feishu Rate Limit:
+ *
+ * - 100 times/min
+ * - 5 times/s in Max
  */
-export const requestWait = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 220));
+const requestWait = async (ms?: number) => {
+  ms = ms || 10;
+
+  const minuteLockKey = new Date().getMinutes();
+  if (!RATE_LIMITS[minuteLockKey]) {
+    RATE_LIMITS[minuteLockKey] = 0;
+  }
+
+  // If overload 100 times/min, wait 1 minute
+  if (RATE_LIMITS[minuteLockKey] >= 99) {
+    console.warn(
+      '[RATE LIMIT] Overload request 100 times/min, wait 1 minute...'
+    );
+    await await new Promise((resolve) => setTimeout(resolve, 60 * 1000));
+    RATE_LIMITS[minuteLockKey] = 0;
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, ms));
+  RATE_LIMITS[minuteLockKey] += 1;
+};
+
+/**
+ * 带有全局 RateLimit 的 Feishu 网络请求方式
+ * @param fn
+ * @param payload
+ * @param options
+ * @returns
+ */
+export const feishuRequest = async (fn, payload, options): Promise<any> => {
+  await requestWait(300);
+  return await fn(payload, options);
 };
 
 export interface Doc {

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFileMeta } from './doc';
 import { Doc, feishuConfig, fetchTenantAccessToken } from './feishu';
+import { normalizeSlug } from './utils';
 import { fetchAllDocs } from './wiki';
 
 // App entry
@@ -10,7 +11,7 @@ import { fetchAllDocs } from './wiki';
 
   await fetchTenantAccessToken();
 
-  console.info('outdir: ', outputDir);
+  console.info('Out Dir:', outputDir);
   console.info('App Id:', feishuConfig.appId);
   console.info('Space Id:', feishuConfig.spaceId);
 
@@ -23,19 +24,31 @@ const fetchDocAndWriteFile = async (
   slugPrefix: string,
   docs: Doc[]
 ) => {
+  if (docs.length === 0) {
+    return;
+  }
+
   fs.mkdirSync(outputDir, { recursive: true });
 
   docs.forEach(async (doc, idx) => {
-    let fileKey = doc.node_token;
+    let position = idx;
+    let fileKey = normalizeSlug(doc.node_token);
     let filename = path.join(outputDir, `${fileKey}.md`);
 
+    // If is a folder index page, write to ${fileKey}/index.md
+    if (doc.children.length > 0) {
+      let folder = path.join(outputDir, fileKey);
+      fs.mkdirSync(folder, { recursive: true });
+      filename = path.join(folder, `index.md`);
+      position = -1;
+    }
+
     const fileSlug = path.join(slugPrefix, fileKey);
-    const meta = generateFileMeta(doc, fileSlug, idx);
+    const meta = generateFileMeta(doc, fileSlug, position);
 
     let out = '';
     out += meta + '\n\n';
 
-    console.info('Fetching doc: ', doc.node_token, '...');
     let content = await fetchDocBody(doc.obj_token);
     out += content;
 
