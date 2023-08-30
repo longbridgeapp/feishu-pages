@@ -15,6 +15,10 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Test
+        env:
+          FEISHU_APP_ID: fake-app-id
+          FEISHU_APP_SECRET: fake-app-secret
+          FEISHU_SPACE_ID: fake-space-id
         run: |
           yarn build
           yarn test
