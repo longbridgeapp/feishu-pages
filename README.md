@@ -79,6 +79,54 @@ yarn feishu-pages
 
 按上面默认的配置，最终会在 `./dist` 目录下生成 Markdown 文件以及导出的图片文件，如果你期望调整目录，可以自己设置 `OUTPUT_DIR` 环境变量。
 
+## GitHub Actions 集成
+
+创建一个 `.github/workflows/feishu-pages.yml` 文件，内容如下：
+
+> NOTE: 你需要用到 VitePress 或 Docusaurus 之类的文档工具，这里假设他们在项目根目录有 `yarn build` 命令可以将 `docs` 文件夹的 Markdown 文件生成为静态网站。
+>
+> 具体可以参考：https://github.com/longbridgeapp/feishu-pages/tree/main/example-website
+
+```yml
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  feishu-pages:
+    name: Feishu Pages Export
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Exporting
+        env:
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_SPACE_ID: ${{ secrets.FEISHU_SPACE_ID }}
+          OUTPUT_DIR: ./dist
+          ASSET_BASE_URL: '/assets'
+        uses: longbridgeapp/feishu-pages@main
+      - name: Build Pages
+        run: |
+          cp dist/docs/**/* ./docs/
+          cp -R dist/assets ./public/
+          yarn
+          yarn build
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './example-website/.vitepress/dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+```
+
 ## 常见问题
 
 ### Rate Limit 相关错误
