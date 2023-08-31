@@ -2,6 +2,12 @@
 
 Convert Feishu Docx into other formats (Markdown, HTML ...)
 
+## Installation
+
+```bash
+yarn add feishu-docx
+```
+
 ## Usage
 
 ```bash
