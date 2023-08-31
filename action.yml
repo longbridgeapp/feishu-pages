@@ -1,0 +1,19 @@
+# action.yml
+name: "Feishu Pages"
+description: "Generate Feishu Wiki into a Markdown for work with Static Page Generators."
+branding:
+  icon: "book"
+  color: "gray-dark"
+inputs:
+  args: # id of input
+    description: "args"
+    required: false
+    default: ""
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    USE_NPM: ${{ inputs.use_npm }}
+    REVIEWDOG: ${{ inputs.reviewdog }}
+  args:
+    - ${{ inputs.args }}
