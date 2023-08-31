@@ -16,6 +16,7 @@ const ASSET_BASE_URL: string = process.env.ASSET_BASE_URL || '/assets';
 
 const ASSET_DIR: string = path.join(OUTPUT_DIR, 'assets');
 const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
+const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
 
 // App entry
 (async () => {
@@ -23,10 +24,12 @@ const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
 
   console.info('OUTPUT_DIR:', OUTPUT_DIR);
   console.info('ASSET_BASE_URL:', ASSET_BASE_URL);
-  console.info('App ID:', feishuConfig.appId);
-  console.info('Space ID:', feishuConfig.spaceId);
+  console.info('FEISHU_APP_ID:', feishuConfig.appId);
+  console.info('FEISHU_SPACE_ID:', feishuConfig.spaceId);
+  console.info('ROOT_NODE_TOKEN:', ROOT_NODE_TOKEN);
+  console.info('-------------------------------------------\n');
 
-  const docs = await fetchAllDocs(feishuConfig.spaceId);
+  const docs = await fetchAllDocs(feishuConfig.spaceId, 0, ROOT_NODE_TOKEN);
   await fetchDocAndWriteFile(DOCS_DIR, '', docs);
 })();
 
@@ -47,16 +50,18 @@ const fetchDocAndWriteFile = async (
     let position = idx;
     let fileKey = normalizeSlug(doc.node_token);
     let filename = path.join(outputDir, `${fileKey}.md`);
+    let fileSlug = path.join(slugPrefix, fileKey);
+    const folder = path.dirname(filename);
 
-    // If is a folder index page, write to ${fileKey}/index.md
-    if (doc.children.length > 0) {
-      let folder = path.join(outputDir, fileKey);
-      fs.mkdirSync(folder, { recursive: true });
-      filename = path.join(folder, `index.md`);
+    // If is first child, named as index.md
+    if (idx === 0) {
+      filename = path.join(outputDir, `index.md`);
+      fileSlug = slugPrefix;
       position = -1;
     }
 
-    const fileSlug = path.join(slugPrefix, fileKey);
+    fs.mkdirSync(folder, { recursive: true });
+
     const meta = generateFileMeta(doc, fileSlug, position);
 
     let out = '';

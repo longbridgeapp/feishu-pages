@@ -79,7 +79,7 @@ export const fetchTenantAccessToken = async () => {
       },
     });
   const access_token = res?.tenant_access_token || '';
-  console.info('=> tenant_access_token:', maskToken(access_token));
+  console.info('TENANT_ACCESS_TOKEN:', maskToken(access_token));
   feishuConfig.tenantAccessToken = access_token;
 };
 
@@ -201,7 +201,9 @@ export const feishuDownload = async (
   const dir = path.dirname(localPath);
   fs.mkdirSync(dir, { recursive: true });
 
-  const result = path.join(urlPrefix, fileToken);
+  // trim urlPrefix last /
+  urlPrefix = urlPrefix.replace(/\/$/, '');
+  const result = urlPrefix + '/' + fileToken;
 
   if (fs.existsSync(localPath)) {
     console.info(' -> Skip exist:', fileToken);

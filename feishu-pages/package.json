@@ -16,7 +16,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -d",
-    "dev": "build && node dist/index.js",
+    "dev": "yarn build && node dist/index.js",
     "test": "jest"
   },
   "dependencies": {
