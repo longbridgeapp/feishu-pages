@@ -27,6 +27,8 @@ yarn add feishu-pages
 
 然后你就可以执行 `yarn feishu-pages` 来生成页面了。
 
+[test-file.zip](TVEyb1pmWo8oIwxyL3kcIfrrnGd)
+
 ## **Feishu Permissions**
 
 - `docx:document:readonly`

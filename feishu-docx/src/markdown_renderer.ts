@@ -112,6 +112,12 @@ export class MarkdownRenderer extends Renderer {
       case BlockType.QuoteContainer:
         buf.write(this.parseQuoteContainer(block));
         break;
+      case BlockType.View:
+        buf.write(this.parseView(block));
+        break;
+      case BlockType.File:
+        buf.write(this.parseFile(block));
+        break;
       default:
         buf.write(this.parseUnsupport(block));
         break;
@@ -377,6 +383,28 @@ export class MarkdownRenderer extends Renderer {
       buf.write('> ');
       buf.write(this.parseBlock(child, 0));
     });
+
+    return buf.toString();
+  }
+
+  parseView(block: Block) {
+    const buf = new Buffer();
+
+    block.children?.forEach((childId) => {
+      const child = this.blockMap[childId];
+      buf.write(this.parseBlock(child, 0));
+    });
+
+    return buf.toString();
+  }
+
+  parseFile(block: Block) {
+    const buf = new Buffer();
+    const file = block.file;
+
+    this.imageTokens.push(file.token);
+    buf.write(`[${file.name}](${file.token})`);
+    buf.write('\n');
 
     return buf.toString();
   }

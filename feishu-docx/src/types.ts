@@ -320,7 +320,10 @@ export interface Block {
   chat_card: TextBlock;
   diagram: TextBlock;
   divider: TextBlock;
-  file: TextBlock;
+  file: {
+    name: string;
+    token: string;
+  };
   grid: {
     // 分栏列数量
     column_size: number;
