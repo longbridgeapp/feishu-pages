@@ -336,21 +336,35 @@ export class MarkdownRenderer extends Renderer {
     });
 
     const buf = new Buffer();
-    // Render markdown table
+
+    // Write thead
+    let headRow = [];
+    if (table.property?.header_row) {
+      headRow = rows.shift();
+    }
+    buf.write('|');
+    for (let i = 0; i < table.property?.column_size; i++) {
+      buf.write(headRow[i] || '   ');
+      buf.write('|');
+    }
+    buf.write('\n');
+
+    // Render thead divider
     buf.write('|');
     for (let i = 0; i < table.property?.column_size; i++) {
       buf.write('---|');
     }
     buf.write('\n');
 
-    rows.forEach((row) => {
+    // Render tbody
+    for (const row of rows) {
       buf.write('|');
       row.forEach((cell) => {
         buf.write(cell);
         buf.write('|');
       });
       buf.write('\n');
-    });
+    }
 
     return buf.toString();
   }

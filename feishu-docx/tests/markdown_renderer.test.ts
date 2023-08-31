@@ -21,7 +21,7 @@ describe('MarkdownRenderer', () => {
   });
 
   test('parse file', () => {
-    ['case0', 'case1', 'case2'].forEach((caseName) => {
+    ['case0', 'case1', 'case2', 'case3'].forEach((caseName) => {
       const doc = fixtureJSON(`${caseName}.raw.json`);
       const expected = fixture(`${caseName}.expect.md`);
 

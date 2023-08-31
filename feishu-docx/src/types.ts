@@ -285,6 +285,8 @@ export interface TableBlock {
     row_size: number;
     column_size: number;
     column_width: number[];
+    header_column: boolean;
+    header_row: boolean;
     merge_info: {
       row_span: number;
       column_span: number;
