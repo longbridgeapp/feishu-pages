@@ -1,5 +1,9 @@
 on:
   push:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 jobs:
   feishu-pages:
     name: Feishu Pages Export
