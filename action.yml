@@ -1,4 +1,4 @@
-# action.yml
+# GitHub Actions config
 name: "Feishu Pages"
 description: "Generate Feishu Wiki into a Markdown for work with Static Page Generators."
 branding:
@@ -12,8 +12,5 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
-  env:
-    USE_NPM: ${{ inputs.use_npm }}
-    REVIEWDOG: ${{ inputs.reviewdog }}
   args:
     - ${{ inputs.args }}

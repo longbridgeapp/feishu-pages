@@ -8,6 +8,20 @@
 - 目录结构组织
 - 图片下载
 - 与 GitHub Actions 结合
+- 生成支持 [Docusaurus](https://docusaurus.io) 支持的 Markdown 格式，以实现目录结构组织（基于 `sidebar_position`）
+
+## Installation
+
+Feishu Pages 可以以 NPM 的方式引入到 Static Page Generator 的项目中。
+
+例如我们有一个 [Docusaurus](https://docusaurus.io) 的静态页面网站项目。
+
+```bash
+cd your-project/
+yarn add feishu-pages
+```
+
+然后你就可以执行 `yarn feishu-pages` 来生成页面了。
 
 ## Feishu Permissions
 
@@ -49,9 +63,20 @@
 
 ### 环境变量配置
 
+Feishu Pages 支持 `.env` 文件，如果执行的根目录有个 `.env` 文件，将会自动读取。
+
 请参考 `.env.default` 配置环境变量。
 
 如需在 GitHub Actions 的 CI 流程里面使用，建议添加到 Secrets 中，再通过环境变量的方式获取。
+
+### 从知识库导出 Markdown 文档
+
+```bash
+cd your-project/
+yarn feishu-pages
+```
+
+按上面默认的配置，最终会在 `./dist` 目录下生成 Markdown 文件以及导出的图片文件，如果你期望调整目录，可以自己设置 `OUTPUT_DIR` 环境变量。
 
 ## 常见问题
 
