@@ -23,8 +23,9 @@ jobs:
         uses: longbridgeapp/feishu-pages@main
       - name: Build Pages
         run: |
+          mkdir -p example-website/public/assets/
           cp -R dist/docs/* example-website/
-          cp -R dist/assets example-website/public/
+          cp -R dist/assets/* example-website/public/assets/
           yarn
           yarn workspace example-website build
       - name: Setup Pages
