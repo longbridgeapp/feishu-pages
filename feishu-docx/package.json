@@ -1,12 +1,12 @@
 {
   "name": "feishu-docx",
-  "private": true,
   "version": "0.1.0",
-  "description": "Generate static pages from Feishu Wiki.",
+  "description": "Convert Feishu Docx into other format (Markdown, HTML ...)",
   "module": "src/index.ts",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
-    "url": "https://github.com/huacnlee/feishu-pages"
+    "url": "https://github.com/longbridgeapp/feishu-pages"
   },
   "publisher": "Jason Lee",
   "author": {
@@ -14,7 +14,7 @@
     "email": "huacnlee@gmail.com"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -d",
     "test": "jest"
   },
   "dependencies": {

@@ -9,8 +9,9 @@ import { MarkdownRenderer } from 'feishu-docx'
 
 // Load docx JSON from file
 const docx = fs.readFileSync('test.json')
-const renderer = new MarkdownRenderer(docx)
-const text = renderer.parse();
+const render = new MarkdownRenderer(docx)
+const text = render.parse();
+const imageTokens = render.imageTokens;
 ```
 
 ## License
