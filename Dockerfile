@@ -1,6 +1,6 @@
 FROM node:latest
 
 RUN yarn config set prefix /root/.yarn && \
-  yarn add feishu-pages
+  yarn global add feishu-pages --prefix /usr/local
 
-ENTRYPOINT ["yarn", "feishu-pages"]
+ENTRYPOINT ["/usr/local/bin/feishu-pages"]
