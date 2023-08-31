@@ -10,18 +10,23 @@ import {
 import { normalizeSlug } from './utils';
 import { fetchAllDocs } from './wiki';
 
-const OUTPUT_DIR: string = path.join(__dirname, '../out');
+const OUTPUT_DIR: string = path.resolve(process.env.OUTPUT_DIR || './dist');
+const ASSET_BASE_URL: string = process.env.ASSET_BASE_URL || '/assets';
+
+const ASSET_DIR: string = path.join(OUTPUT_DIR, 'assets');
+const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
 
 // App entry
 (async () => {
   await fetchTenantAccessToken();
 
-  console.info('Out Dir:', OUTPUT_DIR);
-  console.info('App Id:', feishuConfig.appId);
-  console.info('Space Id:', feishuConfig.spaceId);
+  console.info('OUTPUT_DIR:', OUTPUT_DIR);
+  console.info('ASSET_BASE_URL:', ASSET_BASE_URL);
+  console.info('App ID:', feishuConfig.appId);
+  console.info('Space ID:', feishuConfig.spaceId);
 
   const docs = await fetchAllDocs(feishuConfig.spaceId);
-  await fetchDocAndWriteFile(OUTPUT_DIR, '', docs);
+  await fetchDocAndWriteFile(DOCS_DIR, '', docs);
 })();
 
 const fetchDocAndWriteFile = async (
@@ -73,7 +78,8 @@ const downloadImages = async (content: string, imageTokens: string[]) => {
   for (const imageToken of imageTokens) {
     const imagePath = await feishuDownload(
       imageToken,
-      path.join(OUTPUT_DIR, 'assets', imageToken)
+      ASSET_BASE_URL,
+      path.join(ASSET_DIR, imageToken)
     );
 
     const re = new RegExp(`${imageToken}`, 'gm');

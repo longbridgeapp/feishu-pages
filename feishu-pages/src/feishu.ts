@@ -106,7 +106,7 @@ const RATE_LIMITS = {};
  * - 5 times/s in Max
  */
 export const requestWait = async (ms?: number) => {
-  ms = ms || 5;
+  ms = ms || 0;
 
   const minuteLockKey = new Date().getMinutes();
   if (!RATE_LIMITS[minuteLockKey]) {
@@ -192,11 +192,15 @@ export const feishuFetch = async (method, path, payload): Promise<any> => {
  * @param localPath
  * @returns
  */
-export const feishuDownload = async (fileToken: string, localPath: string) => {
+export const feishuDownload = async (
+  fileToken: string,
+  urlPrefix: string,
+  localPath: string
+) => {
   const dir = path.dirname(localPath);
   fs.mkdirSync(dir, { recursive: true });
 
-  const result = '/assets/' + fileToken;
+  const result = path.join(urlPrefix, fileToken);
 
   if (fs.existsSync(localPath)) {
     console.info(' -> Skip exist:', fileToken);
@@ -204,26 +208,25 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   }
 
   console.info('Download file', fileToken, '...');
-  const data = await axios
+  const res: any = await axios
     .get(
       `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
       {
-        responseType: 'blob',
+        responseType: 'arraybuffer',
         headers: {
           Authorization: `Bearer ${feishuConfig.tenantAccessToken}`,
           'User-Agent': 'feishu-pages',
         },
       }
     )
-    .then((response) => response.data)
     .catch((err) => {
       const { message } = err;
       console.error(' -> Failed to download image:', fileToken, message);
     });
 
-  if (data) {
-    console.info(' => bytes', data.length);
-    fs.writeFileSync(localPath, data);
+  if (res.data) {
+    console.info(' =>', res.headers['content-type'], res.data.length, 'bytes');
+    fs.writeFileSync(localPath, res.data);
   }
 
   return result;
