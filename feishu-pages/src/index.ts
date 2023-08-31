@@ -2,13 +2,9 @@
 import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFileMeta } from './doc';
-import {
-  Doc,
-  feishuConfig,
-  feishuDownload,
-  fetchTenantAccessToken,
-} from './feishu';
-import { humanizeFileSize, normalizeSlug } from './utils';
+import { feishuConfig, feishuDownload, fetchTenantAccessToken } from './feishu';
+import { FileDoc, generateSummary, prepareDocSlugs } from './summary';
+import { humanizeFileSize } from './utils';
 import { fetchAllDocs } from './wiki';
 
 const OUTPUT_DIR: string = path.resolve(process.env.OUTPUT_DIR || './dist');
@@ -30,42 +26,30 @@ const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
   console.info('-------------------------------------------\n');
 
   const docs = await fetchAllDocs(feishuConfig.spaceId, 0, ROOT_NODE_TOKEN);
-  await fetchDocAndWriteFile(DOCS_DIR, '', docs, 0);
+
+  // Prepare docs as slug, position and filename
+  prepareDocSlugs(docs as any, '');
+
+  // Fetch docs contents and write files
+  await fetchDocAndWriteFile(DOCS_DIR, docs as FileDoc[]);
+
+  // Write SUMMARY.md
+  const summary = generateSummary(docs as FileDoc[]);
+  fs.writeFileSync(path.join(OUTPUT_DIR, 'SUMMARY.md'), summary);
 })();
 
-const fetchDocAndWriteFile = async (
-  outputDir: string,
-  parentSlug: string,
-  docs: Doc[],
-  depth: number = 0
-) => {
+const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
   if (docs.length === 0) {
     return;
   }
 
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
-
-    let position = idx;
-    let fileKey = normalizeSlug(doc.node_token);
-    let fileSlug = path.join(parentSlug, fileKey);
-    let filename = path.join(outputDir, `${fileSlug}.md`);
-
-    if (idx == 0) {
-      if (depth === 0) {
-        filename = path.join(outputDir, `index.md`);
-        fileSlug = '';
-      } else {
-        filename = path.join(outputDir, `${fileSlug}/index.md`);
-        fileSlug = fileSlug;
-      }
-      position = -1;
-    }
-
+    let filename = path.join(outputDir, doc.filename);
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
 
-    const meta = generateFileMeta(doc, fileSlug, position);
+    const meta = generateFileMeta(doc, doc.slug, doc.position);
 
     let out = '';
     out += meta + '\n\n';
@@ -75,10 +59,15 @@ const fetchDocAndWriteFile = async (
 
     out += content;
 
-    console.info(' -> Writing doc', humanizeFileSize(content.length), '...');
+    console.info(
+      ' -> Writing doc',
+      doc.filename,
+      humanizeFileSize(content.length),
+      '...'
+    );
     fs.writeFileSync(filename, out);
 
-    await fetchDocAndWriteFile(outputDir, fileSlug, doc.children, depth + 1);
+    await fetchDocAndWriteFile(outputDir, doc.children);
   }
 };
 

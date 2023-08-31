@@ -278,9 +278,9 @@ export interface Doc {
   node_token: string;
   parent_node_token?: string;
   depth: number;
-  obj_create_time: string;
-  obj_edit_time: string;
-  obj_token: string;
+  obj_create_time?: string;
+  obj_edit_time?: string;
+  obj_token?: string;
   children: Doc[];
   has_child?: boolean;
 }
