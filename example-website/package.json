@@ -1,0 +1,16 @@
+{
+  "name": "example-website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jason Lee",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.10",
+    "vitepress-sidebar": "^1.11.0"
+  }
+}

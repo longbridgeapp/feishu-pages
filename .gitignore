@@ -3,3 +3,4 @@ dist/
 out/
 node_modules/
 .DS_Store
+**/*/.vitepress/cache

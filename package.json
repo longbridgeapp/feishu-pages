@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "feishu-docx",
-    "feishu-pages"
+    "feishu-pages",
+    "example-website"
   ],
   "scripts": {
     "build": "yarn workspace feishu-docx build",
