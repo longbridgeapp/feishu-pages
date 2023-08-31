@@ -24,10 +24,7 @@ export const prepareDocSlugs = (docs: FileDoc[], parentSlug: string = '') => {
     doc.position = i;
     doc.filename = `${fileSlug}.md`;
 
-    if (i === 0 && doc.depth === 0) {
-      doc.filename = 'index.md';
-      doc.slug = '';
-    } else if (doc.has_child) {
+    if (doc.has_child) {
       doc.filename = `${fileSlug}/index.md`;
       doc.slug = fileSlug;
     }

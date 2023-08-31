@@ -35,7 +35,13 @@ const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
 
   // Write SUMMARY.md
   const summary = generateSummary(docs as FileDoc[]);
-  fs.writeFileSync(path.join(OUTPUT_DIR, 'SUMMARY.md'), summary);
+  fs.writeFileSync(path.join(DOCS_DIR, 'SUMMARY.md'), summary);
+
+  // Write docs.json
+  fs.writeFileSync(
+    path.join(OUTPUT_DIR, 'docs.json'),
+    JSON.stringify(docs, null, 2)
+  );
 })();
 
 const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {

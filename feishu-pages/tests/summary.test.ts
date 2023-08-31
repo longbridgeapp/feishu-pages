@@ -75,9 +75,9 @@ describe('Summary', () => {
         title: 'Foo',
         depth: 0,
         has_child: true,
-        filename: 'index.md',
+        filename: 'foo/index.md',
         position: 0,
-        slug: '',
+        slug: 'foo',
         children: [
           {
             node_token: 'bar',
@@ -159,7 +159,7 @@ describe('Summary', () => {
 
     let summary = generateSummary(newDocs);
     let expeted = `
-- [Foo](index.md)
+- [Foo](foo/index.md)
   - [Bar](foo/bar.md)
   - [Baz](foo/baz/index.md)
     - [Qux](foo/baz/qux.md)
