@@ -6,11 +6,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup node
+      - name: Exporting
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
-          FEISHU_SPACE_ID: ${{ secrets.FEISHU_SPACE_ID }}
+          FEISHU_SPACE_ID: 7273324757679325186
           OUTPUT_DIR: ./dist
           ASSET_BASE_URL: /assets
         uses: longbridgeapp/feishu-pages@main
