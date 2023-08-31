@@ -21,4 +21,5 @@ jobs:
           FEISHU_SPACE_ID: fake-space-id
         run: |
           yarn build
+          yarn autocorrect --lint
           yarn test

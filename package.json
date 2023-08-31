@@ -9,5 +9,8 @@
     "build": "yarn workspace feishu-docx build",
     "test": "yarn workspace feishu-docx test && yarn workspace feishu-pages test",
     "dev": "yarn workspace feishu-pages dev"
+  },
+  "devDependencies": {
+    "autocorrect-node": "^2.8.4"
   }
 }

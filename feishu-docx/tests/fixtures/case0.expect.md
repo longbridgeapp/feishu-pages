@@ -15,7 +15,7 @@
 
 飞书支持的导出格式为 Word 和 PDF 两种格式。如需编辑，我们就只能选择 Word 格式，然后使用文档格式转换的瑞士军刀 pandoc 从 Word 文档转换为 Markdown 文件。参考命令：`pandoc test.docx -o test.md` 。但是，如今这种方法已经不可靠了，如果尝试将本文转换，则会得到下图的格式。
 
-<img src="boxcnbK20aJ9pePyziodIvjXTce" width="981" height="800"/>
+<img src="boxcnbK20aJ9pePyziodIvjXTce" width="981"/>
 
 从图中的效果可以看出，文档中多了很多冗余的换行，列表格式消失不见，图片丢失等问题。究其原因，是因为导出的 Word 文档没有使用 Word 内建的富文本样式，而全部使用的自定义样式。至于图片问题，转换后的 Markdown 文档中的图片格式是 `![Generated](media/image1.png){width="5.90625in" height="2.8020833333333335in"}` 。可以通过将 Word 文档的 docx 后缀改为 zip，然后从压缩包中整体提取 word/media 文件夹来修复图片的问题。但其它的格式问题，依然是一个头疼的问题。
 
@@ -39,7 +39,7 @@ Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 
 **生成配置文件** - feishu2md 需要使用飞书的 Open API 提取飞书文档，因此需要配置相应的 App ID 和 App Secret 进行 API 的调用。首先，进入飞书的 [开发者后台](https://open.feishu.cn/app) 然后创建一个企业自建应用，信息可以任意填，发布但不必等待审核通过。然后在创建的应用页面中，找到「凭证与基础信息」，即可找到 App ID 和 App Secret 信息。
 
-<img src="boxcnh7JKLbFaWhHKHveYzGMNZg" width="1168" height="555"/>
+<img src="boxcnh7JKLbFaWhHKHveYzGMNZg" width="1168"/>
 
 执行 `feishu2md --config` 命令会生成该工具的配置文件。生成的配置文件路径为：
 
@@ -53,7 +53,7 @@ Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 
 **下载飞书文档** - 通过 `feishu2md 你的飞书文档链接` 直接下载，文档链接可以通过 分享 > 开启链接分享 > 复制链接 获得。
 
-<img src="boxcnqt9YDTirkKlTATlQI025Ig" width="1538" height="488"/>
+<img src="boxcnqt9YDTirkKlTATlQI025Ig" width="1538"/>
 
 调用示例：
 
@@ -61,7 +61,7 @@ Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 feishu2md [一日一技：飞书文档转换为 Markdown](https://oaztcemx3k.feishu.cn/docs/doccnrOvzeQ8BSnfsXj8jwJHC3c#)
 ```
 
-<img src="boxcnAb2MgMQoUMDLLf3ySogueh" width="956" height="526"/>
+<img src="boxcnAb2MgMQoUMDLLf3ySogueh" width="956"/>
 
 格式转换可能会有一些细微的渲染差异，毕竟 markdown 本身的标准也有很多套，建议手动检查一下。而最头疼的图片问题，该工具也已经帮忙整体处理好了。然后就可以愉快地用以前的工作流发布博客了。
 
