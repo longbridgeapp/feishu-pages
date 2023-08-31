@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'dotenv/config';
 import fs from 'fs';
 import path from 'path';
+import { humanizeFileSize } from './utils';
 
 const feishuConfig = {
   endpoint: 'https://open.feishu.cn',
@@ -225,7 +226,11 @@ export const feishuDownload = async (
     });
 
   if (res.data) {
-    console.info(' =>', res.headers['content-type'], res.data.length, 'bytes');
+    console.info(
+      ' =>',
+      res.headers['content-type'],
+      humanizeFileSize(res.data.length)
+    );
     fs.writeFileSync(localPath, res.data);
   }
 

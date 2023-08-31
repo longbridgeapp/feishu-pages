@@ -7,7 +7,7 @@ import {
   feishuDownload,
   fetchTenantAccessToken,
 } from './feishu';
-import { normalizeSlug } from './utils';
+import { humanizeFileSize, normalizeSlug } from './utils';
 import { fetchAllDocs } from './wiki';
 
 const OUTPUT_DIR: string = path.resolve(process.env.OUTPUT_DIR || './dist');
@@ -66,7 +66,7 @@ const fetchDocAndWriteFile = async (
 
     out += content;
 
-    console.info(' -> Writing doc: ', content.length, '...');
+    console.info(' -> Writing doc', humanizeFileSize(content.length), '...');
     fs.writeFileSync(filename, out);
 
     const subDir = path.join(outputDir, fileKey);
