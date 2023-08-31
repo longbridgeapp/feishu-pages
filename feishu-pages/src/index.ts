@@ -35,7 +35,9 @@ const fetchDocAndWriteFile = async (
 
   fs.mkdirSync(outputDir, { recursive: true });
 
-  docs.forEach(async (doc, idx) => {
+  for (let idx = 0; idx < docs.length; idx++) {
+    const doc = docs[idx];
+
     let position = idx;
     let fileKey = normalizeSlug(doc.node_token);
     let filename = path.join(outputDir, `${fileKey}.md`);
@@ -71,7 +73,7 @@ const fetchDocAndWriteFile = async (
 
     const subDir = path.join(outputDir, fileKey);
     await fetchDocAndWriteFile(subDir, fileKey, doc.children);
-  });
+  }
 };
 
 const downloadImages = async (content: string, imageTokens: string[]) => {
