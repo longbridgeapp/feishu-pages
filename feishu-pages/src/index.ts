@@ -61,14 +61,7 @@ const fetchDocAndWriteFile = async (
 
     out += content;
 
-    console.info(
-      '-> Writing doc: ',
-      doc.node_token,
-      'content length:',
-      content.length,
-      '...'
-    );
-
+    console.info(' -> Writing doc: ', content.length, '...');
     fs.writeFileSync(filename, out);
 
     const subDir = path.join(outputDir, fileKey);
@@ -82,7 +75,9 @@ const downloadImages = async (content: string, imageTokens: string[]) => {
       imageToken,
       path.join(OUTPUT_DIR, 'assets', imageToken)
     );
-    content = content.replace(/${imageToken}/g, imagePath);
+
+    const re = new RegExp(`${imageToken}`, 'gm');
+    content = content.replace(re, imagePath);
   }
 
   return content;

@@ -199,7 +199,7 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   const result = '/assets/' + fileToken;
 
   if (fs.existsSync(localPath)) {
-    console.info('File exists, skip download:', fileToken);
+    console.info(' -> Skip exist:', fileToken);
     return result;
   }
 
@@ -218,7 +218,7 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
     .then((response) => response.data)
     .catch((err) => {
       const { message } = err;
-      console.error('-> Failed to download image', fileToken, message);
+      console.error(' -> Failed to download image:', fileToken, message);
     });
 
   if (data) {
