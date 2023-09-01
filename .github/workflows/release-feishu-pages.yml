@@ -1,0 +1,32 @@
+on:
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - release-npm
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+jobs:
+  release:
+    name: Release NPM (feishu-pages)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install dependencies & Build
+        run: |
+          cd feishu-pages
+          yarn
+          yarn build
+      - name: Publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd feishu-pages
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          npm publish --access public
