@@ -14,8 +14,8 @@ const fixtureJSON = (filename: string): any => {
 
 describe('MarkdownRenderer', () => {
   test('parse', () => {
-    let renderer = new MarkdownRenderer({});
-    let result = renderer.parse();
+    let render = new MarkdownRenderer({});
+    let result = render.parse();
 
     assert.strictEqual(result, '');
   });
@@ -25,17 +25,37 @@ describe('MarkdownRenderer', () => {
       const doc = fixtureJSON(`${caseName}.raw.json`);
       const expected = fixture(`${caseName}.expect.md`);
 
-      let renderer = new MarkdownRenderer(doc);
-      let result = renderer.parse();
+      let render = new MarkdownRenderer(doc);
+      let result = render.parse();
 
       assert.equal(result.trim(), expected.trim(), caseName);
+    });
+  });
+
+  test('fileTokens', () => {
+    const doc = fixtureJSON(`case3.raw.json`);
+
+    let render = new MarkdownRenderer(doc);
+    render.parse();
+
+    assert.deepEqual(Object.keys(render.fileTokens), [
+      'DkwibdF3ooVi0KxttdocdoQ5nPh',
+      'TVEyb1pmWo8oIwxyL3kcIfrrnGd',
+    ]);
+    assert.deepEqual(render.fileTokens['DkwibdF3ooVi0KxttdocdoQ5nPh'], {
+      token: 'DkwibdF3ooVi0KxttdocdoQ5nPh',
+      type: 'image',
+    });
+    assert.deepEqual(render.fileTokens['TVEyb1pmWo8oIwxyL3kcIfrrnGd'], {
+      token: 'TVEyb1pmWo8oIwxyL3kcIfrrnGd',
+      type: 'file',
     });
   });
 
   test('parse unsupport', () => {
     const doc = fixtureJSON(`unsupport.raw.json`);
 
-    let render = new MarkdownRenderer(doc, { output_unsupported: true });
+    let render = new MarkdownRenderer(doc, { outputUnsupported: true });
     let result = render.parse();
     let expect = fixture(`unsupport.a.md`);
 

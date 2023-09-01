@@ -17,7 +17,18 @@ import { MarkdownRenderer } from 'feishu-docx'
 const docx = fs.readFileSync('test.json')
 const render = new MarkdownRenderer(docx)
 const text = render.parse();
-const imageTokens = render.imageTokens;
+const fileTokens = render.fileTokens;
+```
+
+Now `fileTokens` is:
+
+```js
+{
+  "TVEyb1pmWo8oIwxyL3kcIfrrnGd": {
+      token: 'TVEyb1pmWo8oIwxyL3kcIfrrnGd',
+      type: 'file',
+  }
+}
 ```
 
 ## License

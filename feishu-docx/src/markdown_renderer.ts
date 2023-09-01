@@ -309,7 +309,7 @@ export class MarkdownRenderer extends Renderer {
     buf.write(el.outerHTML);
     buf.write('\n');
 
-    this.imageTokens.push(image.token);
+    this.addFileToken('image', image.token);
 
     return buf.toString();
   }
@@ -402,7 +402,8 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
     const file = block.file;
 
-    this.imageTokens.push(file.token);
+    this.addFileToken('file', file.token);
+
     buf.write(`[${file.name}](${file.token})`);
     buf.write('\n');
 
@@ -410,7 +411,7 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseUnsupport(block: Block) {
-    if (!this.output_unsupported) {
+    if (!this.outputUnsupported) {
       return '';
     }
 

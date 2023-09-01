@@ -359,28 +359,33 @@ export function getAlignStyle(align: StyleAlign) {
   }
 }
 
+export interface FileToken {
+  token: string;
+  type: 'file' | 'image';
+}
+
 export class Renderer {
   documentId: string;
   blockMap: Record<string, Block> = {};
   parentId?: string;
-  imageTokens: string[];
+  fileTokens: Record<string, FileToken> = {};
   nextBlock?: Block | null;
   debug: boolean;
-  output_unsupported: boolean = false;
+  outputUnsupported: boolean = false;
 
   constructor(
     doc: any,
-    options: { debug?: boolean; output_unsupported?: boolean } = {}
+    options: { debug?: boolean; outputUnsupported?: boolean } = {}
   ) {
-    const { debug = false, output_unsupported } = options;
+    const { debug = false, outputUnsupported } = options;
 
     this.documentId = doc?.document?.document_id || '';
-    this.imageTokens = [];
+    this.fileTokens = {};
     doc?.blocks?.forEach((block) => {
       this.blockMap[block?.block_id] = block;
     });
     this.debug = debug;
-    this.output_unsupported = output_unsupported;
+    this.outputUnsupported = outputUnsupported;
   }
 
   /**
@@ -394,6 +399,18 @@ export class Renderer {
 
   parseBlock(block: Block, indent: number): string {
     throw new Error('Not implemented');
+  }
+
+  /**
+   * Add a file token to context
+   * @param type
+   * @param token
+   */
+  addFileToken(type: 'file' | 'image', token: string) {
+    this.fileTokens[token] = {
+      token,
+      type,
+    };
   }
 }
 
