@@ -2,12 +2,7 @@ on:
   push:
     tags:
       - 'feishu-docx/v*'
-    branches:
-      - release-npm
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+
 jobs:
   release:
     name: Release NPM (feishu-docx)
@@ -23,6 +18,7 @@ jobs:
           cd feishu-docx
           yarn
           yarn build
+          yarn test
       - name: Publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
