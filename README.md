@@ -107,12 +107,11 @@ jobs:
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_SPACE_ID: ${{ secrets.FEISHU_SPACE_ID }}
           OUTPUT_DIR: ./dist
-          ASSET_BASE_URL: '/assets'
         uses: longbridgeapp/feishu-pages@main
       - name: Build Pages
         run: |
-          cp dist/docs/**/* ./docs/
-          cp -R dist/assets ./public/
+          cp -r dist/docs ./
+          cp dist/docs.json ./
           yarn
           yarn build
       - name: Setup Pages
