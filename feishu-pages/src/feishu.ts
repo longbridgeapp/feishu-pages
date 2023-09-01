@@ -215,7 +215,7 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
     console.info(' -> Cache hit:', fileToken);
   } else {
     console.info('Download file', fileToken, '...');
-    const res: any = await axios
+    res = await axios
       .get(
         `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
         {
@@ -251,8 +251,8 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
     }
     const dir = path.dirname(localPath);
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(cacheFilePath, res.data);
-    fs.copyFileSync(cacheFilePath, localPath);
+    console.info(' -> Writing file:', localPath);
+    fs.writeFileSync(localPath, res.data);
   }
 
   return localPath;
