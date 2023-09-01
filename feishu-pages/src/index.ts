@@ -61,7 +61,7 @@ const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
     out += meta + '\n\n';
 
     let { content, imageTokens } = await fetchDocBody(doc.obj_token);
-    content = await downloadImages(content, imageTokens);
+    content = await downloadFiles(content, imageTokens);
 
     out += content;
 
@@ -77,7 +77,7 @@ const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
   }
 };
 
-const downloadImages = async (content: string, imageTokens: string[]) => {
+const downloadFiles = async (content: string, imageTokens: string[]) => {
   for (const imageToken of imageTokens) {
     const imagePath = await feishuDownload(
       imageToken,

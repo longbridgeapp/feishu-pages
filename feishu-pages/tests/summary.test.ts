@@ -75,7 +75,7 @@ describe('Summary', () => {
         title: 'Foo',
         depth: 0,
         has_child: true,
-        filename: 'foo/index.md',
+        filename: 'foo.md',
         position: 0,
         slug: 'foo',
         children: [
@@ -94,7 +94,7 @@ describe('Summary', () => {
             title: 'Baz',
             depth: 1,
             has_child: true,
-            filename: 'foo/baz/index.md',
+            filename: 'foo/baz.md',
             position: 1,
             slug: 'foo/baz',
             children: [
@@ -125,7 +125,7 @@ describe('Summary', () => {
             title: 'Aza',
             depth: 1,
             has_child: true,
-            filename: 'foo/aza/index.md',
+            filename: 'foo/aza.md',
             position: 2,
             slug: 'foo/aza',
             children: [
@@ -159,12 +159,12 @@ describe('Summary', () => {
 
     let summary = generateSummary(newDocs);
     let expeted = `
-- [Foo](foo/index.md)
+- [Foo](foo.md)
   - [Bar](foo/bar.md)
-  - [Baz](foo/baz/index.md)
+  - [Baz](foo/baz.md)
     - [Qux](foo/baz/qux.md)
     - [Quux](foo/baz/quux.md)
-  - [Aza](foo/aza/index.md)
+  - [Aza](foo/aza.md)
     - [Zaf](foo/aza/zaf.md)
 - [BB](bb.md)
     `;
