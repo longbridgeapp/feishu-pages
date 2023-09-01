@@ -24,6 +24,8 @@ jobs:
         run: |
           cp -r dist/docs example-website/
           cp dist/docs.json example-website/
+          cat example-website/docs/XpKYwA6oqiGMfFkLVwCcwykunzV.md
+          ls -lha example-website/docs
           yarn
           yarn workspace example-website build
       - name: Setup Pages
