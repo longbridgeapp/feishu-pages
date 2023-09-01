@@ -17,10 +17,9 @@ jobs:
           node-version: 16
       - name: Install dependencies & Build
         run: |
-          cd feishu-pages
           yarn
-          yarn build
-          yarn test
+          yarn workspace feishu-docx build
+          yarn workspace feishu-pages build
       - name: Publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
