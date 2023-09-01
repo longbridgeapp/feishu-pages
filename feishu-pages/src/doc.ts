@@ -28,11 +28,11 @@ export const fetchDocBody = async (document_id: string) => {
 
   const render = new MarkdownRenderer(doc as any);
   const content = render.parse();
-  const imageTokens = render.imageTokens;
+  const fileTokens = render.fileTokens;
 
   return {
     content,
-    imageTokens,
+    fileTokens,
   };
 };
 

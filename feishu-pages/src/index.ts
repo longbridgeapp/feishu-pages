@@ -1,25 +1,25 @@
 #!/usr/bin/env node
+import { FileToken } from 'feishu-docx';
 import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFileMeta } from './doc';
-import { feishuConfig, feishuDownload, fetchTenantAccessToken } from './feishu';
+import {
+  DOCS_DIR,
+  OUTPUT_DIR,
+  ROOT_NODE_TOKEN,
+  feishuConfig,
+  feishuDownload,
+  fetchTenantAccessToken,
+} from './feishu';
 import { FileDoc, generateSummary, prepareDocSlugs } from './summary';
 import { humanizeFileSize } from './utils';
 import { fetchAllDocs } from './wiki';
-
-const OUTPUT_DIR: string = path.resolve(process.env.OUTPUT_DIR || './dist');
-const ASSET_BASE_URL: string = process.env.ASSET_BASE_URL || '/assets';
-
-const ASSET_DIR: string = path.join(OUTPUT_DIR, 'assets');
-const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
-const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
 
 // App entry
 (async () => {
   await fetchTenantAccessToken();
 
   console.info('OUTPUT_DIR:', OUTPUT_DIR);
-  console.info('ASSET_BASE_URL:', ASSET_BASE_URL);
   console.info('FEISHU_APP_ID:', feishuConfig.appId);
   console.info('FEISHU_SPACE_ID:', feishuConfig.spaceId);
   console.info('ROOT_NODE_TOKEN:', ROOT_NODE_TOKEN);
@@ -60,8 +60,9 @@ const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
     let out = '';
     out += meta + '\n\n';
 
-    let { content, imageTokens } = await fetchDocBody(doc.obj_token);
-    content = await downloadFiles(content, imageTokens);
+    let { content, fileTokens } = await fetchDocBody(doc.obj_token);
+
+    content = await downloadFiles(content, fileTokens, folder);
 
     out += content;
 
@@ -77,16 +78,20 @@ const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
   }
 };
 
-const downloadFiles = async (content: string, imageTokens: string[]) => {
-  for (const imageToken of imageTokens) {
-    const imagePath = await feishuDownload(
-      imageToken,
-      ASSET_BASE_URL,
-      path.join(ASSET_DIR, imageToken)
+const downloadFiles = async (
+  content: string,
+  fileTokens: Record<string, FileToken>,
+  docFolder: string
+) => {
+  for (const fileToken in fileTokens) {
+    const filePath = await feishuDownload(
+      fileToken,
+      path.join(path.join(docFolder, 'assets'), fileToken)
     );
+    const extension = path.extname(filePath);
 
-    const re = new RegExp(`${imageToken}`, 'gm');
-    content = content.replace(re, imagePath);
+    const re = new RegExp(`${fileToken}`, 'gm');
+    content = content.replace(re, './assets/' + fileToken + extension);
   }
 
   return content;

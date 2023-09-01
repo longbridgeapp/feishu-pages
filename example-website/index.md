@@ -1,10 +1,9 @@
 ---
-title: Home
-navbar: true
+title: Feishu Pages
 ---
 
-# Feishu Pages - Example
+# Feishu Pages
 
-Welcome to Feishu Pages Example Site.
+> Generate Feishu Wiki into a Markdown for work with Static Page Generators.
 
-This site is generated from Feishu Wiki.
+本网站左侧的文档中列表，均来自飞书知识库，通过 [Feishu Pages](https://github.com/longbridgeapp/feishu-pages) 导出为 Markdown 文件，并通过 [VitePress](https://vitepress.dev) + GitHub Pages 生成的静态网站。

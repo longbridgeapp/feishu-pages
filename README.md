@@ -31,14 +31,13 @@ yarn add feishu-pages
 
 ## Configuration
 
-| Name                | Description                                                             | Required | Default   |
-| ------------------- | ----------------------------------------------------------------------- | -------- | --------- |
-| `FEISHU_APP_ID`     | 飞书应用 ID                                                             | YES      |           |
-| `FEISHU_APP_SECRET` | 飞书应用 Secret                                                         | YES      |           |
-| `FEISHU_SPACE_ID`   | 飞书知识库 ID                                                           | YES      |           |
-| `ASSET_BASE_URL`    | 资源文件（图片、附件）的 Base URL，通过这个配置配置 img src 的 URL 前缀 | NO       | `/assets` |
-| `OUTPUT_DIR`        | 输出目录                                                                | NO       | `./dist`  |
-| `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。                          | NO       |           |
+| Name                | Description                                    | Required | Default  |
+| ------------------- | ---------------------------------------------- | -------- | -------- |
+| `FEISHU_APP_ID`     | 飞书应用 ID                                    | YES      |          |
+| `FEISHU_APP_SECRET` | 飞书应用 Secret                                | YES      |          |
+| `FEISHU_SPACE_ID`   | 飞书知识库 ID                                  | YES      |          |
+| `OUTPUT_DIR`        | 输出目录                                       | NO       | `./dist` |
+| `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。 | NO       |          |
 
 ## Usage
 

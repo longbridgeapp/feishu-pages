@@ -1,6 +1,6 @@
 import { DefaultTheme, defineConfig } from 'vitepress';
 
-const docs = require('../docs.json');
+import docs from '../docs.json';
 
 /**
  * Convert feishu-pages's docs.json into VitePress's sidebar config
@@ -12,7 +12,7 @@ const convertDocsToSidebars = (docs: any) => {
   for (const doc of docs) {
     let sidebar: DefaultTheme.SidebarItem = {
       text: doc.title,
-      link: doc.slug,
+      link: 'docs/' + doc.slug,
     };
     if (doc.children.length > 0) {
       sidebar.items = convertDocsToSidebars(doc.children);
@@ -23,17 +23,35 @@ const convertDocsToSidebars = (docs: any) => {
   return sidebars;
 };
 
+const docsSidebar = convertDocsToSidebars(docs);
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Feishu Pages Example',
+  title: 'Feishu Pages',
   base: '/feishu-pages/',
   ignoreDeadLinks: true,
   cleanUrls: true,
+  srcExclude: ['SUMMARY.md'],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    nav: [{ text: 'Home', link: '/' }],
+    nav: [
+      { text: 'Home', link: '/' },
+      {
+        text: 'Releases',
+        link: 'https://github.com/longbridgeapp/feishu-pages/releases',
+      },
+      {
+        text: 'GitHub',
+        link: 'https://github.com/longbridgeapp/feishu-pages',
+      },
+    ],
 
-    sidebar: convertDocsToSidebars(docs),
+    sidebar: [
+      {
+        text: 'Guides',
+        items: docsSidebar,
+      },
+    ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/longbridgeapp/feishu-pages' },

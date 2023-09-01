@@ -3,8 +3,18 @@ import { Client } from '@larksuiteoapi/node-sdk';
 import axios from 'axios';
 import 'dotenv/config';
 import fs from 'fs';
+import mime from 'mime-types';
 import path from 'path';
 import { humanizeFileSize } from './utils';
+
+export const OUTPUT_DIR: string = path.resolve(
+  process.env.OUTPUT_DIR || './dist'
+);
+export const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
+export const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
+export const CACHE_DIR = path.resolve(
+  process.env.CACHE_DIR || path.join(OUTPUT_DIR, '.cache')
+);
 
 const feishuConfig = {
   endpoint: 'https://open.feishu.cn',
@@ -193,50 +203,59 @@ export const feishuFetch = async (method, path, payload): Promise<any> => {
  * @param localPath
  * @returns
  */
-export const feishuDownload = async (
-  fileToken: string,
-  urlPrefix: string,
-  localPath: string
-) => {
-  const dir = path.dirname(localPath);
-  fs.mkdirSync(dir, { recursive: true });
+export const feishuDownload = async (fileToken: string, localPath: string) => {
+  const cacheFilePath = path.join(CACHE_DIR, fileToken);
+  const cacheFileMetaPath = path.join(CACHE_DIR, `${fileToken}.headers.json`);
+  fs.mkdirSync(CACHE_DIR, { recursive: true });
 
-  // trim urlPrefix last /
-  urlPrefix = urlPrefix.replace(/\/$/, '');
-  const result = urlPrefix + '/' + fileToken;
-
-  if (fs.existsSync(localPath)) {
-    console.info(' -> Skip exist:', fileToken);
-    return result;
+  let res: any = {};
+  if (fs.existsSync(cacheFilePath) && fs.existsSync(cacheFileMetaPath)) {
+    res.data = fs.readFileSync(cacheFilePath);
+    res.headers = JSON.parse(fs.readFileSync(cacheFileMetaPath, 'utf-8'));
+    console.info(' -> Cache hit:', fileToken);
+  } else {
+    console.info('Download file', fileToken, '...');
+    const res: any = await axios
+      .get(
+        `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
+        {
+          responseType: 'arraybuffer',
+          headers: {
+            Authorization: `Bearer ${feishuConfig.tenantAccessToken}`,
+            'User-Agent': 'feishu-pages',
+          },
+        }
+      )
+      .then((res) => {
+        // Write cache info
+        fs.writeFileSync(cacheFilePath, res.data);
+        fs.writeFileSync(cacheFileMetaPath, JSON.stringify(res.headers));
+        return res;
+      })
+      .catch((err) => {
+        const { message } = err;
+        console.error(' -> Failed to download image:', fileToken, message);
+      });
   }
 
-  console.info('Download file', fileToken, '...');
-  const res: any = await axios
-    .get(
-      `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
-      {
-        responseType: 'arraybuffer',
-        headers: {
-          Authorization: `Bearer ${feishuConfig.tenantAccessToken}`,
-          'User-Agent': 'feishu-pages',
-        },
-      }
-    )
-    .catch((err) => {
-      const { message } = err;
-      console.error(' -> Failed to download image:', fileToken, message);
-    });
-
   if (res.data) {
+    let extension = mime.extension(res.headers['content-type']);
     console.info(
       ' =>',
       res.headers['content-type'],
       humanizeFileSize(res.data.length)
     );
-    fs.writeFileSync(localPath, res.data);
+
+    if (extension) {
+      localPath = localPath + '.' + extension;
+    }
+    const dir = path.dirname(localPath);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(cacheFilePath, res.data);
+    fs.copyFileSync(cacheFilePath, localPath);
   }
 
-  return result;
+  return localPath;
 };
 
 /**

@@ -19,13 +19,11 @@ jobs:
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_SPACE_ID: '7273324757679325186'
           OUTPUT_DIR: ./dist
-          ASSET_BASE_URL: 'https://longbridgeapp.github.io/feishu-pages/assets'
         uses: longbridgeapp/feishu-pages@main
       - name: Build Pages
         run: |
           mkdir -p example-website/public/assets/
-          cp -R dist/docs/* example-website/
-          cp -R dist/assets/* example-website/public/assets/
+          cp -R dist/docs example-website/
           cp dist/docs.json example-website/
           yarn
           yarn workspace example-website build
