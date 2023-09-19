@@ -478,7 +478,7 @@ export class MarkdownRenderer extends Renderer {
       })
       .join('; ');
 
-    buf.write(`<div class="${classNames.join(' ')}" style="${styleAttr}">\n`);
+    buf.write(`<div class="${classNames.join(' ')}">\n`);
     if (block.callout.emoji_id) {
       buf.write(getEmojiChar(block.callout.emoji_id));
       buf.write(' ');
