@@ -315,20 +315,20 @@ export enum CalloutBackgroundColor {
 }
 
 export const CalloutBackgroundColorMap = {
-  1: '#FFF1F0',
-  2: '#FFF7E6',
-  3: '#FFFBE6',
-  4: '#F3FBEF',
-  5: '#E6FFFB',
-  6: '#F3F0FF',
-  7: '#F4F5F5',
-  8: '#FFEBE9',
-  9: '#FFF2E8',
-  10: '#FFF8E8',
-  11: '#E6F7EC',
-  12: '#E6FCFF',
-  13: '#EDE9FF',
-  14: '#F0F1F2',
+  1: '#fef2f2',
+  2: '#fff7ed',
+  3: '#fefce8',
+  4: '#f0fdf4',
+  5: '#eff6ff',
+  6: '#faf5ff',
+  7: '#f9fafb',
+  8: '#fecaca',
+  9: '#fed7aa',
+  10: '#fef08a',
+  11: '#bbf7d0',
+  12: '#bfdbfe',
+  13: '#e9d5ff',
+  14: '#e5e7eb',
 };
 
 export type FontBackgroundColor = CalloutBackgroundColor;
@@ -348,15 +348,24 @@ export enum CalloutBorderColor {
 export type FontColor = CalloutBorderColor;
 
 export const CalloutBorderColorMap = {
-  1: '#FF4D4F',
-  2: '#FF7A45',
-  3: '#FFC53D',
-  4: '#73D13D',
-  5: '#36CFC9',
-  6: '#597EF7',
-  7: '#BFBFBF',
+  1: '#fecaca',
+  2: '#fed7aa',
+  3: '#fef08a',
+  4: '#bbf7d0',
+  5: '#bfdbfe',
+  6: '#e9d5ff',
+  7: '#e5e7eb',
 };
-export const FontColorMap = CalloutBorderColorMap;
+
+export const FontColorMap = {
+  1: '#ef4444',
+  2: '#f97316',
+  3: '#eab308',
+  4: '#22c55e',
+  5: '#3b82f6',
+  6: '#a855f7',
+  7: '#6b7280',
+};
 
 export interface CalloutBlock {
   background_color: CalloutBackgroundColor;

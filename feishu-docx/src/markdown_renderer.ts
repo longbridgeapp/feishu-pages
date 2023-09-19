@@ -308,11 +308,11 @@ export class MarkdownRenderer extends Renderer {
     const el = createElement('img');
     el.setAttribute('src', image.token);
     if (image.width) {
-      el.setAttribute('width', image.width.toString());
+      el.setAttribute('src-width', image.width.toString());
     }
     // Only give height when width is not given
-    if (!image.width && image.height) {
-      el.setAttribute('height', image.height.toString());
+    if (image.height) {
+      el.setAttribute('src-height', image.height.toString());
     }
     if (align && align != 'left') {
       el.setAttribute('align', align);
@@ -452,20 +452,24 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
 
     const style = {};
+    const classNames = ['callout'];
 
     if (block.callout.background_color) {
       const backgroundColor =
         CalloutBackgroundColorMap[block.callout.background_color];
       style['background'] = backgroundColor;
+      classNames.push(`callout-bg-${block.callout.background_color}`);
     }
 
     if (block.callout.border_color) {
       const borderColor = CalloutBorderColorMap[block.callout.border_color];
-      style['border-color'] = borderColor;
+      style['border'] = `1px solid ${borderColor}`;
+      classNames.push(`callout-border-${block.callout.border_color}`);
     }
     if (block.callout.text_color) {
       const textColor = FontColorMap[block.callout.text_color] || '#2222';
       style['color'] = textColor;
+      classNames.push(`callout-color-${block.callout.text_color}`);
     }
 
     const styleAttr = Object.keys(style)
@@ -474,7 +478,7 @@ export class MarkdownRenderer extends Renderer {
       })
       .join('; ');
 
-    buf.write(`<div class="callout" style="${styleAttr}">\n`);
+    buf.write(`<div class="${classNames.join(' ')}" style="${styleAttr}">\n`);
     if (block.callout.emoji_id) {
       buf.write(getEmojiChar(block.callout.emoji_id));
       buf.write(' ');
