@@ -1,8 +1,20 @@
 # Feishu Pages
 
-> 🎉 This site build by GitHub Actions with feishu-pages.
+<div class="callout" style="background: #FFFBE6; border-color: #FF7A45">
+🎉 This site build by GitHub Actions with feishu-pages.
+</div>
 
+<div class="grid grid-col-3">
+<div class="col">
+<img src="Bwk8bcQH6oLQn1xjzdacPBckn8d" width="1000" align="center"/>
+</div>
+<div class="col">
 <img src="DkwibdF3ooVi0KxttdocdoQ5nPh" width="400" align="center"/>
+</div>
+<div class="col">
+<img src="M9hDb8WXzo7TU5xg4xtcvArPnxe" width="410" align="center"/>
+</div>
+</div>
 
 导出**飞书知识库**，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
 
@@ -69,7 +81,7 @@ yarn add feishu-pages
 
 Feishu Pages 支持 `.env` 文件，如果执行的根目录有个 `.env` 文件，将会自动读取。
 
-请参考 `.env.default` 配置环境变量。
+> 请参考 `.env.default` 配置环境变量。
 
 如需在 GitHub Actions 的 CI 流程里面使用，建议添加到 Secrets 中，再通过环境变量的方式获取。
 

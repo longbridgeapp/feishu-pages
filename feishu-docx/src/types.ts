@@ -294,6 +294,77 @@ export interface TableBlock {
   };
 }
 
+/**
+ * https://open.feishu.cn/document/ukTMukTMukTM/uUDN04SN0QjL1QDN/document-docx/docx-v1/data-structure/block#28d02e32
+ */
+export enum CalloutBackgroundColor {
+  LightRed = 1,
+  LightOrange = 2,
+  LightYellow = 3,
+  LightGreen = 4,
+  LightBlue = 5,
+  LightPurple = 6,
+  LightGray = 7,
+  DarkRed = 8,
+  DarkOrange = 9,
+  DarkYellow = 10,
+  DarkGreen = 11,
+  DarkBlue = 12,
+  DarkPurple = 13,
+  DarkGray = 14,
+}
+
+export const CalloutBackgroundColorMap = {
+  1: '#FFF1F0',
+  2: '#FFF7E6',
+  3: '#FFFBE6',
+  4: '#F3FBEF',
+  5: '#E6FFFB',
+  6: '#F3F0FF',
+  7: '#F4F5F5',
+  8: '#FFEBE9',
+  9: '#FFF2E8',
+  10: '#FFF8E8',
+  11: '#E6F7EC',
+  12: '#E6FCFF',
+  13: '#EDE9FF',
+  14: '#F0F1F2',
+};
+
+export type FontBackgroundColor = CalloutBackgroundColor;
+
+/**
+ *
+ */
+export enum CalloutBorderColor {
+  Red = 1,
+  Orange = 2,
+  Yellow = 3,
+  Green = 4,
+  Blue = 5,
+  Purple = 6,
+  Gray = 7,
+}
+export type FontColor = CalloutBorderColor;
+
+export const CalloutBorderColorMap = {
+  1: '#FF4D4F',
+  2: '#FF7A45',
+  3: '#FFC53D',
+  4: '#73D13D',
+  5: '#36CFC9',
+  6: '#597EF7',
+  7: '#BFBFBF',
+};
+export const FontColorMap = CalloutBorderColorMap;
+
+export interface CalloutBlock {
+  background_color: CalloutBackgroundColor;
+  border_color: CalloutBorderColor;
+  text_color: FontColor;
+  emoji_id: String;
+}
+
 export interface Block {
   block_id: string;
   parent_id: string;
@@ -316,7 +387,7 @@ export interface Block {
   quote: TextBlock;
   todo: TextBlock;
   bitable: TextBlock;
-  callout: TextBlock;
+  callout: CalloutBlock;
   chat_card: TextBlock;
   diagram: TextBlock;
   divider: TextBlock;

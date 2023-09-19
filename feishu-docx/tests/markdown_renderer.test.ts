@@ -39,7 +39,9 @@ describe('MarkdownRenderer', () => {
     render.parse();
 
     assert.deepEqual(Object.keys(render.fileTokens), [
+      'Bwk8bcQH6oLQn1xjzdacPBckn8d',
       'DkwibdF3ooVi0KxttdocdoQ5nPh',
+      'M9hDb8WXzo7TU5xg4xtcvArPnxe',
       'TVEyb1pmWo8oIwxyL3kcIfrrnGd',
     ]);
     assert.deepEqual(render.fileTokens['DkwibdF3ooVi0KxttdocdoQ5nPh'], {

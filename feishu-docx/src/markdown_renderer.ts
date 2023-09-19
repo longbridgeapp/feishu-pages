@@ -1,8 +1,12 @@
 import { createElement } from './dom';
+import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
 import {
   Block,
   BlockType,
+  CalloutBackgroundColorMap,
+  CalloutBorderColorMap,
+  FontColorMap,
   ImageBlock,
   Renderer,
   TableBlock,
@@ -117,6 +121,14 @@ export class MarkdownRenderer extends Renderer {
         break;
       case BlockType.File:
         buf.write(this.parseFile(block));
+        break;
+      case BlockType.Grid:
+        buf.write(this.parseGrid(block));
+        break;
+      case BlockType.GridColumn:
+        break;
+      case BlockType.Callout:
+        buf.write(this.parseCallout(block));
         break;
       default:
         buf.write(this.parseUnsupport(block));
@@ -406,6 +418,72 @@ export class MarkdownRenderer extends Renderer {
 
     buf.write(`[${file.name}](${file.token})`);
     buf.write('\n');
+
+    return buf.toString();
+  }
+
+  parseGrid(block: Block) {
+    const buf = new Buffer();
+
+    buf.write(`<div class="grid grid-col-${block.grid.column_size}">\n`);
+    block.children?.forEach((childId) => {
+      const child = this.blockMap[childId];
+      buf.write(this.parseGridColumn(child));
+    });
+    buf.write('</div>\n');
+
+    return buf.toString();
+  }
+
+  parseGridColumn(block: Block) {
+    const buf = new Buffer();
+
+    buf.write(`<div class="col">\n`);
+    block.children?.forEach((childId) => {
+      const child = this.blockMap[childId];
+      buf.write(this.parseBlock(child, 0));
+    });
+    buf.write('</div>\n');
+
+    return buf.toString();
+  }
+
+  parseCallout(block: Block) {
+    const buf = new Buffer();
+
+    const style = {};
+
+    if (block.callout.background_color) {
+      const backgroundColor =
+        CalloutBackgroundColorMap[block.callout.background_color];
+      style['background'] = backgroundColor;
+    }
+
+    if (block.callout.border_color) {
+      const borderColor = CalloutBorderColorMap[block.callout.border_color];
+      style['border-color'] = borderColor;
+    }
+    if (block.callout.text_color) {
+      const textColor = FontColorMap[block.callout.text_color] || '#2222';
+      style['color'] = textColor;
+    }
+
+    const styleAttr = Object.keys(style)
+      .map((key) => {
+        return `${key}: ${style[key]}`;
+      })
+      .join('; ');
+
+    buf.write(`<div class="callout" style="${styleAttr}">\n`);
+    if (block.callout.emoji_id) {
+      buf.write(getEmojiChar(block.callout.emoji_id));
+      buf.write(' ');
+    }
+    block.children?.forEach((childId) => {
+      const child = this.blockMap[childId];
+      buf.write(this.parseBlock(child, 0));
+    });
+    buf.write('</div>\n');
 
     return buf.toString();
   }
