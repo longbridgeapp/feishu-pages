@@ -1,0 +1,32 @@
+.callout {
+  padding: 0.5em 1em;
+  margin: 2.5em 0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.grid {
+  display: grid;
+  grid-gap: 10px;
+  grid-auto-rows: auto;
+  grid-auto-columns: auto;
+  background: transparent;
+  margin: 2.5em 0;
+}
+
+.grid-col-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-col-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-col-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-col-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
