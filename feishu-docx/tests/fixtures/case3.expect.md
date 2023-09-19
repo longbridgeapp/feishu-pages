@@ -1,17 +1,17 @@
 # Feishu Pages
 
-<div class="callout callout-bg-3 callout-border-2" style="background: #fefce8; border: 1px solid #fed7aa">
+<div class="callout callout-bg-3 callout-border-2">
 🎉 This site build by GitHub Actions with feishu-pages.
 </div>
 
-<div class="grid grid-col-3">
-<div class="col">
+<div class="grid gap-3 grid-cols-3">
+<div>
 <img src="Bwk8bcQH6oLQn1xjzdacPBckn8d" src-width="1000" src-height="500" align="center"/>
 </div>
-<div class="col">
+<div>
 <img src="DkwibdF3ooVi0KxttdocdoQ5nPh" src-width="400" src-height="354" align="center"/>
 </div>
-<div class="col">
+<div>
 <img src="M9hDb8WXzo7TU5xg4xtcvArPnxe" src-width="410" src-height="404" align="center"/>
 </div>
 </div>

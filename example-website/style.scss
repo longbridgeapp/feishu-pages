@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.callout {
+  padding: 0.5em 1em;
+  margin: 1.5em 0;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+
+  &-bg-1 {
+    @apply bg-red-50 dark:bg-red-950;
+  }
+  &-bg-2 {
+    @apply bg-orange-50 dark:bg-orange-950;
+  }
+  &-bg-3 {
+    @apply bg-yellow-50 dark:bg-yellow-950;
+  }
+  &-bg-4 {
+    @apply bg-green-50 dark:bg-green-950;
+  }
+  &-bg-5 {
+    @apply bg-blue-50 dark:bg-blue-950;
+  }
+  &-bg-6 {
+    @apply bg-purple-50 dark:bg-purple-950;
+  }
+  &-bg-7 {
+    @apply bg-gray-50 dark:bg-gray-950;
+  }
+
+  &-border-1 {
+    @apply border-red-200 dark:border-red-800;
+  }
+  &-border-2 {
+    @apply border-orange-200 dark:border-orange-800;
+  }
+  &-border-3 {
+    @apply border-yellow-200 dark:border-yellow-800;
+  }
+  &-border-4 {
+    @apply border-green-200 dark:border-green-800;
+  }
+  &-border-5 {
+    @apply border-blue-200 dark:border-blue-800;
+  }
+  &-border-6 {
+    @apply border-purple-200 dark:border-purple-800;
+  }
+  &-border-7 {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  @apply text-gray-800 dark:text-gray-200;
+}
+
+.grid {
+  margin: 1.5em 0;
+}

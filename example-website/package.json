@@ -10,6 +10,12 @@
     "preview": "vitepress preview"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.30",
+    "sass": "^1.67.0",
     "vitepress": "^1.0.0-rc.10"
+  },
+  "dependencies": {
+    "tailwindcss": "^3.3.3"
   }
 }

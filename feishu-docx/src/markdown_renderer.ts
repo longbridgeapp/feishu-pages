@@ -425,7 +425,7 @@ export class MarkdownRenderer extends Renderer {
   parseGrid(block: Block) {
     const buf = new Buffer();
 
-    buf.write(`<div class="grid grid-col-${block.grid.column_size}">\n`);
+    buf.write(`<div class="grid gap-3 grid-cols-${block.grid.column_size}">\n`);
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
       buf.write(this.parseGridColumn(child));
@@ -438,7 +438,7 @@ export class MarkdownRenderer extends Renderer {
   parseGridColumn(block: Block) {
     const buf = new Buffer();
 
-    buf.write(`<div class="col">\n`);
+    buf.write(`<div>\n`);
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
       buf.write(this.parseBlock(child, 0));
