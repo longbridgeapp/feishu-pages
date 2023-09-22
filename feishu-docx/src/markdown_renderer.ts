@@ -1,3 +1,4 @@
+import { CodeLanguage } from 'feishu-docx';
 import { createElement } from './dom';
 import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
@@ -138,30 +139,57 @@ export class MarkdownRenderer extends Renderer {
     return buf.toString();
   }
 
+  // This will iter root block and find first code block
+  parsePageMeta(block: Block) {
+    // Only support YAML
+    if (block?.code?.style?.language !== CodeLanguage.YAML) {
+      return '';
+    }
+    let yamlCotnent = this.parseTextBlock(block.code).trim();
+
+    if (!yamlCotnent) {
+      return '';
+    }
+
+    let buf = new Buffer();
+    buf.write('---\n');
+    buf.write(yamlCotnent);
+    buf.write('\n');
+    buf.write('---\n\n');
+
+    return buf.toString();
+  }
+
   parsePageBlock(block: Block) {
     const buf = new Buffer();
+
+    let pageMeta = '';
 
     buf.write('# ');
     buf.write(this.parseTextBlock(block.page));
     buf.write('\n');
 
-    let listBlocks = [];
-    let lastBlock: any = null;
-
     block.children?.forEach((childId, idx) => {
       const child = this.blockMap[childId];
       this.nextBlock = this.blockMap[block.children[idx + 1]];
+
+      // Extract Meta from first code block
+      if (child?.block_type == BlockType.Code && idx == 0) {
+        let meta = this.parsePageMeta(child);
+        if (meta) {
+          pageMeta = meta;
+          return;
+        }
+      }
 
       let childText = this.parseBlock(child, 0);
       if (childText.length > 0) {
         buf.write(childText);
         buf.write('\n');
       }
-
-      lastBlock = child;
     });
 
-    return buf.toString();
+    return pageMeta + buf.toString();
   }
 
   parseTextBlock(block: TextBlock) {
