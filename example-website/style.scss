@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+ul {
+  ul {
+    list-style-type: circle;
+    ul {
+      list-style-type: square;
+    }
+  }
+}
+
+ol {
+  ol {
+    list-style-type: lower-alpha;
+    ol {
+      list-style-type: lower-roman;
+    }
+  }
+}
+
 .callout {
   padding: 0.5em 1em;
   margin: 1.5em 0;
