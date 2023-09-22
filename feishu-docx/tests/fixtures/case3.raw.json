@@ -88,7 +88,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "slug: gettting-started",
+              "content": "slug: gettting-started\nkeywords: feishu-pages, feishu-docx",
               "text_element_style": {
                 "bold": false,
                 "inline_code": false,

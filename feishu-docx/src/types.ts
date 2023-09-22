@@ -446,6 +446,7 @@ export interface FileToken {
 
 export class Renderer {
   documentId: string;
+  meta?: Record<string, any>;
   blockMap: Record<string, Block> = {};
   parentId?: string;
   fileTokens: Record<string, FileToken> = {};

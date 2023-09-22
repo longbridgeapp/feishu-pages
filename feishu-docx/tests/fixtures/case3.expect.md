@@ -1,7 +1,3 @@
----
-slug: gettting-started
----
-
 # Feishu Pages
 
 <div class="callout callout-bg-3 callout-border-2">

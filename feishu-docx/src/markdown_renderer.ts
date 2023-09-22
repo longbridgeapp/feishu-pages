@@ -1,7 +1,9 @@
 import { CodeLanguage } from 'feishu-docx';
+import YAML from 'js-yaml';
 import { createElement } from './dom';
 import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
+
 import {
   Block,
   BlockType,
@@ -143,27 +145,30 @@ export class MarkdownRenderer extends Renderer {
   parsePageMeta(block: Block) {
     // Only support YAML
     if (block?.code?.style?.language !== CodeLanguage.YAML) {
-      return '';
+      return false;
     }
-    let yamlCotnent = this.parseTextBlock(block.code).trim();
+    let code = this.parseTextBlock(block.code).trim();
 
-    if (!yamlCotnent) {
-      return '';
+    if (!code) {
+      return false;
     }
 
-    let buf = new Buffer();
-    buf.write('---\n');
-    buf.write(yamlCotnent);
-    buf.write('\n');
-    buf.write('---\n\n');
+    const language = block?.code?.style?.language;
+    try {
+      if (language === CodeLanguage.YAML) {
+        this.meta = YAML.load(code);
+      } else if (language === CodeLanguage.JSON) {
+        this.meta = JSON.parse(code);
+      }
+    } catch {
+      console.error(`Invalid ${language} content, ignored.\n\n` + code);
+    }
 
-    return buf.toString();
+    return true;
   }
 
   parsePageBlock(block: Block) {
     const buf = new Buffer();
-
-    let pageMeta = '';
 
     buf.write('# ');
     buf.write(this.parseTextBlock(block.page));
@@ -177,7 +182,6 @@ export class MarkdownRenderer extends Renderer {
       if (child?.block_type == BlockType.Code && idx == 0) {
         let meta = this.parsePageMeta(child);
         if (meta) {
-          pageMeta = meta;
           return;
         }
       }
@@ -189,7 +193,7 @@ export class MarkdownRenderer extends Renderer {
       }
     });
 
-    return pageMeta + buf.toString();
+    return buf.toString();
   }
 
   parseTextBlock(block: TextBlock) {
