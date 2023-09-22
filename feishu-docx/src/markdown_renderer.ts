@@ -288,8 +288,8 @@ export class MarkdownRenderer extends Renderer {
       buf.write(el.equation.content.trimEnd());
       buf.write(symbol);
     } else if (el.mention_doc) {
-      const url = decodeURIComponent(el.mention_doc.url);
-      buf.write(`[${el.mention_doc.title}](${url})`);
+      const node_token = decodeURIComponent(el.mention_doc.token);
+      buf.write(`[${el.mention_doc.title}](${node_token})`);
     }
 
     return buf.toString();

@@ -14,6 +14,8 @@ export enum BlockType {
   Ordered = 13,
   Code = 14,
   Quote = 15,
+  // 引用文档
+  MentionDoc = 16,
   // 代办事项
   TodoList = 17,
   // 多维表格

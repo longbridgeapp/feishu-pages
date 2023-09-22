@@ -18,6 +18,8 @@
 
 导出**飞书知识库**，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
 
+内容格式支持：[Content Examples](Ks7jwPEtJiyUXckawcRcJ68jnvg) [直接连接](https://longbridge.feishu.cn/wiki/Ks7jwPEtJiyUXckawcRcJ68jnvg)
+
 ## **Features**
 
 - [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（_目前只支持 Markdown_）

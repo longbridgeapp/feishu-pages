@@ -13,6 +13,7 @@
         "Lebqd4kjkoJEj3x8psdcrVq2nxe",
         "BCCKdWSJ3oY5OyxCuB7c2fDwnKH",
         "MxucdDMSGoPByHxOX9PcclBNnOh",
+        "CfOUdVbBbozpzLx5fY2c2JKenIg",
         "PUBrdyyPwooJbNxMXr8cHcBHnse",
         "Ld8Ld221yoZ7z3xVkhpc5hxhnzc",
         "OS47dVwXpovxVMxDR7tcYak1nhc",
@@ -296,6 +297,73 @@
                 "bold": false,
                 "inline_code": false,
                 "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "CfOUdVbBbozpzLx5fY2c2JKenIg",
+      "block_type": 2,
+      "parent_id": "Fkoed2dB5ofvJbxSmZbcWMBhnQd",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "内容格式支持：",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "mention_doc": {
+              "obj_type": 16,
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              },
+              "title": "Content Examples",
+              "token": "Ks7jwPEtJiyUXckawcRcJ68jnvg",
+              "url": "https://longbridge.feishu.cn/wiki/Ks7jwPEtJiyUXckawcRcJ68jnvg"
+            }
+          },
+          {
+            "text_run": {
+              "content": " ",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "直接连接",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "link": {
+                  "url": "https%3A%2F%2Flongbridge.feishu.cn%2Fwiki%2FKs7jwPEtJiyUXckawcRcJ68jnvg"
+                },
                 "strikethrough": false,
                 "underline": false
               }

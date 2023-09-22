@@ -58,7 +58,7 @@ Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 调用示例：
 
 ```bash
-feishu2md [一日一技：飞书文档转换为 Markdown](https://oaztcemx3k.feishu.cn/docs/doccnrOvzeQ8BSnfsXj8jwJHC3c#)
+feishu2md [一日一技：飞书文档转换为 Markdown](doccnrOvzeQ8BSnfsXj8jwJHC3c)
 ```
 
 <img src="boxcnAb2MgMQoUMDLLf3ySogueh" src-width="956" src-height="526"/>
