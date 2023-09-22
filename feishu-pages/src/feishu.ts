@@ -294,6 +294,7 @@ export const feishuFetchWithIterator = async (
 
 export interface Doc {
   title: string;
+  meta?: Record<string, any>;
   node_token: string;
   parent_node_token?: string;
   depth: number;

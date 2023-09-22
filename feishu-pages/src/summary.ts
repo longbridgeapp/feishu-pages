@@ -6,6 +6,9 @@ export interface FileDoc extends Doc {
   slug: string;
   position: number;
   filename: string;
+  content?: string;
+  meta?: Record<string, any>;
+  fileTokens?: any;
   children: FileDoc[];
 }
 
@@ -14,18 +17,24 @@ export interface FileDoc extends Doc {
  * @param docs
  * @param parentSlug
  */
-export const prepareDocSlugs = (docs: FileDoc[], parentSlug: string = '') => {
+export const prepareDocSlugs = (
+  docs: FileDoc[],
+  slugMap: Record<string, string>,
+  parentSlug: string = ''
+) => {
   for (let i = 0; i < docs.length; i++) {
     const doc = docs[i];
-    const fileKey = normalizeSlug(doc.node_token);
+    const fileKey = normalizeSlug(doc.meta?.slug || doc.node_token);
     const fileSlug = path.join(parentSlug, fileKey);
 
     doc.slug = fileSlug;
     doc.position = i;
     doc.filename = `${fileSlug}.md`;
 
+    slugMap[doc.node_token] = doc.slug;
+
     if (doc.children.length > 0) {
-      prepareDocSlugs(doc.children as any, fileSlug);
+      prepareDocSlugs(doc.children as any, slugMap, fileSlug);
     }
   }
 };

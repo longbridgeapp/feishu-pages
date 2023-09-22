@@ -25,13 +25,17 @@ import { fetchAllDocs } from './wiki';
   console.info('ROOT_NODE_TOKEN:', ROOT_NODE_TOKEN);
   console.info('-------------------------------------------\n');
 
+  // Map file_token to slug
+  let slugMap = {};
+
   const docs = await fetchAllDocs(feishuConfig.spaceId, 0, ROOT_NODE_TOKEN);
 
-  // Prepare docs as slug, position and filename
-  prepareDocSlugs(docs as any, '');
+  await fetchDocBodies(docs as FileDoc[]);
+
+  prepareDocSlugs(docs as FileDoc[], slugMap);
 
   // Fetch docs contents and write files
-  await fetchDocAndWriteFile(DOCS_DIR, docs as FileDoc[]);
+  await fetchDocAndWriteFile(DOCS_DIR, docs as FileDoc[], slugMap);
 
   // Write SUMMARY.md
   const summary = generateSummary(docs as FileDoc[]);
@@ -44,7 +48,23 @@ import { fetchAllDocs } from './wiki';
   );
 })();
 
-const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
+const fetchDocBodies = async (docs: FileDoc[]) => {
+  for (let idx = 0; idx < docs.length; idx++) {
+    const doc = docs[idx];
+    const { content, fileTokens, meta } = await fetchDocBody(doc.obj_token);
+
+    doc.content = content;
+    doc.meta = meta;
+
+    await fetchDocBodies(doc.children);
+  }
+};
+
+const fetchDocAndWriteFile = async (
+  outputDir: string,
+  docs: FileDoc[],
+  slugMap: Record<string, string>
+) => {
   if (docs.length === 0) {
     return;
   }
@@ -55,26 +75,32 @@ const fetchDocAndWriteFile = async (outputDir: string, docs: FileDoc[]) => {
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
 
-    const meta = generateFileMeta(doc, doc.slug, doc.position);
+    let { content, fileTokens, meta } = doc;
+
+    // TODO: Replace link's node_token into slug
+    for (const node_token in slugMap) {
+      const re = new RegExp(`\\]\\(${node_token}\\)`, 'gm');
+      content = content.replace(re, `](${slugMap[node_token]})`);
+    }
+
+    const metaInfo = generateFileMeta(doc, doc.slug, doc.position);
 
     let out = '';
-    out += meta + '\n\n';
-
-    let { content, fileTokens } = await fetchDocBody(doc.obj_token);
+    out += metaInfo + '\n\n';
 
     content = await downloadFiles(content, fileTokens, folder);
 
     out += content;
 
     console.info(
-      ' -> Writing doc',
+      'Writing doc',
       doc.filename,
       humanizeFileSize(content.length),
       '...'
     );
     fs.writeFileSync(filename, out);
 
-    await fetchDocAndWriteFile(outputDir, doc.children);
+    await fetchDocAndWriteFile(outputDir, doc.children, slugMap);
   }
 };
 

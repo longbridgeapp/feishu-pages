@@ -67,7 +67,9 @@ describe('Summary', () => {
       },
     ];
 
-    prepareDocSlugs(docs as any, '');
+    let slugMap = {};
+
+    prepareDocSlugs(docs as any, slugMap, '');
 
     let newDocs: FileDoc[] = [
       {
@@ -169,5 +171,16 @@ describe('Summary', () => {
 - [BB](bb.md)
     `;
     assert.equal(summary.trim(), expeted.trim());
+
+    assert.deepEqual(slugMap, {
+      aza: 'foo/aza',
+      bar: 'foo/bar',
+      baz: 'foo/baz',
+      bb: 'bb',
+      foo: 'foo',
+      quux: 'foo/baz/quux',
+      qux: 'foo/baz/qux',
+      zaf: 'foo/aza/zaf',
+    });
   });
 });
