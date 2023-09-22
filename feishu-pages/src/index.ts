@@ -55,6 +55,7 @@ const fetchDocBodies = async (docs: FileDoc[]) => {
 
     doc.content = content;
     doc.meta = meta;
+    doc.fileTokens = fileTokens;
 
     await fetchDocBodies(doc.children);
   }
@@ -75,7 +76,7 @@ const fetchDocAndWriteFile = async (
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
 
-    let { content, fileTokens, meta } = doc;
+    let { content, fileTokens } = doc;
 
     // TODO: Replace link's node_token into slug
     for (const node_token in slugMap) {
