@@ -12,7 +12,7 @@ const convertDocsToSidebars = (docs: any) => {
   for (const doc of docs) {
     let sidebar: DefaultTheme.SidebarItem = {
       text: doc.title,
-      link: 'docs/' + doc.slug,
+      link: '/docs/' + doc.slug,
     };
     if (doc.children.length > 0) {
       sidebar.items = convertDocsToSidebars(doc.children);
