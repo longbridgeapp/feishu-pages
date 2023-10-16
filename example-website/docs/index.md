@@ -4,11 +4,11 @@ title: Feishu Pages
 
 # Feishu Pages
 
-> Generate Feishu Wiki into a Markdown for work with Static Page Generators.
+Feishu Pages is a tool to generate Feishu Wiki into a Markdown for work with [Static Page Generators](https://en.wikipedia.org/wiki/Static_site_generator).
 
-本网站左侧的文档中列表，均来自飞书知识库，通过 [Feishu Pages](https://github.com/longbridgeapp/feishu-pages) 导出为 Markdown 文件，并通过 [VitePress](https://vitepress.dev) + GitHub Pages 生成的静态网站。
+You can write your documents in Feishu Wiki, and then use a GitHub Actions or other CI tools to generate a Markdown file for your Static Page Generator.
 
-## Docs
+## Guides
 
 - [简体中文](./zh-CN.md)
 - [English](./en.md)
