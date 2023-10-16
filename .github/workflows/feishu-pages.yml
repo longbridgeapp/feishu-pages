@@ -26,6 +26,7 @@ jobs:
           cp dist/docs.json example-website/
           yarn
           yarn workspace example-website build
+          yarn autocorrect --fix example-website/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
