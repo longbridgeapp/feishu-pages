@@ -1805,7 +1805,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "资源文件（图片、附件）的 Base URL，通过这个配置配置 img src 的 URL 前缀",
+              "content": "资源文件（图片、附件）的 Base URL\n通过这个配置配置 img src 的 URL 前缀\n\n默认值：`/assets`",
               "text_element_style": {
                 "bold": false,
                 "inline_code": false,

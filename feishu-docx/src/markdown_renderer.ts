@@ -375,7 +375,7 @@ export class MarkdownRenderer extends Renderer {
     table.cells.forEach((blockId, idx) => {
       const block = this.blockMap[blockId];
       let cellText = this.parseBlock(block, 0);
-      cellText = trimLastNewline(cellText).replace(/\n/, '<br/>');
+      cellText = trimLastNewline(cellText).replace(/\n/gm, '<br/>');
       const row = Math.floor(idx / table.property.column_size);
 
       if (rows.length < row + 1) {
