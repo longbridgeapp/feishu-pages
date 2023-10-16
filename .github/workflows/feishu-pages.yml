@@ -24,7 +24,6 @@ jobs:
         run: |
           cp -r dist/docs/* example-website/docs/
           cp dist/docs.json example-website/
-          cp example-website
           yarn
           yarn workspace example-website build
           yarn autocorrect --fix example-website/
