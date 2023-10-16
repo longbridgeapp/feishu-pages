@@ -11,4 +11,4 @@ title: Feishu Pages
 ## Docs
 
 - [简体中文](./zh-CN.md)
-- [English](./en-US.md)
+- [English](./en.md)
