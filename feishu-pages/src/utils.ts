@@ -1,4 +1,7 @@
-export const normalizeSlug = (slug: string) => {
+export const normalizeSlug = (slug: string| number) => {
+  if (typeof slug === 'number') {
+    slug = String(slug);
+  }
   return slug.replace(/^wik(cn|en)/, '');
 };
 
