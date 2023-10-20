@@ -133,6 +133,9 @@ export class MarkdownRenderer extends Renderer {
       case BlockType.Callout:
         buf.write(this.parseCallout(block));
         break;
+      case BlockType.Iframe:
+        buf.write(this.parseIframe(block));
+        break;
       default:
         buf.write(this.parseUnsupport(block));
         break;
@@ -521,6 +524,19 @@ export class MarkdownRenderer extends Renderer {
     });
     buf.write('</div>\n');
 
+    return buf.toString();
+  }
+
+  parseIframe(block: Block) {
+    let buf = new Buffer();
+
+    let url = block.iframe?.component?.url;
+    if (!url) return '';
+
+    const el = createElement('iframe');
+    el.setAttribute('src', decodeURIComponent(block.iframe.component.url));
+    buf.write(el.outerHTML);
+    buf.write('\n');
     return buf.toString();
   }
 
