@@ -59,6 +59,7 @@
         "L66Rd3RXPoOHnexBiu9chq85nUd",
         "XxcIdOlVqos2hexsgEFcmjMfnEe",
         "doxcnP6QMnaWlJ6TAPfIprc09na",
+        "SAeTdzWccoP0p5xhzndcPM7SnOn",
         "HV3MdieCiobo9OxiBbccB0P4nie",
         "DLCvdPFhFoIGQmxh6OYctEkAnPe",
         "doxcn0jEv7SPSvdT0Pznv2VsrAc"
@@ -3237,6 +3238,145 @@
         }
       },
       "parent_id": "Fkoed2dB5ofvJbxSmZbcWMBhnQd"
+    },
+    {
+      "block_id": "SAeTdzWccoP0p5xhzndcPM7SnOn",
+      "block_type": 19,
+      "callout": {
+        "background_color": 3,
+        "border_color": 3,
+        "emoji_id": "bulb"
+      },
+      "children": [
+        "E5sRdtfFloceUdxQ2zlcFPiLnsh",
+        "QADBdwAumoEAYwxhrULcoY96nbO"
+      ],
+      "parent_id": "Fkoed2dB5ofvJbxSmZbcWMBhnQd"
+    },
+    {
+      "block_id": "E5sRdtfFloceUdxQ2zlcFPiLnsh",
+      "block_type": 2,
+      "parent_id": "SAeTdzWccoP0p5xhzndcPM7SnOn",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "文档内 ",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "mention_doc": {
+              "obj_type": 16,
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              },
+              "title": "Page Mata",
+              "token": "J1o5w2l0NiV8tekJvXycfkkengb",
+              "url": "https://longbridge.feishu.cn/wiki/J1o5w2l0NiV8tekJvXycfkkengb"
+            }
+          },
+          {
+            "text_run": {
+              "content": " 标识为 ",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "hide: true",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": true,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "QADBdwAumoEAYwxhrULcoY96nbO",
+      "block_type": 2,
+      "parent_id": "SAeTdzWccoP0p5xhzndcPM7SnOn",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 ",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "slug",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": true,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": " 来整理文件夹和文件名。",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
     },
     {
       "block_id": "HV3MdieCiobo9OxiBbccB0P4nie",

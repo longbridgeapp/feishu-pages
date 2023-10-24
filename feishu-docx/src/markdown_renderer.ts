@@ -1,5 +1,6 @@
 import { CodeLanguage } from 'feishu-docx';
 import YAML from 'js-yaml';
+import { marked } from 'marked';
 import { createElement } from './dom';
 import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
@@ -461,6 +462,7 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
 
     buf.write(`<div class="grid gap-3 grid-cols-${block.grid.column_size}">\n`);
+
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
       buf.write(this.parseGridColumn(child));
@@ -474,10 +476,13 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
 
     buf.write(`<div>\n`);
+
+    let innerBuf = new Buffer();
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
-      buf.write(this.parseBlock(child, 0));
+      innerBuf.write(this.parseBlock(child, 0));
     });
+    buf.write(marked.parse(innerBuf.toString()));
     buf.write('</div>\n');
 
     return buf.toString();
@@ -514,14 +519,21 @@ export class MarkdownRenderer extends Renderer {
       .join('; ');
 
     buf.write(`<div class="${classNames.join(' ')}">\n`);
+
+    // Inner of the Callout, we need ouput as HTML
+    let markdownBuf = new Buffer();
     if (block.callout.emoji_id) {
-      buf.write(getEmojiChar(block.callout.emoji_id));
-      buf.write(' ');
+      markdownBuf.write(getEmojiChar(block.callout.emoji_id));
+      markdownBuf.write(' ');
     }
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
-      buf.write(this.parseBlock(child, 0));
+      markdownBuf.write(this.parseBlock(child, 0));
     });
+
+    let html = marked.parse(markdownBuf.toString());
+
+    buf.write(html);
     buf.write('</div>\n');
 
     return buf.toString();
@@ -552,5 +564,10 @@ export class MarkdownRenderer extends Renderer {
     buf.write(JSON.stringify(block, null, 2));
     buf.write('\n```\n');
     return buf.toString();
+  }
+
+  markdownToHTML(markdown: string): string {
+    let html = marked.parse(markdown);
+    return html;
   }
 }
