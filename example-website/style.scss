@@ -91,3 +91,7 @@ ol {
 .grid {
   margin: 1.5em 0;
 }
+
+iframe {
+  @apply w-full aspect-video;
+}
