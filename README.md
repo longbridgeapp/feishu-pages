@@ -2,6 +2,8 @@
 
 导出飞书知识库，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
 
+借用飞书文档较好的撰写能力，让不懂 Markdown 和 Git 的非技术人员可以轻松撰写文档，并也最终以静态页面生成的方式来部署文档。这样我们依然可以继续保持 CI 流程和 GitHub PR 的方式来 Review 文档变更。
+
 ## Features
 
 - [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（目前只支持 Markdown）
