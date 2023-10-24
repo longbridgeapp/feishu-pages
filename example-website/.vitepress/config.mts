@@ -57,6 +57,10 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       {
+        text: 'Feishu Wiki',
+        link: 'https://longbridge.feishu.cn/wiki/space/7273324757679325186',
+      },
+      {
         text: 'Releases',
         link: 'https://github.com/longbridgeapp/feishu-pages/releases',
       },

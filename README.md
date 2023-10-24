@@ -1,16 +1,58 @@
 # Feishu Pages
 
-导出飞书知识库，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
+导出**飞书知识库**，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
 
 借用飞书文档较好的撰写能力，让不懂 Markdown 和 Git 的非技术人员可以轻松撰写文档，并也最终以静态页面生成的方式来部署文档。这样我们依然可以继续保持 CI 流程和 GitHub PR 的方式来 Review 文档变更。
 
+> 可以访问此文档的 [原始飞书知识库](https://longbridge.feishu.cn/wiki/space/7273324757679325186) 对比看一下。
+
 ## Features
 
-- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（目前只支持 Markdown）
-- 目录结构组织
-- 图片下载
+- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（_目前只支持 Markdown_）
+- 目录结构组织，与 URL 路径自定义
+- 图片、附件下载
+- 国际化支持
 - 与 GitHub Actions 结合
-- 生成支持 [Docusaurus](https://docusaurus.io) 支持的 Markdown 格式，以实现目录结构组织（基于 `sidebar_position`）
+- 生成支持 [Docusaurus](https://docusaurus.io/) 支持的 MDX 格式的 Meta 信息，以实现目录结构组织（基于 `sidebar_position`）
+
+## Prepare
+
+> 📌 在开始使用之前，必须先完成飞书开放平台的配置工作，获得一些必要的信息，和配置必要的权限，请认证阅读完此页再继续。
+
+### **创建飞书应用并开通权限**
+
+1. 请访问 [https://open.feishu.cn/app](https://open.feishu.cn/app) 创建一个新应用，并获得：
+
+   - ` App ``ID `
+   - `App Secret` - 请注意保管 App Secret，不要泄露到互联网。
+
+2. 为应用开启 `机器人` 应用能力。
+3. 为应用开启 `docx:document:readonly` 和 `wiki:wiki:readonly` 权限。
+4. 将应用发布正式版本，并确保审批通过。
+5. 在飞书 IM 中创建新群 `Feishu Pages`，将应用添加为该群机器人，知识库管理员在「知识空间设置」-> 「权限设置」->「添加管理员」中添加，把这个 `Feishu Pages` 群加成 **管理员**。
+   - 否则会遇到 `permission denied: wiki space permission denied` 错误。 [ref](https://open.feishu.cn/document/server-docs/docs/wiki-v2/wiki-qa)
+
+## **Feishu Permissions**
+
+你的飞书应用需要开通下面几个权限，工具通过飞书 API 访问必须要这几项。
+
+- `docx:document:readonly`
+- `wiki:wiki:readonly`
+- `drive:drive:readonly`
+
+### **获取飞书知识库 \*\***space_id\*\*
+
+我们需要配置 `FEISHU_SPACE_ID` 的环境变量，这个为飞书知识库的 `space_id`，你可以访问知识库设置界面，从 URL 中获取。
+
+例如：`https://your-company.feishu.cn/wiki/settings/6992046856314306562` 这里面 `6992046856314306562` 为 `space_id`。
+
+### **环境变量配置**
+
+Feishu Pages 支持 `.env` 文件，如果执行的根目录有个 `.env` 文件，将会自动读取。
+
+> 请参考 `.env.default` 配置环境变量。
+
+如需在 GitHub Actions 的 CI 流程里面使用，建议添加到 Secrets 中，再通过环境变量的方式获取。
 
 ## Installation
 
@@ -27,13 +69,11 @@ yarn add feishu-pages
 
 在运行此命令之前，必须先完成飞书开放平台的配置工作，获得一些必要的信息，和配置必要的权限，请继续阅读完此页再继续。
 
-## Feishu Permissions
-
-- `docx:document:readonly`
-- `wiki:wiki:readonly`
-- `drive:drive:readonly`
-
 ## Configuration
+
+我们可以通过环境变量（ENV）来配置 feishu-pages 需要的必要参数，这样你可以轻易在 GitHub Actions 之类的流程中使用 feishu-pages。
+
+> 如果你想简单一些，也可以用 `.env` 文件来配置环境变量，注意避免 `FEISHU_APP_SECRET` 泄露到互联网。
 
 | Name                | Description                                    | Required | Default  |
 | ------------------- | ---------------------------------------------- | -------- | -------- |
@@ -45,35 +85,9 @@ yarn add feishu-pages
 
 ## Usage
 
-### 创建飞书应用并开通权限
-
-1. 请访问 https://open.feishu.cn/app 创建一个新应用，并获得：
-
-   - `App ID`
-   - `App Secret` - 请注意保管 App Secret，不要泄露到互联网。
-
-2. 为应用开启 `机器人` 应用能力。
-3. 为应用开启 `docx:document:readonly` 和 `wiki:wiki:readonly` 权限。
-4. 将应用发布正式版本，并确保审批通过。
-5. 在飞书 IM 中创建新群 `Feishu Pages`，将应用添加为该群机器人，知识库管理员在「知识空间设置」-> 「权限设置」->「添加管理员」中添加，把这个 `Feishu Pages` 群加成 **管理员**。
-
-   - 否则会遇到 `permission denied: wiki space permission denied` 错误。 [ref](https://open.feishu.cn/document/server-docs/docs/wiki-v2/wiki-qa)
-
-### 获取飞书知识库 `space_id`
-
-我们需要配置 `FEISHU_SPACE_ID` 的环境变量，这个为飞书知识库的 `space_id`，你可以访问知识库设置界面，从 URL 中获取。
-
-例如：`https://your-company.feishu.cn/wiki/settings/6992046856314306562` 这里面 `6992046856314306562` 为 `space_id`。
-
-### 环境变量配置
-
-Feishu Pages 支持 `.env` 文件，如果执行的根目录有个 `.env` 文件，将会自动读取。
-
-请参考 `.env.default` 配置环境变量。
-
-如需在 GitHub Actions 的 CI 流程里面使用，建议添加到 Secrets 中，再通过环境变量的方式获取。
-
 ### 从知识库导出 Markdown 文档
+
+当你撰写完成文档以后，可以通过 `yarn feishu-pages` 命令来实现导出，这个命令作用是通过飞书 API 访问你 `FEISHU_SPACE_ID` 对应的知识库，并依次将所有文档导出，并转换为 Markdown 文件。
 
 ```bash
 cd your-project/
@@ -81,6 +95,10 @@ yarn feishu-pages
 ```
 
 按上面默认的配置，最终会在 `./dist` 目录下生成 Markdown 文件以及导出的图片文件，如果你期望调整目录，可以自己设置 `OUTPUT_DIR` 环境变量。
+
+> 💡 文档内 [Page Mata](https://longbridgeapp.github.io/feishu-pages/zh-CN/page-meta) 标识为 `hide: true` 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。
+>
+> 所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 `slug` 来整理文件夹和文件名。
 
 ## GitHub Actions 集成
 
