@@ -27,47 +27,61 @@ ol {
   border-radius: 5px;
   font-size: 1em;
 
-  &-bg-1 {
+  &-bg-1,
+  &-bg-8 {
     @apply bg-red-50 dark:bg-red-950;
   }
-  &-bg-2 {
+  &-bg-2,
+  &-bg-9 {
     @apply bg-orange-50 dark:bg-orange-950;
   }
-  &-bg-3 {
+  &-bg-3,
+  &-bg-10 {
     @apply bg-yellow-50 dark:bg-yellow-950;
   }
-  &-bg-4 {
+  &-bg-4,
+  &-bg-11 {
     @apply bg-green-50 dark:bg-green-950;
   }
-  &-bg-5 {
+  &-bg-5,
+  &-bg-12 {
     @apply bg-blue-50 dark:bg-blue-950;
   }
-  &-bg-6 {
+  &-bg-6,
+  &-bg-13 {
     @apply bg-purple-50 dark:bg-purple-950;
   }
-  &-bg-7 {
+  &-bg-7,
+  &-bg-14 {
     @apply bg-gray-50 dark:bg-gray-950;
   }
 
-  &-border-1 {
+  &-border-1,
+  &-border-8 {
     @apply border-red-200 dark:border-red-800;
   }
-  &-border-2 {
+  &-border-2,
+  &-border-9 {
     @apply border-orange-200 dark:border-orange-800;
   }
-  &-border-3 {
+  &-border-3,
+  &-border-10 {
     @apply border-yellow-200 dark:border-yellow-800;
   }
-  &-border-4 {
+  &-border-4,
+  &-border-11 {
     @apply border-green-200 dark:border-green-800;
   }
-  &-border-5 {
+  &-border-5,
+  &-border-12 {
     @apply border-blue-200 dark:border-blue-800;
   }
-  &-border-6 {
+  &-border-6,
+  &-border-13 {
     @apply border-purple-200 dark:border-purple-800;
   }
-  &-border-7 {
+  &-border-7,
+  &-border-14 {
     @apply border-gray-200 dark:border-gray-800;
   }
 
