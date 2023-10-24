@@ -2,6 +2,8 @@
 
 Convert Feishu Docx into other formats (Markdown, HTML ...)
 
+Visit [https://github.com/longbridgeapp/feishu-pages](https://github.com/longbridgeapp/feishu-pages) to learn more.
+
 ## Installation
 
 ```bash
