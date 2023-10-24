@@ -880,6 +880,7 @@ export const EMOJIS = {
   lips: '👄',
   kiss: '💋',
   cupid: '💘',
+  heart: '❤️',
   heartbeat: '💓',
   broken_heart: '💔',
   two_hearts: '💕',
