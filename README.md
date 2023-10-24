@@ -25,6 +25,8 @@ yarn add feishu-pages
 
 然后你就可以执行 `yarn feishu-pages` 来生成页面了。
 
+在运行此命令之前，必须先完成飞书开放平台的配置工作，获得一些必要的信息，和配置必要的权限，请继续阅读完此页再继续。
+
 ## Feishu Permissions
 
 - `docx:document:readonly`
