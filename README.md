@@ -23,7 +23,7 @@
 
 1. 请访问 [https://open.feishu.cn/app](https://open.feishu.cn/app) 创建一个新应用，并获得：
 
-   - ` App ``ID `
+   - `App ID`
    - `App Secret` - 请注意保管 App Secret，不要泄露到互联网。
 
 2. 为应用开启 `机器人` 应用能力。
