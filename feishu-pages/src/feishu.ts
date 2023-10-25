@@ -11,7 +11,12 @@ export const OUTPUT_DIR: string = path.resolve(
   process.env.OUTPUT_DIR || './dist'
 );
 export const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
-export const URL_PREFIX: string = process.env.URL_PREFIX || '/';
+
+let baseUrl = process.env.BASE_URL || process.env.URL_PREFIX || '/';
+if (!baseUrl.endsWith('/')) {
+  baseUrl += '/';
+}
+export const BASE_URL: string = baseUrl;
 export const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
 export const CACHE_DIR = path.resolve(
   process.env.CACHE_DIR || path.join(OUTPUT_DIR, '.cache')

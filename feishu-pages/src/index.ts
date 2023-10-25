@@ -4,10 +4,10 @@ import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFileMeta } from './doc';
 import {
+  BASE_URL,
   DOCS_DIR,
   OUTPUT_DIR,
   ROOT_NODE_TOKEN,
-  URL_PREFIX,
   feishuConfig,
   feishuDownload,
   fetchTenantAccessToken,
@@ -89,7 +89,7 @@ const fetchDocAndWriteFile = async (
     for (const node_token in slugMap) {
       // Replace Markdown link and HTML link
       const re = new RegExp(`${node_token}`, 'gm');
-      const newLink = `${URL_PREFIX}${slugMap[node_token]}`;
+      const newLink = `${BASE_URL}${slugMap[node_token]}`;
       content = content.replace(re, newLink);
     }
 
