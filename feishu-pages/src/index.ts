@@ -73,6 +73,12 @@ const fetchDocAndWriteFile = async (
 
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
+
+    // Ignore the meta.hide == true
+    if (doc.meta?.hide) {
+      continue;
+    }
+
     let filename = path.join(outputDir, doc.filename);
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
