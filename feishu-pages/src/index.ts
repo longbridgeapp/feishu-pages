@@ -81,8 +81,10 @@ const fetchDocAndWriteFile = async (
 
     // TODO: Replace link's node_token into slug
     for (const node_token in slugMap) {
-      const re = new RegExp(`\\]\\(${node_token}\\)`, 'gm');
-      content = content.replace(re, `](${URL_PREFIX}${slugMap[node_token]})`);
+      // Replace Markdown link and HTML link
+      const re = new RegExp(`${node_token}`, 'gm');
+      const newLink = `${URL_PREFIX}${slugMap[node_token]}`;
+      content = content.replace(re, newLink);
     }
 
     const metaInfo = generateFileMeta(doc, doc.slug, doc.position);
