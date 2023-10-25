@@ -41,6 +41,8 @@ export enum BlockType {
   TableCell = 32,
   View = 33,
   QuoteContainer = 34,
+  // 同步块
+  SyncedBlock = 999,
 }
 
 export enum StyleAlign {

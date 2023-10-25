@@ -137,6 +137,9 @@ export class MarkdownRenderer extends Renderer {
       case BlockType.Iframe:
         buf.write(this.parseIframe(block));
         break;
+      case BlockType.SyncedBlock:
+        buf.write(this.parseSyncedBlock(block));
+        break;
       default:
         buf.write(this.parseUnsupport(block));
         break;
@@ -549,6 +552,17 @@ export class MarkdownRenderer extends Renderer {
     el.setAttribute('src', decodeURIComponent(block.iframe.component.url));
     buf.write(el.outerHTML);
     buf.write('\n');
+    return buf.toString();
+  }
+
+  parseSyncedBlock(block: Block) {
+    const buf = new Buffer();
+
+    block.children?.forEach((childId) => {
+      const child = this.blockMap[childId];
+      buf.write(this.parseBlock(child, 0));
+    });
+
     return buf.toString();
   }
 
