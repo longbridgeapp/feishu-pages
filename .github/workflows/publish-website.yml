@@ -9,7 +9,7 @@ permissions:
   id-token: write
 jobs:
   feishu-pages:
-    name: Publish Docs
+    name: Publish Website
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
