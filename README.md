@@ -83,7 +83,7 @@ yarn add feishu-pages
 | `FEISHU_SPACE_ID`   | 飞书知识库 ID                                                    | YES      |                        |
 | `OUTPUT_DIR`        | 输出目录                                                         | NO       | `./dist`               |
 | `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。                   | NO       |                        |
-| `URL_PREFIX`        | 自定义文档里面相关文档输出的 URL 前缀，例如：`/docs`，默认为 `/` | NO       | `/`                    |
+| `URL_PREFIX`        | 自定义文档里面相关文档输出的 URL 前缀，例如：`/docs/`，默认为 `/` | NO       | `/`                    |
 
 ## Usage
 
