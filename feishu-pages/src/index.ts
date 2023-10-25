@@ -115,6 +115,10 @@ const downloadFiles = async (
       fileToken,
       path.join(path.join(docFolder, 'assets'), fileToken)
     );
+    if (!filePath) {
+      continue;
+    }
+
     const extension = path.extname(filePath);
 
     const re = new RegExp(`${fileToken}`, 'gm');

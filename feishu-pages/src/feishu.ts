@@ -199,6 +199,9 @@ export const feishuFetch = async (method, path, payload): Promise<any> => {
 
 /**
  * Download Feishu File into a Local path
+ *
+ * If download failed, return null
+ *
  * @param fileToken
  * @param localPath
  * @returns
@@ -236,6 +239,10 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
         const { message } = err;
         console.error(' -> Failed to download image:', fileToken, message);
       });
+  }
+
+  if (!res) {
+    return null;
   }
 
   if (res.data) {
