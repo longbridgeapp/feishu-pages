@@ -7,6 +7,7 @@ import {
   DOCS_DIR,
   OUTPUT_DIR,
   ROOT_NODE_TOKEN,
+  URL_PREFIX,
   feishuConfig,
   feishuDownload,
   fetchTenantAccessToken,
@@ -81,7 +82,7 @@ const fetchDocAndWriteFile = async (
     // TODO: Replace link's node_token into slug
     for (const node_token in slugMap) {
       const re = new RegExp(`\\]\\(${node_token}\\)`, 'gm');
-      content = content.replace(re, `](${slugMap[node_token]})`);
+      content = content.replace(re, `](${URL_PREFIX}${slugMap[node_token]})`);
     }
 
     const metaInfo = generateFileMeta(doc, doc.slug, doc.position);
@@ -105,6 +106,14 @@ const fetchDocAndWriteFile = async (
   }
 };
 
+/**
+ * This alwasy download assets into ./assets into the docFolder (same folder as the doc).
+ *
+ * @param content
+ * @param fileTokens
+ * @param docFolder
+ * @returns
+ */
 const downloadFiles = async (
   content: string,
   fileTokens: Record<string, FileToken>,

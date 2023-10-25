@@ -11,6 +11,7 @@ export const OUTPUT_DIR: string = path.resolve(
   process.env.OUTPUT_DIR || './dist'
 );
 export const DOCS_DIR: string = path.join(OUTPUT_DIR, 'docs');
+export const URL_PREFIX: string = process.env.URL_PREFIX || '/';
 export const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
 export const CACHE_DIR = path.resolve(
   process.env.CACHE_DIR || path.join(OUTPUT_DIR, '.cache')
