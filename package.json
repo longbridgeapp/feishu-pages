@@ -4,7 +4,7 @@
   "workspaces": [
     "feishu-docx",
     "feishu-pages",
-    "example-website"
+    "website"
   ],
   "scripts": {
     "build": "yarn workspace feishu-docx build",

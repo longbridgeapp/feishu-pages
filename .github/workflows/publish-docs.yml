@@ -9,7 +9,7 @@ permissions:
   id-token: write
 jobs:
   feishu-pages:
-    name: Feishu Pages Export
+    name: Publish Docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,17 +22,17 @@ jobs:
         uses: longbridgeapp/feishu-pages@main
       - name: Build Pages
         run: |
-          cp -r dist/docs/* example-website/docs/
-          cp dist/docs.json example-website/
+          cp -r dist/docs/* website/docs/
+          cp dist/docs.json website/
           yarn
-          yarn workspace example-website build
-          yarn autocorrect --fix example-website/
+          yarn workspace website build
+          yarn autocorrect --fix website/
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './example-website/.vitepress/dist'
+          path: './website/.vitepress/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2

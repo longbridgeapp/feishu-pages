@@ -107,7 +107,7 @@ yarn feishu-pages
 
 > NOTE: 你需要用到 VitePress 或 Docusaurus 之类的文档工具，这里假设他们在项目根目录有 `yarn build` 命令可以将 `docs` 文件夹的 Markdown 文件生成为静态网站。
 >
-> 具体可以参考：https://github.com/longbridgeapp/feishu-pages/tree/main/example-website
+> 具体可以参考：https://github.com/longbridgeapp/feishu-pages/tree/main/website
 
 ```yml
 on:
@@ -142,7 +142,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './example-website/.vitepress/dist'
+          path: './website/.vitepress/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2

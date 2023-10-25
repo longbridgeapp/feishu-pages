@@ -5,5 +5,5 @@ node_modules/
 .DS_Store
 **/*/.vitepress/cache
 .cache/
-example-website/docs/**/*
-!example-website/docs/index.md
+website/docs/**/*
+!website/docs/index.md
