@@ -42,12 +42,48 @@ import { fetchAllDocs } from './wiki';
   const summary = generateSummary(docs as FileDoc[]);
   fs.writeFileSync(path.join(DOCS_DIR, 'SUMMARY.md'), summary);
 
+  // Omit hide docs
+  cleanupDocsForJSON(docs as FileDoc[]);
+
   // Write docs.json
   fs.writeFileSync(
     path.join(OUTPUT_DIR, 'docs.json'),
     JSON.stringify(docs, null, 2)
   );
 })();
+
+const allowKeys = [
+  'depth',
+  'title',
+  'slug',
+  'filename',
+  'node_token',
+  'parent_node_token',
+  'children',
+  'obj_create_time',
+  'obj_edit_time',
+  'obj_token',
+  'has_child',
+  'meta',
+  'position',
+];
+const cleanupDocsForJSON = (docs: FileDoc[]) => {
+  for (let idx = 0; idx < docs.length; idx++) {
+    const doc = docs[idx];
+
+    Object.keys(doc).forEach((key) => {
+      if (!allowKeys.includes(key)) {
+        delete doc[key];
+      }
+    });
+
+    if (doc.meta?.hide) {
+      docs.splice(idx, 1);
+    }
+
+    cleanupDocsForJSON(doc.children);
+  }
+};
 
 const fetchDocBodies = async (docs: FileDoc[]) => {
   for (let idx = 0; idx < docs.length; idx++) {
@@ -74,7 +110,7 @@ const fetchDocAndWriteFile = async (
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
 
-    // Ignore the meta.hide == true
+    // Skip write the hide doc
     if (doc.meta?.hide) {
       continue;
     }
