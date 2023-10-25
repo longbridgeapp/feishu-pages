@@ -501,7 +501,7 @@ export class MarkdownRenderer extends Renderer {
       const child = this.blockMap[childId];
       innerBuf.write(this.parseBlock(child, 0));
     });
-    buf.write(marked.parse(innerBuf.toString()));
+    buf.write(this.markdownToHTML(innerBuf.toString()));
     buf.write('</div>\n');
 
     return buf.toString();
@@ -550,7 +550,7 @@ export class MarkdownRenderer extends Renderer {
       markdownBuf.write(this.parseBlock(child, 0));
     });
 
-    let html = marked.parse(markdownBuf.toString());
+    let html = this.markdownToHTML(markdownBuf.toString());
 
     buf.write(html);
     buf.write('</div>\n');
@@ -597,7 +597,7 @@ export class MarkdownRenderer extends Renderer {
   }
 
   markdownToHTML(markdown: string): string {
-    let html = marked.parse(markdown);
+    let html = marked.parse(markdown, { gfm: true, breaks: true });
     return html;
   }
 }
