@@ -20,7 +20,7 @@ jobs:
           FEISHU_SPACE_ID: '7273324757679325186'
           OUTPUT_DIR: ./dist
         uses: longbridgeapp/feishu-pages@main
-      - name: Build Pages
+      - name: Build Website
         run: |
           cp -r dist/docs/* website/docs/
           cp dist/docs.json website/

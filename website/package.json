@@ -1,8 +1,9 @@
 {
-  "name": "feishu-pages-website",
+  "name": "website",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Jason Lee",
+  "private": true,
   "license": "MIT",
   "scripts": {
     "dev": "vitepress dev",
