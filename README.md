@@ -75,14 +75,14 @@ yarn add feishu-pages
 
 > 如果你想简单一些，也可以用 `.env` 文件来配置环境变量，注意避免 `FEISHU_APP_SECRET` 泄露到互联网。
 
-| Name                | Description                                                      | Required | Default                |
-| ------------------- | ---------------------------------------------------------------- | -------- | ---------------------- |
-| `FEISHU_ENDPOINT`   | 飞书 API 节点，如用 LarkSuite 可以通过这个配置 API 地址          | NO       | https://open.feishu.cn |
-| `FEISHU_APP_ID`     | 飞书应用 ID                                                      | YES      |                        |
-| `FEISHU_APP_SECRET` | 飞书应用 Secret                                                  | YES      |                        |
-| `FEISHU_SPACE_ID`   | 飞书知识库 ID                                                    | YES      |                        |
-| `OUTPUT_DIR`        | 输出目录                                                         | NO       | `./dist`               |
-| `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。                   | NO       |                        |
+| Name                | Description                                                       | Required | Default                |
+| ------------------- | ----------------------------------------------------------------- | -------- | ---------------------- |
+| `FEISHU_ENDPOINT`   | 飞书 API 节点，如用 LarkSuite 可以通过这个配置 API 地址           | NO       | https://open.feishu.cn |
+| `FEISHU_APP_ID`     | 飞书应用 ID                                                       | YES      |                        |
+| `FEISHU_APP_SECRET` | 飞书应用 Secret                                                   | YES      |                        |
+| `FEISHU_SPACE_ID`   | 飞书知识库 ID                                                     | YES      |                        |
+| `OUTPUT_DIR`        | 输出目录                                                          | NO       | `./dist`               |
+| `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。                    | NO       |                        |
 | `URL_PREFIX`        | 自定义文档里面相关文档输出的 URL 前缀，例如：`/docs/`，默认为 `/` | NO       | `/`                    |
 
 ## Usage
@@ -115,22 +115,27 @@ on:
   push:
     branches:
       - main
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
   feishu-pages:
     name: Feishu Pages Export
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: dist/.cache
+          key: cache-dist
       - name: Exporting
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_SPACE_ID: ${{ secrets.FEISHU_SPACE_ID }}
-          OUTPUT_DIR: ./dist
         uses: longbridgeapp/feishu-pages@main
       - name: Build Pages
         run: |
