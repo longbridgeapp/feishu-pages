@@ -17,7 +17,7 @@ export const CACHE_DIR = path.resolve(
 );
 
 const feishuConfig = {
-  endpoint: 'https://open.feishu.cn',
+  endpoint: process.env.FEISHU_ENDPOINT || 'https://open.feishu.cn',
   /**
    * App Id of Feishu App
    *
