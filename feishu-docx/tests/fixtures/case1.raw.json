@@ -8,6 +8,7 @@
     {
       "block_id": "WEFTdH2V8oknhIxNN9Icdhppngf",
       "children": [
+        "MEywdU0N6oUGmlxeX9TcfzUNnTb",
         "doxcnh7GoIAYqz7bQHsHBgnWWwL",
         "doxcn3CPtIkTE892EtRvfSlndPf",
         "doxcnHVBe4nponRGwQ5rBoBwt4e",
@@ -165,6 +166,31 @@
         ]
       },
       "divider": {}
+    },
+    {
+      "block_id": "MEywdU0N6oUGmlxeX9TcfzUNnTb",
+      "block_type": 14,
+      "code": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "slug: test-slug",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "language": 67,
+          "wrap": false
+        }
+      },
+      "parent_id": "WEFTdH2V8oknhIxNN9Icdhppngf"
     },
     {
       "block_id": "doxcnh7GoIAYqz7bQHsHBgnWWwL",

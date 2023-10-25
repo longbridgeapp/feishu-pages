@@ -32,6 +32,17 @@ describe('MarkdownRenderer', () => {
     });
   });
 
+  test('pageMeta', () => {
+    let render = new MarkdownRenderer(fixtureJSON(`case1.raw.json`));
+    render.parse();
+    assert.equal(render.meta?.slug, 'test-slug');
+
+    render = new MarkdownRenderer(fixtureJSON(`case3.raw.json`));
+    render.parse();
+    assert.equal(render.meta?.slug, 'gettting-started');
+    assert.equal(render.meta?.keywords, 'feishu-pages, feishu-docx');
+  });
+
   test('fileTokens', () => {
     const doc = fixtureJSON(`case3.raw.json`);
 
@@ -52,8 +63,6 @@ describe('MarkdownRenderer', () => {
       token: 'TVEyb1pmWo8oIwxyL3kcIfrrnGd',
       type: 'file',
     });
-    assert.equal(render.meta?.slug, 'gettting-started');
-    assert.equal(render.meta?.keywords, 'feishu-pages, feishu-docx');
   });
 
   test('parse unsupport', () => {

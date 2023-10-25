@@ -5,6 +5,7 @@ import { createElement } from './dom';
 import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
 
+import { Renderer, trimLastNewline } from './renderer';
 import {
   Block,
   BlockType,
@@ -12,14 +13,12 @@ import {
   CalloutBorderColorMap,
   FontColorMap,
   ImageBlock,
-  Renderer,
   TableBlock,
   TextBlock,
   TextElement,
   TextRun,
   getAlignStyle,
   getCodeLanguage,
-  trimLastNewline,
 } from './types';
 
 /**
@@ -148,8 +147,26 @@ export class MarkdownRenderer extends Renderer {
     return buf.toString();
   }
 
-  // This will iter root block and find first code block
+  /**
+   * Parse this first block as PageMeta
+   *
+   * Return false if not found first code block.
+   * Otherwise return true if parsed as YAML, false if not YAML.
+   *
+   * https://longbridgeapp.github.io/feishu-pages/zh-CN/page-meta
+   *
+   * @param block
+   * @returns
+   */
   parsePageMeta(block: Block) {
+    if (block?.block_type !== BlockType.Code) {
+      if (block.children?.length > 0) {
+        return this.parsePageMeta(this.blockMap[block.children[0]]);
+      } else {
+        return false;
+      }
+    }
+
     // Only support YAML
     if (block?.code?.style?.language !== CodeLanguage.YAML) {
       return false;
@@ -185,10 +202,9 @@ export class MarkdownRenderer extends Renderer {
       const child = this.blockMap[childId];
       this.nextBlock = this.blockMap[block.children[idx + 1]];
 
-      // Extract Meta from first code block
-      if (child?.block_type == BlockType.Code && idx == 0) {
-        let meta = this.parsePageMeta(child);
-        if (meta) {
+      // Extract PageMeta from first code block
+      if (idx == 0) {
+        if (this.parsePageMeta(child)) {
           return;
         }
       }
