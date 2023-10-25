@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: dist/.cache
+          key: cache-dist
+
       - name: Exporting
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
