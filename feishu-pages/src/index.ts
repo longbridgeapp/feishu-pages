@@ -13,7 +13,7 @@ import {
   fetchTenantAccessToken,
 } from './feishu';
 import { FileDoc, generateSummary, prepareDocSlugs } from './summary';
-import { humanizeFileSize } from './utils';
+import { humanizeFileSize, cleanupDocsForJSON } from './utils';
 import { fetchAllDocs } from './wiki';
 
 // App entry
@@ -52,38 +52,6 @@ import { fetchAllDocs } from './wiki';
   );
 })();
 
-const allowKeys = [
-  'depth',
-  'title',
-  'slug',
-  'filename',
-  'node_token',
-  'parent_node_token',
-  'children',
-  'obj_create_time',
-  'obj_edit_time',
-  'obj_token',
-  'has_child',
-  'meta',
-  'position',
-];
-const cleanupDocsForJSON = (docs: FileDoc[]) => {
-  for (let idx = 0; idx < docs.length; idx++) {
-    const doc = docs[idx];
-
-    Object.keys(doc).forEach((key) => {
-      if (!allowKeys.includes(key)) {
-        delete doc[key];
-      }
-    });
-
-    if (doc.meta?.hide) {
-      docs.splice(idx, 1);
-    }
-
-    cleanupDocsForJSON(doc.children);
-  }
-};
 
 const fetchDocBodies = async (docs: FileDoc[]) => {
   for (let idx = 0; idx < docs.length; idx++) {
