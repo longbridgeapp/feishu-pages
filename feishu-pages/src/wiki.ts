@@ -25,7 +25,7 @@ export const fetchAllDocs = async (
     }
   );
 
-  const docs: Doc[] = [];
+  let docs: Doc[] = [];
 
   items
     .filter((item) => item.obj_type == 'doc' || item.obj_type == 'docx')
@@ -44,6 +44,12 @@ export const fetchAllDocs = async (
 
       docs.push(doc);
     });
+
+  // Ignore title `[hide]` or `[隐藏]`
+  docs = docs.filter((doc) => {
+    let title = doc.title.toLocaleLowerCase();
+    return !title.includes('[hide]') && !title.includes('[隐藏]');
+  });
 
   console.info(
     prefix + 'node:',

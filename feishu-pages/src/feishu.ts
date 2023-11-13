@@ -165,8 +165,6 @@ axios.interceptors.response.use(
       return await axios.request(error.config);
     }
 
-    console.error('fetch error:', error);
-
     throw error;
   }
 );
