@@ -60,6 +60,7 @@
         "XxcIdOlVqos2hexsgEFcmjMfnEe",
         "doxcnP6QMnaWlJ6TAPfIprc09na",
         "SAeTdzWccoP0p5xhzndcPM7SnOn",
+        "J7f3dQ42GoH4H1xwtxvcCONinEc",
         "HV3MdieCiobo9OxiBbccB0P4nie",
         "DLCvdPFhFoIGQmxh6OYctEkAnPe",
         "doxcn0jEv7SPSvdT0Pznv2VsrAc"
@@ -3392,6 +3393,190 @@
         ],
         "style": {
           "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "J7f3dQ42GoH4H1xwtxvcCONinEc",
+      "block_type": 24,
+      "children": [
+        "WwGgdVwzyoobMWx7o1OcxI2Tnwd",
+        "IOjbdAW7goNX5NxreSdcKm04nUg"
+      ],
+      "grid": {
+        "column_size": 2
+      },
+      "parent_id": "Fkoed2dB5ofvJbxSmZbcWMBhnQd"
+    },
+    {
+      "block_id": "WwGgdVwzyoobMWx7o1OcxI2Tnwd",
+      "block_type": 25,
+      "children": [
+        "AAlZdrquoo3g5RxqRwfcdUPFnfd",
+        "HceVdxtnZodQB6xCKV9cNLMUnod",
+        "YGhmdmbpeoZnqtxjtfzcBefUnpi"
+      ],
+      "grid_column": {
+        "width_ratio": 49
+      },
+      "parent_id": "J7f3dQ42GoH4H1xwtxvcCONinEc"
+    },
+    {
+      "block_id": "AAlZdrquoo3g5RxqRwfcdUPFnfd",
+      "block_type": 27,
+      "image": {
+        "align": 2,
+        "height": 1480,
+        "token": "SzJmbprNwo5Y7Cx2MzAc7k7dnCt",
+        "width": 2532
+      },
+      "parent_id": "WwGgdVwzyoobMWx7o1OcxI2Tnwd"
+    },
+    {
+      "block_id": "HceVdxtnZodQB6xCKV9cNLMUnod",
+      "block_type": 2,
+      "comment_ids": [
+        "7278362223330754564"
+      ],
+      "parent_id": "WwGgdVwzyoobMWx7o1OcxI2Tnwd",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "欢迎订阅我们的 X（Twitter）",
+              "text_element_style": {
+                "bold": false,
+                "comment_ids": [
+                  "7278362223330754564"
+                ],
+                "inline_code": false,
+                "italic": false,
+                "link": {
+                  "url": "https%3A%2F%2Ftwitter.com%2FWaytoAGI"
+                },
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 2,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "YGhmdmbpeoZnqtxjtfzcBefUnpi",
+      "block_type": 2,
+      "parent_id": "WwGgdVwzyoobMWx7o1OcxI2Tnwd",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "最新知识库精选同步",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 2,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "IOjbdAW7goNX5NxreSdcKm04nUg",
+      "block_type": 25,
+      "children": [
+        "CZzmdlSHGofZjdxxXSicrPkPnSc",
+        "E2sKdYy5dohblHxiHZvc7Favn9g",
+        "LSfedQY7moKtojxmxUxcN2Cznyg"
+      ],
+      "grid_column": {
+        "width_ratio": 49
+      },
+      "parent_id": "J7f3dQ42GoH4H1xwtxvcCONinEc"
+    },
+    {
+      "block_id": "CZzmdlSHGofZjdxxXSicrPkPnSc",
+      "block_type": 27,
+      "image": {
+        "align": 2,
+        "height": 847,
+        "token": "DPH0bRiUuohOKlxHKnCce5SRnMd",
+        "width": 1642
+      },
+      "parent_id": "IOjbdAW7goNX5NxreSdcKm04nUg"
+    },
+    {
+      "block_id": "E2sKdYy5dohblHxiHZvc7Favn9g",
+      "block_type": 2,
+      "parent_id": "IOjbdAW7goNX5NxreSdcKm04nUg",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "通往 AI 绘画之路",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "link": {
+                  "url": "https%3A%2F%2Fwww.xiaohongshu.com%2Fuser%2Fprofile%2F633332ae0000000023038bf6%3Fxhsshare%3DWeixinSession%26appuid%3D574c21775e87e729545ad275%26apptime%3D1692161211"
+                },
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "（小红书）",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 2,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "LSfedQY7moKtojxmxUxcN2Cznyg",
+      "block_type": 2,
+      "parent_id": "IOjbdAW7goNX5NxreSdcKm04nUg",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "专注于 AI 绘画，分享优质设计 Prompt",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 2,
           "folded": false
         }
       }

@@ -109,7 +109,23 @@ yarn feishu-pages
 <iframe src="https://www.bilibili.com/video/BV1L94y1t7Yb/"/>
 
 <div class="callout callout-bg-3 callout-border-3">
-<p>💡 文档内 <a href="J1o5w2l0NiV8tekJvXycfkkengb">Page Mata</a> 标识为 <code>hide: true</code> 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。<br>所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 <code>slug</code> 来整理文件夹和文件名。</p>
+<p>💡 文档内 <a href="J1o5w2l0NiV8tekJvXycfkkengb">Page Mata</a> 标识为 <code>hide: true</code> 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。</p>
+<p>所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 <code>slug</code> 来整理文件夹和文件名。</p>
+</div>
+
+<div class="grid gap-3 grid-cols-2">
+<div>
+<img src="SzJmbprNwo5Y7Cx2MzAc7k7dnCt" src-width="2532" src-height="1480" align="center"/>
+
+<p><a href="https://twitter.com/WaytoAGI">欢迎订阅我们的 X（Twitter）</a></p>
+<p>最新知识库精选同步</p>
+</div>
+<div>
+<img src="DPH0bRiUuohOKlxHKnCce5SRnMd" src-width="1642" src-height="847" align="center"/>
+
+<p><a href="https://www.xiaohongshu.com/user/profile/633332ae0000000023038bf6?xhsshare=WeixinSession&appuid=574c21775e87e729545ad275&apptime=1692161211">通往 AI 绘画之路</a>（小红书）</p>
+<p>专注于 AI 绘画，分享优质设计 Prompt</p>
+</div>
 </div>
 
 ## **License**

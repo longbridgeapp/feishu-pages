@@ -496,12 +496,13 @@ export class MarkdownRenderer extends Renderer {
 
     buf.write(`<div>\n`);
 
-    let innerBuf = new Buffer();
-    block.children?.forEach((childId) => {
-      const child = this.blockMap[childId];
-      innerBuf.write(this.parseBlock(child, 0));
-    });
-    buf.write(this.markdownToHTML(innerBuf.toString()));
+    let inner = block.children
+      ?.map((childId) => {
+        const child = this.blockMap[childId];
+        return this.parseBlock(child, 0);
+      })
+      .join('\n');
+    buf.write(this.markdownToHTML(inner));
     buf.write('</div>\n');
 
     return buf.toString();
@@ -545,10 +546,15 @@ export class MarkdownRenderer extends Renderer {
       markdownBuf.write(getEmojiChar(block.callout.emoji_id));
       markdownBuf.write(' ');
     }
-    block.children?.forEach((childId) => {
-      const child = this.blockMap[childId];
-      markdownBuf.write(this.parseBlock(child, 0));
-    });
+
+    markdownBuf.write(
+      block.children
+        ?.map((childId) => {
+          const child = this.blockMap[childId];
+          return this.parseBlock(child, 0);
+        })
+        .join('\n')
+    );
 
     let html = this.markdownToHTML(markdownBuf.toString());
 
