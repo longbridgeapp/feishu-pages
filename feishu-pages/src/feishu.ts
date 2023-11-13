@@ -148,7 +148,7 @@ axios.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const { headers, data } = error.response;
+    const { headers, data, status } = error.response;
 
     // Rate Limit code: 99991400, delay to retry
     if (data?.code === 99991400) {
@@ -164,6 +164,8 @@ axios.interceptors.response.use(
       await requestWait(rateLimitResetSeconds * 1000);
       return await axios.request(error.config);
     }
+
+    console.error('fetch error:', error);
 
     throw error;
   }
@@ -244,6 +246,14 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
       .catch((err) => {
         const { message } = err;
         console.error(' -> Failed to download image:', fileToken, message);
+        // If status is 403
+        // https://open.feishu.cn/document/server-docs/docs/drive-v1/faq#6e38a6de
+        if (message.includes('403')) {
+          console.error(
+            `无文件下载权限时接口将返回 403 的 HTTP 状态码。\nhttps://open.feishu.cn/document/server-docs/docs/drive-v1/faq#6e38a6de\nhttps://open.feishu.cn/document/server-docs/docs/drive-v1/download/download`
+          );
+          return null;
+        }
       });
   }
 

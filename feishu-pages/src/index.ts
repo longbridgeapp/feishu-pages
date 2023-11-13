@@ -13,7 +13,7 @@ import {
   fetchTenantAccessToken,
 } from './feishu';
 import { FileDoc, generateSummary, prepareDocSlugs } from './summary';
-import { humanizeFileSize, cleanupDocsForJSON } from './utils';
+import { cleanupDocsForJSON, humanizeFileSize } from './utils';
 import { fetchAllDocs } from './wiki';
 
 // App entry
@@ -52,11 +52,10 @@ import { fetchAllDocs } from './wiki';
   );
 })();
 
-
 const fetchDocBodies = async (docs: FileDoc[]) => {
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
-    const { content, fileTokens, meta } = await fetchDocBody(doc.obj_token);
+    const { content, fileTokens, meta } = await fetchDocBody(doc);
 
     doc.content = content;
     doc.meta = meta;

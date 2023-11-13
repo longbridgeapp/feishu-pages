@@ -1,5 +1,7 @@
 import { MarkdownRenderer } from 'feishu-docx';
-import { Doc, feishuFetchWithIterator } from './feishu';
+import fs from 'fs';
+import path from 'path';
+import { CACHE_DIR, Doc, feishuFetchWithIterator } from './feishu';
 
 /**
  * Fetch doc content
@@ -7,8 +9,8 @@ import { Doc, feishuFetchWithIterator } from './feishu';
  * @param document_id doc.obj_token
  * @returns
  */
-export const fetchDocBody = async (document_id: string) => {
-  console.info('Fetching doc: ', document_id, '...');
+export const fetchDocBody = async (fileDoc: Doc) => {
+  let document_id = fileDoc.obj_token;
 
   const doc = {
     document: {
@@ -17,14 +19,38 @@ export const fetchDocBody = async (document_id: string) => {
     blocks: [],
   };
 
-  doc.blocks = await feishuFetchWithIterator(
-    'GET',
-    `/open-apis/docx/v1/documents/${document_id}/blocks`,
-    {
-      page_size: 500,
-      document_revision_id: -1,
+  const fetchDocBlocks = async (document_id: string) => {
+    // Check cache in .cache/docs/${document_id}.json
+    let cacheBlocks = path.join(CACHE_DIR, 'blocks', document_id + '.json');
+    fs.mkdirSync(path.dirname(cacheBlocks), { recursive: true });
+    if (fs.existsSync(cacheBlocks)) {
+      const doc = JSON.parse(fs.readFileSync(cacheBlocks, 'utf-8'));
+      if (doc?.obj_edit_time === fileDoc.obj_edit_time) {
+        console.info('Cache hit doc: ', document_id, '...');
+        return doc.blocks;
+      }
     }
-  );
+
+    console.info('Fetching doc: ', document_id, '...');
+    const blocks = await feishuFetchWithIterator(
+      'GET',
+      `/open-apis/docx/v1/documents/${document_id}/blocks`,
+      {
+        page_size: 500,
+        document_revision_id: -1,
+      }
+    );
+    fs.writeFileSync(
+      cacheBlocks,
+      JSON.stringify({
+        obj_edit_time: fileDoc.obj_edit_time,
+        blocks,
+      })
+    );
+    return blocks;
+  };
+
+  doc.blocks = await fetchDocBlocks(document_id);
 
   const render = new MarkdownRenderer(doc as any);
   const content = render.parse();
