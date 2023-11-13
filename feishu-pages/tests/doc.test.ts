@@ -5,15 +5,15 @@ import { generateFileMeta } from '../src/doc';
 describe('Doc', () => {
   test('generateFileMeta', () => {
     let doc: any = {
-      title: 'hello world',
+      title: 'Docs: "hello world"',
     };
 
     const urlPath = '/hello/world';
     const position = 1;
 
     let expected = `---
-title: hello world
-slug: /hello/world
+title: "Docs: \\"hello world\\""
+slug: "/hello/world"
 sidebar_position: 1
 ---
 `;
@@ -24,7 +24,7 @@ sidebar_position: 1
       title: null,
     };
     expected = `---
-slug: /hello/world
+slug: "/hello/world"
 sidebar_position: 1
 ---
 `;

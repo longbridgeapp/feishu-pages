@@ -13,7 +13,7 @@ import {
   fetchTenantAccessToken,
 } from './feishu';
 import { FileDoc, generateSummary, prepareDocSlugs } from './summary';
-import { cleanupDocsForJSON, humanizeFileSize } from './utils';
+import { cleanupDocsForJSON, humanizeFileSize, replaceLinks } from './utils';
 import { fetchAllDocs } from './wiki';
 
 // App entry
@@ -88,12 +88,15 @@ const fetchDocAndWriteFile = async (
 
     let { content, fileTokens } = doc;
 
-    // TODO: Replace link's node_token into slug
+    // Replace node_token to slug
     for (const node_token in slugMap) {
-      // Replace Markdown link and HTML link
-      const re = new RegExp(`${node_token}`, 'gm');
-      const newLink = `${BASE_URL}${slugMap[node_token]}`;
-      content = content.replace(re, newLink);
+      if (slugMap[node_token]) {
+        content = replaceLinks(
+          content,
+          node_token,
+          `${BASE_URL}${slugMap[node_token]}`
+        );
+      }
     }
 
     const metaInfo = generateFileMeta(doc, doc.slug, doc.position);
@@ -141,8 +144,10 @@ const downloadFiles = async (
 
     const extension = path.extname(filePath);
 
-    const re = new RegExp(`${fileToken}`, 'gm');
-    content = content.replace(re, './assets/' + fileToken + extension);
+    let assetURL = `./assets/${fileToken}${extension}`;
+
+    // Replase Markdown image
+    content = replaceLinks(content, fileToken, assetURL);
   }
 
   return content;

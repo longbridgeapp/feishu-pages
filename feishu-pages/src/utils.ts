@@ -1,4 +1,4 @@
-import { FileDoc } from "./summary";
+import { FileDoc } from './summary';
 
 export const normalizeSlug = (slug: string | number) => {
   // force convert slug into string
@@ -37,19 +37,19 @@ export const humanizeFileSize = (bytes, dp = 1) => {
 };
 
 const allowKeys = [
-  "depth",
-  "title",
-  "slug",
-  "filename",
-  "node_token",
-  "parent_node_token",
-  "children",
-  "obj_create_time",
-  "obj_edit_time",
-  "obj_token",
-  "has_child",
-  "meta",
-  "position"
+  'depth',
+  'title',
+  'slug',
+  'filename',
+  'node_token',
+  'parent_node_token',
+  'children',
+  'obj_create_time',
+  'obj_edit_time',
+  'obj_token',
+  'has_child',
+  'meta',
+  'position',
 ];
 
 export function cleanupDocsForJSON(docs: FileDoc[]) {
@@ -58,7 +58,7 @@ export function cleanupDocsForJSON(docs: FileDoc[]) {
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
 
-    Object.keys(doc).forEach(key => {
+    Object.keys(doc).forEach((key) => {
       if (!allowKeys.includes(key)) {
         delete doc[key];
       }
@@ -77,4 +77,28 @@ export function cleanupDocsForJSON(docs: FileDoc[]) {
   for (let i = nodesToDelete.length - 1; i >= 0; i--) {
     docs.splice(nodesToDelete[i], 1);
   }
+}
+
+export function replaceLinks(
+  content: string,
+  node_token: string,
+  newLink?: string
+): string {
+  if (!newLink) {
+    return content;
+  }
+
+  /*
+    match all
+
+    1 - ]( or src=" or href="
+    2 - https://ywh1bkansf.feishu.cn/wiki/aabbdd
+    3 - node_token
+    4 - ) or "
+  */
+  const re = new RegExp(
+    `(]\\(|src="|href=")(http[s]?:\\\/\\\/[\\w]+\\.(feishu\\.cn|larksuite\.com)\\\/.*)?(${node_token}.*)(\\)|")`,
+    'gm'
+  );
+  return content.replace(re, `$1${newLink}$5`);
 }

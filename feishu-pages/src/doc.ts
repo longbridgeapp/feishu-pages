@@ -82,16 +82,19 @@ export const generateFileMeta = (
     sidebar_position: position,
   };
 
-  // Replace double quote to avoid YAML parse error
-  meta.title = meta.title.replace(/"/g, '\\"');
-
   let output = `---\n`;
   for (const key in meta) {
-    const val = meta[key];
+    let val = meta[key];
     if (val === null || val === undefined) {
       continue;
     }
-    output += `${key}: "${val}"\n`;
+
+    // Replace double quote to avoid YAML parse error
+    if (typeof val === 'string') {
+      val = val.replace(/"/g, '\\"');
+      val = `"${val}"`;
+    }
+    output += `${key}: ${val}\n`;
   }
   output += `---\n`;
 

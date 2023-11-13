@@ -218,7 +218,9 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   fs.mkdirSync(CACHE_DIR, { recursive: true });
 
   let res: any = {};
+  let hasCache = false;
   if (fs.existsSync(cacheFilePath) && fs.existsSync(cacheFileMetaPath)) {
+    hasCache = true;
     res.data = fs.readFileSync(cacheFilePath);
     res.headers = JSON.parse(fs.readFileSync(cacheFileMetaPath, 'utf-8'));
     console.info(' -> Cache hit:', fileToken);
@@ -261,18 +263,22 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
 
   if (res.data) {
     let extension = mime.extension(res.headers['content-type']);
-    console.info(
-      ' =>',
-      res.headers['content-type'],
-      humanizeFileSize(res.data.length)
-    );
+    if (!hasCache) {
+      console.info(
+        ' =>',
+        res.headers['content-type'],
+        humanizeFileSize(res.data.length)
+      );
+    }
 
     if (extension) {
       localPath = localPath + '.' + extension;
     }
     const dir = path.dirname(localPath);
     fs.mkdirSync(dir, { recursive: true });
-    console.info(' -> Writing file:', localPath);
+    if (!hasCache) {
+      console.info(' -> Writing file:', localPath);
+    }
     fs.writeFileSync(localPath, res.data);
   }
 
