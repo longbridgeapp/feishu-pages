@@ -1,9 +1,9 @@
 import { describe, test } from '@jest/globals';
 import assert from 'node:assert';
-import { generateFrontmater } from '../src/doc';
+import { generateFrontmatter } from '../src/doc';
 
 describe('Doc', () => {
-  test('generateFrontmater', () => {
+  test('generateFrontmatter', () => {
     let doc: any = {
       title: 'Docs: "hello world"',
     };
@@ -18,7 +18,7 @@ sidebar_position: 1
 ---
 `;
 
-    assert.equal(generateFrontmater(doc, urlPath, position), expected);
+    assert.equal(generateFrontmatter(doc, urlPath, position), expected);
 
     doc = {
       title: `Docs: 'Test single quote'`,
@@ -30,7 +30,7 @@ slug: /hello/world
 sidebar_position: 1
 ---
 `;
-    assert.equal(generateFrontmater(doc, urlPath, position), expected);
+    assert.equal(generateFrontmatter(doc, urlPath, position), expected);
 
     doc = {
       title: null,
@@ -41,7 +41,7 @@ sidebar_position: 1
 ---
 `;
 
-    assert.equal(generateFrontmater(doc, urlPath, position), expected);
+    assert.equal(generateFrontmatter(doc, urlPath, position), expected);
 
     let doc1 = {
       title: null,
@@ -66,7 +66,7 @@ tools:
 `;
 
     assert.equal(
-      generateFrontmater(
+      generateFrontmatter(
         doc1 as any,
         'https://github.com/foo/bar?dar=A+B&key=#hash1',
         3

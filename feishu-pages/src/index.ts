@@ -2,7 +2,7 @@
 import { FileToken } from 'feishu-docx';
 import fs from 'fs';
 import path from 'path';
-import { fetchDocBody, generateFrontmater } from './doc';
+import { fetchDocBody, generateFrontmatter } from './doc';
 import {
   BASE_URL,
   DOCS_DIR,
@@ -99,7 +99,7 @@ const fetchDocAndWriteFile = async (
       }
     }
 
-    const metaInfo = generateFrontmater(doc, doc.slug, doc.position);
+    const metaInfo = generateFrontmatter(doc, doc.slug, doc.position);
 
     let out = '';
     out += metaInfo + '\n\n';

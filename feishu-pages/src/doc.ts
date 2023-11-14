@@ -66,13 +66,13 @@ export const fetchDocBody = async (fileDoc: Doc) => {
 };
 
 /**
- * Generate a Markdown frontmater.
+ * Generate a Markdown Frontmatter.
  * @param doc
  * @param urlPath
  * @param position
  * @returns
  */
-export const generateFrontmater = (
+export const generateFrontmatter = (
   doc: Doc,
   urlPath: string,
   position: number
