@@ -1,5 +1,6 @@
 import { MarkdownRenderer } from 'feishu-docx';
 import fs from 'fs';
+import yaml from 'js-yaml';
 import path from 'path';
 import { CACHE_DIR, Doc, feishuFetchWithIterator } from './feishu';
 
@@ -65,37 +66,39 @@ export const fetchDocBody = async (fileDoc: Doc) => {
 };
 
 /**
- * Generate a Markdown doc meta for describe sidebar info.
+ * Generate a Markdown frontmater.
  * @param doc
  * @param urlPath
  * @param position
  * @returns
  */
-export const generateFileMeta = (
+export const generateFrontmater = (
   doc: Doc,
   urlPath: string,
   position: number
 ) => {
-  const meta = {
-    title: doc.title,
-    slug: urlPath,
-    sidebar_position: position,
-  };
+  const meta = Object.assign(
+    {
+      title: doc.title,
+      slug: urlPath,
+      sidebar_position: position,
+    },
+    doc.meta || {}
+  );
+
+  // Remove null or undefined key
+  for (const key in meta) {
+    if (meta[key] === undefined || meta[key] === null) {
+      delete meta[key];
+    }
+  }
+
+  let meta_yaml = yaml.dump(meta, {
+    skipInvalid: true,
+  });
 
   let output = `---\n`;
-  for (const key in meta) {
-    let val = meta[key];
-    if (val === null || val === undefined) {
-      continue;
-    }
-
-    // Replace double quote to avoid YAML parse error
-    if (typeof val === 'string') {
-      val = val.replace(/"/g, '\\"');
-      val = `"${val}"`;
-    }
-    output += `${key}: ${val}\n`;
-  }
+  output += meta_yaml;
   output += `---\n`;
 
   return output;
