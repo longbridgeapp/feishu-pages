@@ -1,6 +1,7 @@
 import { CodeLanguage } from 'feishu-docx';
 import YAML from 'js-yaml';
 import { marked } from 'marked';
+import { markedXhtml } from 'marked-xhtml';
 import { createElement } from './dom';
 import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
@@ -20,6 +21,8 @@ import {
   getAlignStyle,
   getCodeLanguage,
 } from './types';
+
+marked.use(markedXhtml());
 
 /**
  * Markdown Renderer

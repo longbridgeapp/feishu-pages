@@ -124,7 +124,7 @@ yarn feishu-pages
 <img src="DPH0bRiUuohOKlxHKnCce5SRnMd" src-width="1642" src-height="847" align="center"/>
 
 <p><a href="https://www.xiaohongshu.com/user/profile/633332ae0000000023038bf6?xhsshare=WeixinSession&appuid=574c21775e87e729545ad275&apptime=1692161211">通往 AI 绘画之路</a>（小红书）</p>
-<p>专注于 AI 绘画，分享优质设计 Prompt</p>
+<p>专注于 AI 绘画，分享优质设计 Prompt<br/>This is new line.</p>
 </div>
 </div>
 

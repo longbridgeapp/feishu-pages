@@ -3564,7 +3564,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "专注于 AI 绘画，分享优质设计 Prompt",
+              "content": "专注于 AI 绘画，分享优质设计 Prompt\nThis is new line.",
               "text_element_style": {
                 "bold": false,
                 "inline_code": false,

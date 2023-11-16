@@ -25,6 +25,7 @@
     "js-yaml": "^4.1.0",
     "jsdom": "^22.1.0",
     "marked": "^9.1.2",
+    "marked-xhtml": "^1.0.7",
     "typescript": "^5.2.2"
   },
   "devDependencies": {

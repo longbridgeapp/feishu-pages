@@ -92,7 +92,7 @@ describe('MarkdownRenderer', () => {
 
     raw = `<div><img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center"></div>\n\n[This is a Link](https://github.com)\nThis is suffix.`;
     result = render.markdownToHTML(raw);
-    expect = `<div><img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center"></div>\n\n<p><a href="https://github.com">This is a Link</a><br>This is suffix.</p>\n`;
+    expect = `<div><img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center"></div>\n\n<p><a href="https://github.com">This is a Link</a><br/>This is suffix.</p>\n`;
     assert.equal(result, expect);
   });
 });
