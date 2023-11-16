@@ -31,7 +31,7 @@ jobs:
           cp -r dist/docs/* website/docs/
           cp dist/docs.json website/
           yarn
-          yarn generate-releases
+          yarn workspace website generate-releases
           yarn workspace website build
           yarn autocorrect --fix website/
       - name: Setup Pages
