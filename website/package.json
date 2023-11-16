@@ -6,17 +6,20 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "vitepress dev",
+    "dev": "yarn generate-releases && vitepress dev",
     "build": "vitepress build",
+    "generate-releases": "node generate-releases.js",
     "preview": "vitepress preview"
   },
   "devDependencies": {
+    "@types/node-fetch": "^2.6.9",
     "autoprefixer": "^10.4.15",
     "postcss": "^8.4.30",
     "sass": "^1.67.0",
     "vitepress": "^1.0.0-rc.10"
   },
   "dependencies": {
+    "node-fetch": "^2",
     "tailwindcss": "^3.3.3"
   }
 }

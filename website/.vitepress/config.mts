@@ -62,7 +62,7 @@ export default defineConfig({
       },
       {
         text: 'Releases',
-        link: 'https://github.com/longbridgeapp/feishu-pages/releases',
+        link: '/releases',
       },
       {
         text: 'GitHub',
