@@ -32,7 +32,7 @@ In Typora, input ‘#’s followed by title content, and press `Return` key will
 
 ### Blockquotes
 
-Markdown uses email-style > characters for block quoting. They are presented as:
+Markdown uses email-style &gt; characters for block quoting. They are presented as:
 
 ```md
 > This is a blockquote with two paragraphs. This is first paragraph.
@@ -44,7 +44,7 @@ Markdown uses email-style > characters for block quoting. They are presented as:
 > This is another blockquote with one paragraph. There is three empty line to seperate two blockquote.
 ```
 
-In Typora, inputting ‘>’ followed by your quote contents will generate a quote block. Typora will insert a proper ‘>’ or line break for you. Nested block quotes (a block quote inside another block quote) by adding additional levels of ‘>’.
+In Typora, inputting ‘&gt;’ followed by your quote contents will generate a quote block. Typora will insert a proper ‘&gt;’ or line break for you. Nested block quotes (a block quote inside another block quote) by adding additional levels of ‘&gt;’.
 
 ### Lists
 
@@ -339,11 +339,11 @@ Underline is powered by raw HTML.
 
 Input emoji with syntax `:smile:`.
 
-User can trigger auto-complete suggestions for emoji by pressing `ESC` key, or trigger it automatically after enabling it on preference panel. Also, inputting UTF-8 emoji characters directly is also supported by going to `Edit` -> `Emoji & Symbols` in the menu bar (macOS).
+User can trigger auto-complete suggestions for emoji by pressing `ESC` key, or trigger it automatically after enabling it on preference panel. Also, inputting UTF-8 emoji characters directly is also supported by going to `Edit` -&gt; `Emoji & Symbols` in the menu bar (macOS).
 
 ### Inline Math
 
-To use this feature, please enable it first in the `Preference` Panel -> `Markdown` Tab. Then, use `$` to wrap a TeX command. For example: `$\lim_{x \to \infty} \exp(-x) = 0$` will be rendered as LaTeX command.
+To use this feature, please enable it first in the `Preference` Panel -&gt; `Markdown` Tab. Then, use `$` to wrap a TeX command. For example: `$\lim_{x \to \infty} \exp(-x) = 0$` will be rendered as LaTeX command.
 
 To trigger inline preview for inline math: input “$”, then press the `ESC` key, then input a TeX command.
 
@@ -351,15 +351,15 @@ You can find more details [here](https://support.typora.io/Math/).
 
 ### Subscript
 
-To use this feature, please enable it first in the `Preference` Panel -> `Markdown` Tab. Then, use `~` to wrap subscript content. For example: `H~2~O`, `X~long\ text~`/
+To use this feature, please enable it first in the `Preference` Panel -&gt; `Markdown` Tab. Then, use `~` to wrap subscript content. For example: `H~2~O`, `X~long\ text~`/
 
 ### Superscript
 
-To use this feature, please enable it first in the `Preference` Panel -> `Markdown` Tab. Then, use `^` to wrap superscript content. For example: `X^2^`.
+To use this feature, please enable it first in the `Preference` Panel -&gt; `Markdown` Tab. Then, use `^` to wrap superscript content. For example: `X^2^`.
 
 ### Highlight
 
-To use this feature, please enable it first in the `Preference` Panel -> `Markdown` Tab. Then, use `==` to wrap highlight content. For example: `==highlight==`.
+To use this feature, please enable it first in the `Preference` Panel -&gt; `Markdown` Tab. Then, use `==` to wrap highlight content. For example: `==highlight==`.
 
 ## HTML
 

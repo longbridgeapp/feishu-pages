@@ -51,7 +51,7 @@ Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 
 将 App ID 和 App Secret 填入配置文件 config.json 中的相应位置。另外，image_dir 配置项为存放文档中图片的文件夹名称。
 
-**下载飞书文档** - 通过 `feishu2md 你的飞书文档链接` 直接下载，文档链接可以通过 分享 > 开启链接分享 > 复制链接 获得。
+**下载飞书文档** - 通过 `feishu2md 你的飞书文档链接` 直接下载，文档链接可以通过 分享 &gt; 开启链接分享 &gt; 复制链接 获得。
 
 <img src="boxcnqt9YDTirkKlTATlQI025Ig" src-width="1538" src-height="488"/>
 

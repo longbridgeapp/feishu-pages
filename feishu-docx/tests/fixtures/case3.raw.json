@@ -3178,7 +3178,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "飞书 API 有总每分钟 100 次请求的",
+              "content": "飞书 API 有总每分钟 <= 100 次请求的",
               "text_element_style": {
                 "bold": false,
                 "inline_code": false,
@@ -3444,7 +3444,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "欢迎订阅我们的 X（Twitter）",
+              "content": "欢迎订阅我们的 X <Twitter>",
               "text_element_style": {
                 "bold": false,
                 "comment_ids": [

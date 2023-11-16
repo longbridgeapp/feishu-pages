@@ -7,6 +7,10 @@ export class Renderer {
   parentId?: string;
   fileTokens: Record<string, FileToken> = {};
   nextBlock?: Block | null;
+  /**
+   * Current Block
+   */
+  currentBlock?: Block | null;
   debug: boolean;
   outputUnsupported: boolean = false;
 
@@ -58,4 +62,31 @@ export class Renderer {
  */
 export const trimLastNewline = (str: string) => {
   return str.replace(/\n$/, '');
+};
+
+/**
+ * Escape HTML tags into HTML entities
+ *
+ * This for avoid Feishu paragraph text has `<` or `>` charactor, will break the HTML structure.
+ * In some Static Site Generator (VitePress, Docusaurus), the used JSX and Vue template, will cause the HTML structure broken.
+ *
+ * - `>` -> `&gt;` (Danger, > in Markdown is used for blockquote)
+ * - `<` -> `&lt;`
+ *
+ * This method must make sure used to escape the Plain Text, not the Markdown Text.
+ *
+ * @param plainText
+ * @returns text with escaped HTML tags
+ */
+export const escapeHTMLTags = (plainText: string) => {
+  return plainText.replace(/<|>/g, (m) => {
+    switch (m) {
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      default:
+        return m;
+    }
+  });
 };

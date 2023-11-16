@@ -70,7 +70,7 @@ yarn add feishu-pages
 2. 为应用开启 `机器人` 应用能力。
 3. 为应用开启 `docx:document:readonly` 和 `wiki:wiki:readonly` 权限。
 4. 将应用发布正式版本，并确保审批通过。
-5. 在飞书 IM 中创建新群 `Feishu Pages`，将应用添加为该群机器人，知识库管理员在「知识空间设置」-> 「权限设置」->「添加管理员」中添加，把这个 `Feishu Pages` 群加成 **管理员**。
+5. 在飞书 IM 中创建新群 `Feishu Pages`，将应用添加为该群机器人，知识库管理员在「知识空间设置」-&gt; 「权限设置」-&gt;「添加管理员」中添加，把这个 `Feishu Pages` 群加成 **管理员**。
     - 否则会遇到 `permission denied: wiki space permission denied` 错误。 [ref](https://open.feishu.cn/document/server-docs/docs/wiki-v2/wiki-qa)
 
 ### **获取飞书知识库 ****space_id**
@@ -102,7 +102,7 @@ yarn feishu-pages
 
 > Error: request trigger frequency limit
 
-飞书 API 有总每分钟 100 次请求的[总频率限制](https://open.feishu.cn/document/ukTMukTMukTM/uUzN04SN3QjL1cDN)，这个项目实现的时候为每个请求之前做了 300ms 的延迟，以避免超过这个频率。如有遇到此类问题，请提交 Issue。
+飞书 API 有总每分钟 &lt;= 100 次请求的[总频率限制](https://open.feishu.cn/document/ukTMukTMukTM/uUzN04SN3QjL1cDN)，这个项目实现的时候为每个请求之前做了 300ms 的延迟，以避免超过这个频率。如有遇到此类问题，请提交 Issue。
 
 ## Iframe
 
@@ -117,7 +117,7 @@ yarn feishu-pages
 <div>
 <img src="SzJmbprNwo5Y7Cx2MzAc7k7dnCt" src-width="2532" src-height="1480" align="center"/>
 
-<p><a href="https://twitter.com/WaytoAGI">欢迎订阅我们的 X（Twitter）</a></p>
+<p><a href="https://twitter.com/WaytoAGI">欢迎订阅我们的 X &lt;Twitter&gt;</a></p>
 <p>最新知识库精选同步</p>
 </div>
 <div>

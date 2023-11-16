@@ -6,7 +6,7 @@ import { createElement } from './dom';
 import { getEmojiChar } from './emoji';
 import { Buffer } from './string_buffer';
 
-import { Renderer, trimLastNewline } from './renderer';
+import { Renderer, escapeHTMLTags, trimLastNewline } from './renderer';
 import {
   Block,
   BlockType,
@@ -41,6 +41,7 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
 
     buf.write(' '.repeat(indent * 4));
+    this.currentBlock = block;
     switch (block.block_type) {
       case BlockType.Page:
         buf.write(this.parsePageBlock(block));
@@ -326,6 +327,7 @@ export class MarkdownRenderer extends Renderer {
     let postWrite = '';
 
     let style = textRun.text_element_style;
+    let escape = true;
     if (style) {
       if (style.bold) {
         buf.write('**');
@@ -342,13 +344,24 @@ export class MarkdownRenderer extends Renderer {
       } else if (style.inline_code) {
         buf.write('`');
         postWrite = '`';
+        escape = false;
       } else if (style.link) {
         const unescapeURL = decodeURIComponent(style.link.url);
         buf.write(`[`);
         postWrite = `](${unescapeURL})`;
       }
     }
-    buf.write(textRun.content || '');
+
+    let plainText = textRun.content || '';
+    // Only escape HTML tags when not in style
+    // For example: `<div>` will keep.
+    //
+    // ignore in CodeBlock
+    if (escape && this.currentBlock?.block_type != BlockType.Code) {
+      plainText = escapeHTMLTags(plainText);
+    }
+
+    buf.write(plainText);
     buf.write(postWrite);
 
     return buf.toString();

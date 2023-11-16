@@ -1,5 +1,11 @@
 export enum BlockType {
+  /**
+   * 文档根节点
+   */
   Page = 1,
+  /**
+   * 段落
+   */
   Text = 2,
   Heading1 = 3,
   Heading2 = 4,
@@ -12,25 +18,44 @@ export enum BlockType {
   Heading9 = 11,
   Bullet = 12,
   Ordered = 13,
+  /**
+   * CodeBlock
+   */
   Code = 14,
   Quote = 15,
-  // 引用文档
+  /**
+   * 引用文档
+   */
   MentionDoc = 16,
-  // 代办事项
+  /**
+   * 代办事项
+   */
   TodoList = 17,
-  // 多维表格
+  /**
+   * 多维表格
+   */
   Bitable = 18,
-  // 高亮块 Block
+  /**
+   * 高亮块 Block
+   */
   Callout = 19,
-  // 群聊卡片
+  /**
+   * 群聊卡片
+   */
   ChatCard = 20,
-  // 流程图/UML Block
+  /**
+   * 流程图/UML Block
+   */
   Diagram = 21,
   Divider = 22,
   File = 23,
-  // 分栏 Block
+  /**
+   * 分栏 Block
+   */
   Grid = 24,
-  // 分栏列 Block
+  /**
+   * 分栏列 Block
+   */
   GridColumn = 25,
   Iframe = 26,
   Image = 27,
@@ -41,7 +66,9 @@ export enum BlockType {
   TableCell = 32,
   View = 33,
   QuoteContainer = 34,
-  // 同步块
+  /**
+   * 同步块
+   */
   SyncedBlock = 999,
 }
 

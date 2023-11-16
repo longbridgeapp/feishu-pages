@@ -3,6 +3,7 @@ import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 import { MarkdownRenderer } from '../src';
+import { escapeHTMLTags } from '../src/renderer';
 
 const fixture = (filename: string): string => {
   return fs.readFileSync(path.join(__dirname, 'fixtures', filename), 'utf8');
@@ -94,5 +95,9 @@ describe('MarkdownRenderer', () => {
     result = render.markdownToHTML(raw);
     expect = `<div><img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center"></div>\n\n<p><a href="https://github.com">This is a Link</a><br/>This is suffix.</p>\n`;
     assert.equal(result, expect);
+  });
+
+  test('escapeHTMLTags', () => {
+    assert.equal(escapeHTMLTags('2 > 1 && 3 < 2'), '2 &gt; 1 && 3 &lt; 2');
   });
 });
