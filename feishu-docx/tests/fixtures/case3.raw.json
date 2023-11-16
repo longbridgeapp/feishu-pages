@@ -3444,7 +3444,7 @@
         "elements": [
           {
             "text_run": {
-              "content": "欢迎订阅我们的 X <Twitter>",
+              "content": "欢迎订阅我们的 X <Twitter>\nhttps://twitter.com/xxx",
               "text_element_style": {
                 "bold": false,
                 "comment_ids": [

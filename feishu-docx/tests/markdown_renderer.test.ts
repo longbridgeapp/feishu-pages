@@ -85,8 +85,9 @@ describe('MarkdownRenderer', () => {
   });
 
   test('markdownToHTML', () => {
-    let raw = `<img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center">[This is a Link](https://github.com) this is suffix.`;
     let render = new MarkdownRenderer({});
+
+    let raw = `<img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center">[This is a Link](https://github.com) this is suffix.`;
     let result = render.markdownToHTML(raw);
     let expect = `<p><img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center"><a href="https://github.com">This is a Link</a> this is suffix.</p>\n`;
     assert.equal(result, expect);
@@ -95,6 +96,10 @@ describe('MarkdownRenderer', () => {
     result = render.markdownToHTML(raw);
     expect = `<div><img src="/feishu-pages/assets/TGgab0uVmo6rumxnH7RcMEuHnLf.png" src-width="576" src-height="128" align="center"></div>\n\n<p><a href="https://github.com">This is a Link</a><br/>This is suffix.</p>\n`;
     assert.equal(result, expect);
+
+    raw = `> This is first line.\n> This is second line.`;
+    result = render.markdownToHTML(raw);
+    expect = `<blockquote>\n<p>This is first line.<br/>This is second line.</p>\n</blockquote>\n`;
   });
 
   test('escapeHTMLTags', () => {

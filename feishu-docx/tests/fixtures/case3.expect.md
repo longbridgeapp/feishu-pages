@@ -117,7 +117,7 @@ yarn feishu-pages
 <div>
 <img src="SzJmbprNwo5Y7Cx2MzAc7k7dnCt" src-width="2532" src-height="1480" align="center"/>
 
-<p><a href="https://twitter.com/WaytoAGI">欢迎订阅我们的 X &lt;Twitter&gt;</a></p>
+<p><a href="https://twitter.com/WaytoAGI">欢迎订阅我们的 X &lt;Twitter&gt;<br/>https://twitter.com/xxx</a></p>
 <p>最新知识库精选同步</p>
 </div>
 <div>
