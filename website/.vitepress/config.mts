@@ -54,6 +54,7 @@ export default defineConfig({
   srcDir: 'docs',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    outline: [2, 3],
     nav: [
       { text: 'Home', link: '/' },
       {
