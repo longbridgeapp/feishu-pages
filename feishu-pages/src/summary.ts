@@ -6,7 +6,8 @@ export interface FileDoc extends Doc {
   slug: string;
   position: number;
   filename: string;
-  content?: string;
+  /// The content file path (in Tmp path)
+  cotnent_file?: string;
   meta?: Record<string, any>;
   fileTokens?: any;
   children: FileDoc[];

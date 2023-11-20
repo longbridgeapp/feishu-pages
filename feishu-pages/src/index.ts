@@ -13,7 +13,12 @@ import {
   fetchTenantAccessToken,
 } from './feishu';
 import { FileDoc, generateSummary, prepareDocSlugs } from './summary';
-import { cleanupDocsForJSON, humanizeFileSize, replaceLinks } from './utils';
+import {
+  cleanupDocsForJSON,
+  cleanupTmpFiles,
+  humanizeFileSize,
+  replaceLinks,
+} from './utils';
 import { fetchAllDocs } from './wiki';
 
 // App entry
@@ -50,14 +55,16 @@ import { fetchAllDocs } from './wiki';
     path.join(OUTPUT_DIR, 'docs.json'),
     JSON.stringify(docs, null, 2)
   );
+
+  cleanupTmpFiles();
 })();
 
 const fetchDocBodies = async (docs: FileDoc[]) => {
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
-    const { content, fileTokens, meta } = await fetchDocBody(doc);
+    const { cotnent_file, fileTokens, meta } = await fetchDocBody(doc);
 
-    doc.content = content;
+    doc.cotnent_file = cotnent_file;
     doc.meta = meta;
     doc.fileTokens = fileTokens;
 
@@ -86,7 +93,9 @@ const fetchDocAndWriteFile = async (
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
 
-    let { content, fileTokens } = doc;
+    let { cotnent_file, fileTokens } = doc;
+
+    let content = fs.readFileSync(cotnent_file, 'utf-8');
 
     // Replace node_token to slug
     for (const node_token in slugMap) {
