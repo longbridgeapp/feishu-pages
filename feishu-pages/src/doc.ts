@@ -3,6 +3,7 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
 import { CACHE_DIR, Doc, feishuFetchWithIterator } from './feishu';
+import { writeTemplfile } from './utils';
 
 /**
  * Fetch doc content
@@ -58,8 +59,10 @@ export const fetchDocBody = async (fileDoc: Doc) => {
   const fileTokens = render.fileTokens;
   const meta = render.meta;
 
+  let tmp_filename = writeTemplfile(content);
+
   return {
-    content,
+    cotnent_file: tmp_filename,
     meta,
     fileTokens,
   };

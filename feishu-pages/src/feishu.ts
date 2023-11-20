@@ -21,6 +21,9 @@ export const ROOT_NODE_TOKEN: string = process.env.ROOT_NODE_TOKEN || '';
 export const CACHE_DIR = path.resolve(
   process.env.CACHE_DIR || path.join(OUTPUT_DIR, '.cache')
 );
+export const TMP_DIR = path.resolve(
+  process.env.TMP_DIR || path.join(OUTPUT_DIR, '.tmp')
+);
 
 const feishuConfig = {
   endpoint: process.env.FEISHU_ENDPOINT || 'https://open.feishu.cn',

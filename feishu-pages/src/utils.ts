@@ -1,3 +1,6 @@
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 import { FileDoc } from './summary';
 
 export const normalizeSlug = (slug: string | number) => {
@@ -101,4 +104,36 @@ export function replaceLinks(
     'gm'
   );
   return content.replace(re, `$1${newLink}$5`);
+}
+
+/**
+ * Write content to a temp filename with random string, returns the filename.
+ * @returns
+ */
+export function writeTemplfile(content: string): string {
+  let filename = path.join(
+    os.tmpdir(),
+    'feishi-pages',
+    Math.random().toString(36)
+  );
+  if (!fs.existsSync(path.dirname(filename))) {
+    fs.mkdirSync(path.dirname(filename), { recursive: true });
+  }
+  fs.writeFileSync(filename, content);
+
+  return filename;
+}
+
+/**
+ * Cleanup temp files
+ *
+ * Remove /tmp/feishi-pages
+ */
+export function cleanupTmpFiles() {
+  const tmpDir = path.join(os.tmpdir(), 'feishi-pages');
+  console.log('Cleanup temp files:', tmpDir);
+
+  if (fs.existsSync(tmpDir)) {
+    fs.rmSync(tmpDir, { recursive: true });
+  }
 }
