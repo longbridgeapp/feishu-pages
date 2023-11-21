@@ -7,9 +7,16 @@ export class Buffer {
     this.length = 0;
   }
 
-  write(s: string) {
-    this.length += s.length;
-    this.buffer.push(s);
+  write(s: string | Buffer) {
+    if (typeof s === 'string') {
+      this.buffer.push(s);
+      this.length += s.length;
+    } else {
+      for (let part of s.buffer) {
+        this.buffer.push(part);
+        this.length += part.length;
+      }
+    }
   }
 
   toString() {

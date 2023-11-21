@@ -95,7 +95,7 @@ export class MarkdownRenderer extends Renderer {
         buf.write('```');
         buf.write(getCodeLanguage(block.code.style.language));
         buf.write('\n');
-        buf.write(this.parseTextBlock(block.code).trim());
+        buf.write(this.parseTextBlock(block.code).toString().trim());
         buf.write('\n```\n');
         break;
       case BlockType.Quote:
@@ -175,7 +175,7 @@ export class MarkdownRenderer extends Renderer {
     if (block?.code?.style?.language !== CodeLanguage.YAML) {
       return false;
     }
-    let code = this.parseTextBlock(block.code).trim();
+    let code = this.parseTextBlock(block.code).toString().trim();
 
     if (!code) {
       return false;
@@ -195,7 +195,7 @@ export class MarkdownRenderer extends Renderer {
     return true;
   }
 
-  parsePageBlock(block: Block) {
+  parsePageBlock(block: Block): Buffer | string {
     const buf = new Buffer();
 
     buf.write('# ');
@@ -220,10 +220,10 @@ export class MarkdownRenderer extends Renderer {
       }
     });
 
-    return buf.toString();
+    return buf;
   }
 
-  parseTextBlock(block: TextBlock) {
+  parseTextBlock(block: TextBlock): Buffer | string {
     const buf = new Buffer();
     const inline = block.elements.length > 1;
 
@@ -235,14 +235,14 @@ export class MarkdownRenderer extends Renderer {
       buf.write('\n');
     }
 
-    return buf.toString();
+    return buf;
   }
 
-  parseBulletBlock(block: Block, indent: number = 0) {
+  parseBulletBlock(block: Block, indent: number = 0): Buffer | string {
     const buf = new Buffer();
 
     buf.write('- ');
-    let itemText = this.parseTextBlock(block.bullet);
+    let itemText = this.parseTextBlock(block.bullet).toString();
     if (
       this.nextBlock?.block_type == block.block_type &&
       this.nextBlock?.parent_id == block.parent_id &&
@@ -259,10 +259,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, indent + 1));
     });
 
-    return buf.toString();
+    return buf;
   }
 
-  parseOrderedBlock(block: Block, indent: number = 0) {
+  parseOrderedBlock(block: Block, indent: number = 0): Buffer | string {
     const buf = new Buffer();
 
     const parent = this.blockMap[block.parent_id];
@@ -284,7 +284,7 @@ export class MarkdownRenderer extends Renderer {
     });
 
     buf.write(`${order}. `);
-    let itemText = this.parseTextBlock(block.ordered);
+    let itemText = this.parseTextBlock(block.ordered).toString();
     if (
       this.nextBlock?.block_type == block.block_type &&
       this.nextBlock?.parent_id == block.parent_id &&
@@ -302,10 +302,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, indent + 1));
     });
 
-    return buf.toString();
+    return buf;
   }
 
-  parseTextElement(el: TextElement, inline: boolean) {
+  parseTextElement(el: TextElement, inline: boolean): Buffer | string {
     const buf = new Buffer();
     if (el.text_run) {
       buf.write(this.parseTextRun(el.text_run));
@@ -319,10 +319,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write(`[${el.mention_doc.title}](${node_token})`);
     }
 
-    return buf.toString();
+    return buf;
   }
 
-  parseTextRun(textRun: TextRun) {
+  parseTextRun(textRun: TextRun): Buffer | string {
     const buf = new Buffer();
     let postWrite = '';
 
@@ -364,10 +364,10 @@ export class MarkdownRenderer extends Renderer {
     buf.write(plainText);
     buf.write(postWrite);
 
-    return buf.toString();
+    return buf;
   }
 
-  parseImage(image: ImageBlock) {
+  parseImage(image: ImageBlock): Buffer | string {
     const buf = new Buffer();
 
     const align = getAlignStyle(image.align);
@@ -394,10 +394,10 @@ export class MarkdownRenderer extends Renderer {
 
     this.addFileToken('image', image.token);
 
-    return buf.toString();
+    return buf;
   }
 
-  parseTableCell(block: Block) {
+  parseTableCell(block: Block): Buffer | string {
     const buf = new Buffer();
 
     block.children?.forEach((childId) => {
@@ -405,10 +405,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, 0));
     });
 
-    return buf.toString();
+    return buf;
   }
 
-  parseTable(table: TableBlock) {
+  parseTable(table: TableBlock): Buffer | string {
     let rows: string[][] = [[]];
 
     table.cells.forEach((blockId, idx) => {
@@ -455,10 +455,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write('\n');
     }
 
-    return buf.toString();
+    return buf;
   }
 
-  parseQuoteContainer(block: Block) {
+  parseQuoteContainer(block: Block): Buffer | string {
     const buf = new Buffer();
 
     block.children?.forEach((childId) => {
@@ -467,10 +467,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, 0));
     });
 
-    return buf.toString();
+    return buf;
   }
 
-  parseView(block: Block) {
+  parseView(block: Block): Buffer | string {
     const buf = new Buffer();
 
     block.children?.forEach((childId) => {
@@ -478,10 +478,10 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, 0));
     });
 
-    return buf.toString();
+    return buf;
   }
 
-  parseFile(block: Block) {
+  parseFile(block: Block): Buffer | string {
     const buf = new Buffer();
     const file = block.file;
 
@@ -504,10 +504,10 @@ export class MarkdownRenderer extends Renderer {
     });
     buf.write('</div>\n');
 
-    return buf.toString();
+    return buf;
   }
 
-  parseGridColumn(block: Block) {
+  parseGridColumn(block: Block): Buffer | string {
     const buf = new Buffer();
 
     buf.write(`<div>\n`);
@@ -521,10 +521,10 @@ export class MarkdownRenderer extends Renderer {
     buf.write(this.markdownToHTML(inner));
     buf.write('</div>\n');
 
-    return buf.toString();
+    return buf;
   }
 
-  parseCallout(block: Block) {
+  parseCallout(block: Block): Buffer | string {
     const buf = new Buffer();
 
     const style = {};
@@ -577,10 +577,10 @@ export class MarkdownRenderer extends Renderer {
     buf.write(html);
     buf.write('</div>\n');
 
-    return buf.toString();
+    return buf;
   }
 
-  parseIframe(block: Block) {
+  parseIframe(block: Block): Buffer | string {
     let buf = new Buffer();
 
     let url = block.iframe?.component?.url;
@@ -590,10 +590,10 @@ export class MarkdownRenderer extends Renderer {
     el.setAttribute('src', decodeURIComponent(block.iframe.component.url));
     buf.write(el.outerHTML);
     buf.write('\n');
-    return buf.toString();
+    return buf;
   }
 
-  parseSyncedBlock(block: Block) {
+  parseSyncedBlock(block: Block): Buffer {
     const buf = new Buffer();
 
     block.children?.forEach((childId) => {
@@ -601,7 +601,7 @@ export class MarkdownRenderer extends Renderer {
       buf.write(this.parseBlock(child, 0));
     });
 
-    return buf.toString();
+    return buf;
   }
 
   parseUnsupport(block: Block) {
