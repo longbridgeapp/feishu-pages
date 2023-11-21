@@ -137,3 +137,22 @@ export function cleanupTmpFiles() {
     fs.rmSync(tmpDir, { recursive: true });
   }
 }
+
+export function printMemoryUsage(prefix?: string) {
+  if (process.env.DEBUG !== '1' && process.env.DEBUG !== 'true') {
+    return;
+  }
+
+  const used = process.memoryUsage();
+  if (prefix) {
+    prefix = prefix + ' ';
+  }
+
+  console.log(
+    `${prefix}${humanizeFileSize(used.rss)} RSS, ${humanizeFileSize(
+      used.heapTotal
+    )} heapTotal, ${humanizeFileSize(
+      used.heapUsed
+    )} heapUsed, ${humanizeFileSize(used.external)} external`
+  );
+}

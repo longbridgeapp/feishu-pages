@@ -242,6 +242,11 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
         }
       )
       .then((res: AxiosResponse) => {
+        if (res.status !== 200) {
+          console.error(' -> Failed to download image:', fileToken, res.status);
+          return null;
+        }
+
         // Write cache info
         fs.writeFileSync(cacheFileMetaPath, JSON.stringify(res.headers));
         res.data.pipe(fs.createWriteStream(cacheFilePath));
@@ -291,8 +296,12 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   if (!hasCache) {
     console.info(' -> Writing file:', localPath);
   }
-  fs.copyFileSync(cacheFilePath, localPath);
+  if (!fs.existsSync(cacheFilePath)) {
+    console.warn('file not found,', cacheFilePath, 'may be is download 404');
+    return null;
+  }
 
+  fs.copyFileSync(cacheFilePath, localPath);
   return localPath;
 };
 

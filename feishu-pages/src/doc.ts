@@ -3,7 +3,7 @@ import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
 import { CACHE_DIR, Doc, feishuFetchWithIterator } from './feishu';
-import { writeTemplfile } from './utils';
+import { printMemoryUsage, writeTemplfile } from './utils';
 
 /**
  * Fetch doc content
@@ -53,9 +53,11 @@ export const fetchDocBody = async (fileDoc: Doc) => {
   };
 
   doc.blocks = await fetchDocBlocks(document_id);
+  printMemoryUsage('loaded doc blocks');
 
   const render = new MarkdownRenderer(doc as any);
   const content = render.parse();
+  printMemoryUsage('MarkdownRenderer parsed');
   const fileTokens = render.fileTokens;
   const meta = render.meta;
 
