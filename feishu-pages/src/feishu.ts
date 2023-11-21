@@ -1,6 +1,6 @@
 // node-sdk 使用说明：https://github.com/larksuite/node-sdk/blob/main/README.zh.md
 import { Client } from '@larksuiteoapi/node-sdk';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import 'dotenv/config';
 import fs from 'fs';
 import mime from 'mime-types';
@@ -220,11 +220,12 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   const cacheFileMetaPath = path.join(CACHE_DIR, `${fileToken}.headers.json`);
   fs.mkdirSync(CACHE_DIR, { recursive: true });
 
-  let res: any = {};
+  let res: { data?: fs.ReadStream; headers?: Record<string, any> } = {};
   let hasCache = false;
+  let fileSize = 0;
+
   if (fs.existsSync(cacheFilePath) && fs.existsSync(cacheFileMetaPath)) {
     hasCache = true;
-    res.data = fs.readFileSync(cacheFilePath);
     res.headers = JSON.parse(fs.readFileSync(cacheFileMetaPath, 'utf-8'));
     console.info(' -> Cache hit:', fileToken);
   } else {
@@ -233,18 +234,27 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
       .get(
         `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
         {
-          responseType: 'arraybuffer',
+          responseType: 'stream',
           headers: {
             Authorization: `Bearer ${feishuConfig.tenantAccessToken}`,
             'User-Agent': 'feishu-pages',
           },
         }
       )
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         // Write cache info
-        fs.writeFileSync(cacheFilePath, res.data);
         fs.writeFileSync(cacheFileMetaPath, JSON.stringify(res.headers));
-        return res;
+        res.data.pipe(fs.createWriteStream(cacheFilePath));
+
+        fileSize = res.data.readableLength;
+
+        return new Promise((resolve: any) => {
+          res.data.on('end', () => {
+            resolve({
+              headers: res.headers,
+            });
+          });
+        });
       })
       .catch((err) => {
         const { message } = err;
@@ -264,26 +274,24 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
     return null;
   }
 
-  if (res.data) {
-    let extension = mime.extension(res.headers['content-type']);
-    if (!hasCache) {
-      console.info(
-        ' =>',
-        res.headers['content-type'],
-        humanizeFileSize(res.data.length)
-      );
-    }
-
-    if (extension) {
-      localPath = localPath + '.' + extension;
-    }
-    const dir = path.dirname(localPath);
-    fs.mkdirSync(dir, { recursive: true });
-    if (!hasCache) {
-      console.info(' -> Writing file:', localPath);
-    }
-    fs.writeFileSync(localPath, res.data);
+  let extension = mime.extension(res.headers['content-type']);
+  if (!hasCache) {
+    console.info(
+      ' =>',
+      res.headers['content-type'],
+      humanizeFileSize(fileSize)
+    );
   }
+
+  if (extension) {
+    localPath = localPath + '.' + extension;
+  }
+  const dir = path.dirname(localPath);
+  fs.mkdirSync(dir, { recursive: true });
+  if (!hasCache) {
+    console.info(' -> Writing file:', localPath);
+  }
+  fs.copyFileSync(cacheFilePath, localPath);
 
   return localPath;
 };
