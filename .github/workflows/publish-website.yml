@@ -4,6 +4,7 @@ on:
       - main
       - release-pages
   release:
+    types: [published, edited, deleted, unpublished]
 permissions:
   contents: read
   pages: write
