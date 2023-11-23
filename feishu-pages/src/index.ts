@@ -8,6 +8,7 @@ import {
   DOCS_DIR,
   OUTPUT_DIR,
   ROOT_NODE_TOKEN,
+  SKIP_ASSETS,
   feishuConfig,
   feishuDownload,
   fetchTenantAccessToken,
@@ -143,6 +144,11 @@ const downloadFiles = async (
   fileTokens: Record<string, FileToken>,
   docFolder: string
 ) => {
+  if (SKIP_ASSETS) {
+    console.info('skip assets download.');
+    return content;
+  }
+
   for (const fileToken in fileTokens) {
     const filePath = await feishuDownload(
       fileToken,

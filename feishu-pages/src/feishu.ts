@@ -32,6 +32,10 @@ export const TMP_DIR = path.resolve(
  * nested: /slug1/slug2/slug3
  */
 export const URL_STYLE = process.env.URL_STYLE || 'nested';
+/**
+ * Skip download assets, for debug speed up.
+ */
+export const SKIP_ASSETS = process.env.SKIP_ASSETS || false;
 
 const feishuConfig = {
   endpoint: process.env.FEISHU_ENDPOINT || 'https://open.feishu.cn',
