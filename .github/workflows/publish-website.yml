@@ -3,6 +3,7 @@ on:
     branches:
       - main
       - release-pages
+  release:
 permissions:
   contents: read
   pages: write
