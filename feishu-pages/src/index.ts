@@ -98,6 +98,7 @@ const fetchDocAndWriteFile = async (
     let content = fs.readFileSync(cotnent_file, 'utf-8');
 
     // Replace node_token to slug
+
     for (const node_token in slugMap) {
       if (slugMap[node_token]) {
         content = replaceLinks(

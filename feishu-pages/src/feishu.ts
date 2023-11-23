@@ -25,6 +25,14 @@ export const TMP_DIR = path.resolve(
   process.env.TMP_DIR || path.join(OUTPUT_DIR, '.tmp')
 );
 
+/**
+ * "original" | "nested", default: "nested"
+ *
+ * raw: /G5JwdLWUkopngoxfQtIc7EFSnIg
+ * nested: /slug1/slug2/slug3
+ */
+export const URL_STYLE = process.env.URL_STYLE || 'nested';
+
 const feishuConfig = {
   endpoint: process.env.FEISHU_ENDPOINT || 'https://open.feishu.cn',
   /**

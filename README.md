@@ -75,16 +75,17 @@ yarn add feishu-pages
 
 > 如果你想简单一些，也可以用 `.env` 文件来配置环境变量，注意避免 `FEISHU_APP_SECRET` 泄露到互联网。
 
-| Name                | Description                                                                                                  | Required | Default                |
-| ------------------- | ------------------------------------------------------------------------------------------------------------ | -------- | ---------------------- |
-| `FEISHU_ENDPOINT`   | 飞书 API 节点，如用 LarkSuite 可以通过这个配置 API 地址                                                      | NO       | https://open.feishu.cn |
-| `FEISHU_APP_ID`     | 飞书应用 ID                                                                                                  | YES      |                        |
-| `FEISHU_APP_SECRET` | 飞书应用 Secret                                                                                              | YES      |                        |
-| `FEISHU_SPACE_ID`   | 飞书知识库 ID                                                                                                | YES      |                        |
-| `OUTPUT_DIR`        | 输出目录                                                                                                     | NO       | `./dist`               |
-| `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。                                                               | NO       |                        |
-| `BASE_URL`          | 自定义文档里面相关文档输出的 URL 前缀，例如：`/docs/`，默认为 `/`，建议采用完整 URL 避免相对路径的各类问题。 | NO       | `/`                    |
-| `ROOT_NODE_TOKEN`   | 从哪个节点 (node_token) 开始导出，例如：`6992046856314306562`，默认为空，走根节点开始。                      | NO       |                        |
+| Name                | Description                                                                                                                                                      | Required | Default                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ---------------------- |
+| `FEISHU_ENDPOINT`   | 飞书 API 节点，如用 LarkSuite 可以通过这个配置 API 地址                                                                                                          | NO       | https://open.feishu.cn |
+| `FEISHU_APP_ID`     | 飞书应用 ID                                                                                                                                                      | YES      |                        |
+| `FEISHU_APP_SECRET` | 飞书应用 Secret                                                                                                                                                  | YES      |                        |
+| `FEISHU_SPACE_ID`   | 飞书知识库 ID                                                                                                                                                    | YES      |                        |
+| `OUTPUT_DIR`        | 输出目录                                                                                                                                                         | NO       | `./dist`               |
+| `ROOT_NODE_TOKEN`   | 根节点，导出节点以下（不含此节点）的所有内容。                                                                                                                   | NO       |                        |
+| `BASE_URL`          | 自定义文档里面相关文档输出的 URL 前缀，例如：`/docs/`，默认为 `/`，建议采用完整 URL 避免相对路径的各类问题。                                                     | NO       | `/`                    |
+| `ROOT_NODE_TOKEN`   | 从哪个节点 (node_token) 开始导出，例如：`6992046856314306562`，默认为空，走根节点开始。                                                                          | NO       |                        |
+| `URL_STYLE`         | 导出的文档 URL 风格。<br/><br/>- `nested` - 采用层级的 URL 结构，如 `/foo/bar/dar`。<br/>- `original` - 采用一层的 URL 结构，如 `/X80QwaYvjiMWZrk399YcK4q8nCc`。 | NO       | `relative`             |
 
 ## Usage
 

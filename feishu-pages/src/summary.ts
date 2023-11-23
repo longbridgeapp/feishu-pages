@@ -1,5 +1,5 @@
 import path from 'path';
-import { Doc } from './feishu';
+import { Doc, URL_STYLE } from './feishu';
 import { normalizeSlug } from './utils';
 
 export interface FileDoc extends Doc {
@@ -26,7 +26,13 @@ export const prepareDocSlugs = (
   for (let i = 0; i < docs.length; i++) {
     const doc = docs[i];
     const fileKey = normalizeSlug(doc.meta?.slug || doc.node_token);
-    const fileSlug = path.join(parentSlug, fileKey);
+    let fileSlug = path.join(parentSlug, fileKey);
+
+    // Use Feishu original URL style, use node_token as URL slug.
+    // https://your-host.com/Rd52wbrZ1ifWmXkEUQpcXnf4ntT
+    if (URL_STYLE === 'original') {
+      fileSlug = doc.node_token;
+    }
 
     doc.slug = fileSlug;
     doc.position = i;
