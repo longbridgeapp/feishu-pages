@@ -58,7 +58,9 @@ export const fetchAllDocs = async (
   );
 
   for (const doc of docs) {
-    doc.children = await fetchAllDocs(spaceId, depth + 1, doc.node_token);
+    if (doc.has_child) {
+      doc.children = await fetchAllDocs(spaceId, depth + 1, doc.node_token);
+    }
   }
 
   return docs;
