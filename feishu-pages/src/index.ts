@@ -145,7 +145,7 @@ const downloadFiles = async (
   for (const fileToken in fileTokens) {
     const filePath = await feishuDownload(
       fileToken,
-      path.join(path.join(docFolder, 'assets'), fileToken)
+      path.join(path.join(DOCS_DIR, 'assets'), fileToken)
     );
     if (!filePath) {
       continue;
@@ -153,7 +153,7 @@ const downloadFiles = async (
 
     const extension = path.extname(filePath);
 
-    let assetURL = `./assets/${fileToken}${extension}`;
+    let assetURL = `/assets/${fileToken}${extension}`;
 
     // Replase Markdown image
     content = replaceLinks(content, fileToken, assetURL);
