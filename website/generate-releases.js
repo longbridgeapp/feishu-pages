@@ -12,7 +12,9 @@ const fetchRelease = async () => {
     )
   ).json();
 
-  let releaseBody = '# Releases\n\n';
+  let frontMatter = `---\neditLink: false\noutline: 2\n---\n\n`;
+
+  let releaseBody = frontMatter + '# Releases\n\n';
   data.forEach((release) => {
     let name = release.name || release.tag_name;
 
