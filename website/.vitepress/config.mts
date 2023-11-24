@@ -52,6 +52,9 @@ export default defineConfig({
   cleanUrls: true,
   srcExclude: ['SUMMARY.md'],
   srcDir: 'docs',
+  markdown: {
+    math: true,
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     outline: [2, 3],
