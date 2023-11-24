@@ -32,6 +32,9 @@ import { fetchAllDocs } from './wiki';
   console.info('ROOT_NODE_TOKEN:', ROOT_NODE_TOKEN);
   console.info('-------------------------------------------\n');
 
+  // Create docs dir
+  fs.mkdirSync(DOCS_DIR, { recursive: true });
+
   // Map file_token to slug
   let slugMap = {};
 
