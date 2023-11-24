@@ -15,6 +15,7 @@ import {
   FontColorMap,
   ImageBlock,
   TableBlock,
+  TableMergeInfo,
   TextBlock,
   TextElement,
   TextRun,
@@ -409,6 +410,10 @@ export class MarkdownRenderer extends Renderer {
   }
 
   parseTable(table: TableBlock): Buffer | string {
+    if (this.isComplexTable(table)) {
+      return this.parseTableAsHTML(table);
+    }
+
     let rows: string[][] = [[]];
 
     table.cells.forEach((blockId, idx) => {
@@ -454,6 +459,123 @@ export class MarkdownRenderer extends Renderer {
       });
       buf.write('\n');
     }
+
+    return buf;
+  }
+
+  parseTableAsHTML(table: TableBlock): Buffer | string {
+    let rows: string[][] = [[]];
+    table.cells.forEach((blockId, idx) => {
+      const block = this.blockMap[blockId];
+      let cellHTML = this.markdownToHTML(this.parseBlock(block, 0));
+      const row = Math.floor(idx / table.property.column_size);
+      if (rows.length < row + 1) {
+        rows.push([]);
+      }
+
+      rows[row].push(cellHTML.trim());
+    });
+
+    // Build table attrs
+    let attrs: any = {};
+    if (table.property.header_column) {
+      attrs.header_column = 1;
+    }
+    if (table.property.header_row) {
+      attrs.header_row = 1;
+    }
+
+    let attrHTML = Object.keys(attrs)
+      .map((key) => `${key}="${attrs[key]}"`)
+      .join(' ');
+    if (attrHTML.length > 0) {
+      attrHTML = ` ${attrHTML}`;
+    }
+
+    const buf = new Buffer();
+    buf.write(`<table${attrHTML}>\n`);
+
+    // Write colgroup for col width
+    buf.write('<colgroup>\n');
+    for (let i = 0; i < table.property?.column_size; i++) {
+      let width = table.property?.column_width[i];
+      let widthAttr = width ? ` width="${width}"` : '';
+      buf.write(`<col${widthAttr}/>\n`);
+    }
+    buf.write('</colgroup>\n');
+
+    let cellIdx = 0;
+
+    /*
+      Merge Cells
+
+      | 0 | 1 | 2 | 3 |
+      --------|   |----
+      | 4   5 | 6 | 7 |
+      -----------------
+      | 8 | 9 | 10| 11| 
+    */
+    let columnSize = table.property?.column_size;
+    let mergeInfos = table.property?.merge_info;
+
+    // cellInfos 用来存储每个单元格是否要生成，1 生成，0 跳过
+    let cellInfos = mergeInfos.map((info) => {
+      return 1;
+    });
+
+    // 遍历 mergeInfos，将需要合并的单元格标记为 0
+    for (let i = 0; i < mergeInfos.length; i++) {
+      let info = mergeInfos[i];
+      let rowSpan = info.row_span;
+      let colSpan = info.col_span;
+
+      if (rowSpan > 1) {
+        for (let j = 1; j < rowSpan; j++) {
+          cellInfos[i + j * columnSize] = 0;
+        }
+      }
+
+      if (colSpan > 1) {
+        for (let j = 1; j < colSpan; j++) {
+          cellInfos[i + j] = 0;
+        }
+      }
+    }
+
+    const writeCell = (buf: Buffer, cell: string, tag: 'th' | 'td') => {
+      let attr = this.tableCellAttrHTML(mergeInfos, cellIdx);
+      if (cellInfos?.[cellIdx] == 1) {
+        buf.write(`<${tag}${attr}>${cell || ''}</${tag}>`);
+      }
+
+      cellIdx += 1;
+    };
+
+    // Write thead
+    if (table.property?.header_row) {
+      let headRow = [];
+      headRow = rows.shift();
+
+      buf.write('<thead>\n');
+      buf.write('<tr>\n');
+      for (let i = 0; i < columnSize; i++) {
+        writeCell(buf, headRow[i], 'th');
+      }
+      buf.write('</tr>\n');
+      buf.write('</thead>\n');
+    }
+
+    // Render tbody
+    buf.write('<tbody>\n');
+    for (const row of rows) {
+      buf.write('<tr>\n');
+      row.forEach((cell) => {
+        writeCell(buf, cell, 'td');
+      });
+      buf.write('</tr>\n');
+    }
+    buf.write('</tbody>\n');
+    buf.write('</table>\n');
 
     return buf;
   }
@@ -621,5 +743,39 @@ export class MarkdownRenderer extends Renderer {
   markdownToHTML(markdown: string): string {
     let html = marked.parse(markdown, { gfm: true, breaks: true });
     return html;
+  }
+
+  tableCellAttrHTML(mergeInfos: TableMergeInfo[], idx: number): string {
+    let mergeInfo = mergeInfos[idx];
+    if (!mergeInfo) return '';
+
+    let attr: any = {};
+    if (mergeInfo.row_span > 1) {
+      attr.rowspan = mergeInfo.row_span;
+    }
+    if (mergeInfo.col_span > 1) {
+      attr.colspan = mergeInfo.col_span;
+    }
+
+    let html = Object.keys(attr)
+      .map((key) => `${key}="${attr[key]}"`)
+      .join(' ');
+
+    if (html.length > 0) {
+      html = ` ${html}`;
+    }
+    return html;
+  }
+
+  isComplexTable(table: TableBlock): boolean {
+    let mergeInfos = table.property?.merge_info;
+    let hasMerge = mergeInfos.some((info) => {
+      return info.row_span > 1 || info.col_span > 1;
+    });
+    let hasColWidth = table.property?.column_width?.some((width) => {
+      return width > 100;
+    });
+
+    return hasMerge || hasColWidth;
   }
 }

@@ -318,11 +318,17 @@ export interface TableBlock {
     column_width: number[];
     header_column: boolean;
     header_row: boolean;
-    merge_info: {
-      row_span: number;
-      column_span: number;
-    }[];
+    /**
+     * 每一个 Item 为一个 Cell
+     * 例如有个表格是 4x6 的，那么这个数组的长度就是 24
+     */
+    merge_info: TableMergeInfo[];
   };
+}
+
+export interface TableMergeInfo {
+  row_span: number;
+  col_span: number;
 }
 
 /**

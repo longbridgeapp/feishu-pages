@@ -51,13 +51,31 @@ yarn add feishu-pages
 
 ## **Configuration**
 
-|Name|Description|Required|Default|
-|---|---|---|---|
-|FEISHU_APP_ID|飞书应用 ID|YES||
-|FEISHU_APP_SECRET|飞书应用 Secret|YES||
-|FEISHU_SPACE_ID|飞书知识库 ID|YES||
-|ASSET_BASE_URL|资源文件（图片、附件）的 Base URL<br/>通过这个配置配置 img src 的 URL 前缀<br/><br/>默认值：`/assets`||/assets|
-|OUTPUT_DIR|输出目录||./dist|
+<table header_column="1" header_row="1">
+<colgroup>
+<col width="229"/>
+<col width="162"/>
+<col width="100"/>
+<col width="405"/>
+</colgroup>
+<thead>
+<tr>
+<th><p>Name</p></th><th><p>Description</p></th><th><p>Required</p></th><th><p>Default</p></th></tr>
+</thead>
+<tbody>
+<tr>
+<td><p>FEISHU_APP_ID</p></td><td><p>飞书应用 ID</p></td><td><p>YES</p></td><td></td></tr>
+<tr>
+<td><p>FEISHU_APP_SECRET</p></td><td><p>飞书应用 Secret</p></td><td><p>YES</p></td><td></td></tr>
+<tr>
+<td><p>FEISHU_SPACE_ID</p></td><td><p>飞书知识库 ID</p></td><td><p>YES</p></td><td></td></tr>
+<tr>
+<td><p>ASSET_BASE_URL</p></td><td><p>资源文件（图片、附件）的 Base URL<br/>通过这个配置配置 img src 的 URL 前缀</p>
+<p>默认值：<code>/assets</code></p></td><td></td><td><p>/assets</p></td></tr>
+<tr>
+<td><p>OUTPUT_DIR</p></td><td><p>输出目录</p></td><td></td><td><p>./dist</p></td></tr>
+</tbody>
+</table>
 
 ## **Usage**
 
@@ -127,6 +145,30 @@ yarn feishu-pages
 <p>专注于 AI 绘画，分享优质设计 Prompt<br/>This is new line.</p>
 </div>
 </div>
+
+<table header_column="1" header_row="1">
+<colgroup>
+<col width="180"/>
+<col width="222"/>
+<col width="418"/>
+</colgroup>
+<thead>
+<tr>
+<th><p>Name</p></th><th><p>Type</p></th><th><p>Website</p></th></tr>
+</thead>
+<tbody>
+<tr>
+<td colspan="3"><p>This is merge row.</p></td></tr>
+<tr>
+<td><p>GitHub</p></td><td><p>Programming</p></td><td><p><a href="https://github.com">https://github.com</a></p></td></tr>
+<tr>
+<td rowspan="2"><p>Twitter</p></td><td rowspan="2"><p>Social Network</p></td><td><p><a href="https://x.com">https://x.com</a></p></td></tr>
+<tr>
+<td><p><a href="https://twitter.com">https://twitter.com</a></p></td></tr>
+<tr>
+<td><p>Dribbble</p></td><td><p>Design</p></td><td><p><a href="https://dribbble.com">https://dribbble.com</a></p></td></tr>
+</tbody>
+</table>
 
 ## **License**
 

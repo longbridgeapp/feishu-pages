@@ -2,7 +2,7 @@ import { describe, test } from '@jest/globals';
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
-import { MarkdownRenderer } from '../src';
+import { MarkdownRenderer, TableMergeInfo } from '../src';
 import { escapeHTMLTags } from '../src/renderer';
 
 const fixture = (filename: string): string => {
@@ -104,5 +104,40 @@ describe('MarkdownRenderer', () => {
 
   test('escapeHTMLTags', () => {
     assert.equal(escapeHTMLTags('2 > 1 && 3 < 2'), '2 &gt; 1 && 3 &lt; 2');
+  });
+
+  test('tableCellAttrHTML', () => {
+    let mergeInfo: TableMergeInfo[] = [
+      {
+        row_span: 1,
+        col_span: 1,
+      },
+      {
+        row_span: 1,
+        col_span: 2,
+      },
+      {
+        row_span: 2,
+        col_span: 1,
+      },
+      {
+        row_span: 1,
+        col_span: 1,
+      },
+      {
+        row_span: 2,
+        col_span: 3,
+      },
+    ];
+
+    let render = new MarkdownRenderer({});
+    assert.equal(render.tableCellAttrHTML(mergeInfo, 0), '');
+    assert.equal(render.tableCellAttrHTML(mergeInfo, 1), ' colspan="2"');
+    assert.equal(render.tableCellAttrHTML(mergeInfo, 2), ' rowspan="2"');
+    assert.equal(render.tableCellAttrHTML(mergeInfo, 3), '');
+    assert.equal(
+      render.tableCellAttrHTML(mergeInfo, 4),
+      ' rowspan="2" colspan="3"'
+    );
   });
 });
