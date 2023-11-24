@@ -1,6 +1,6 @@
 {
   "name": "feishu-pages",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Generate Feishu Wiki into a Markdown for work with Static Page Generators.",
   "repository": {
     "url": "https://github.com/longbridgeapp/feishu-pages"
@@ -24,7 +24,7 @@
     "@types/node": "^20.5.7",
     "axios": "^1.5.0",
     "dotenv": "^16.3.1",
-    "feishu-docx": "0.5.7",
+    "feishu-docx": "0.6.0",
     "mime-types": "^2.1.35",
     "typescript": "^5.2.2"
   },
