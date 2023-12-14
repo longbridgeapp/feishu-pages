@@ -1,7 +1,11 @@
 import fs from 'fs';
+import { Token, Tokens, marked } from 'marked';
+import { markedXhtml } from 'marked-xhtml';
 import os from 'os';
 import path from 'path';
 import { FileDoc } from './summary';
+
+marked.use(markedXhtml());
 
 export const normalizeSlug = (slug: string | number) => {
   // force convert slug into string
@@ -82,6 +86,85 @@ export function cleanupDocsForJSON(docs: FileDoc[]) {
   }
 }
 
+const httpRe = new RegExp(/http[s]?:\/\//i);
+
+const matchLinksFromTokens = (
+  tokens: Token[],
+  content: string,
+  oldLink: string,
+  newLink: string
+): string => {
+  if (!tokens) {
+    return content;
+  }
+
+  tokens.forEach((token) => {
+    if (token.type === 'link' || token.type === 'image') {
+      let isMatch = false;
+      if (httpRe.test(token.href)) {
+        let url = new URL(token.href);
+        if (
+          url.hostname?.endsWith('feishu.cn') ||
+          url.hostname?.endsWith('larksuite.com')
+        ) {
+          isMatch = url.pathname.includes(oldLink);
+        }
+      } else {
+        isMatch = token.href == oldLink;
+      }
+
+      if (isMatch) {
+        let newRaw = token.raw.replace(token.href, newLink);
+        content = content.replaceAll(token.raw, newRaw);
+      }
+    }
+
+    if (token.type == 'html') {
+      /*
+        match all
+
+        1 - ]( or src=" or href="
+        2 - https://ywh1bkansf.feishu.cn/wiki/aabbdd
+        3 - node_token
+        4 - ) or "
+      */
+      const hrefRe = new RegExp(
+        `((src|href)=["|'])(http[s]?:\\\/\\\/[\\w]+\\.(feishu\\.cn|larksuite\.com)\\\/.*)?(${oldLink}[^"']*)("|')`,
+        'gm'
+      );
+      content = content.replace(hrefRe, `$1${newLink}$6`);
+    }
+
+    // @ts-ignore
+    if (token.tokens) {
+      // @ts-ignore
+      content = matchLinksFromTokens(token.tokens, content, oldLink, newLink);
+    }
+
+    // Tokens.List
+    if (token.type == 'list') {
+      content = matchLinksFromTokens(token.items, content, oldLink, newLink);
+    }
+
+    /// Tokens.Table
+    if (token.type == 'table') {
+      content = matchLinksFromTokens(token.header, content, oldLink, newLink);
+      if (token.rows) {
+        token.rows.forEach((colums: Tokens.TableCell[]) => {
+          content = matchLinksFromTokens(
+            colums as any,
+            content,
+            oldLink,
+            newLink
+          );
+        });
+      }
+    }
+  });
+
+  return content;
+};
+
 export function replaceLinks(
   content: string,
   node_token: string,
@@ -91,19 +174,11 @@ export function replaceLinks(
     return content;
   }
 
-  /*
-    match all
+  // Parse all links in Markdown
+  let tokens = marked.lexer(content, { gfm: true, breaks: true });
+  content = matchLinksFromTokens(tokens, content, node_token, newLink);
 
-    1 - ]( or src=" or href="
-    2 - https://ywh1bkansf.feishu.cn/wiki/aabbdd
-    3 - node_token
-    4 - ) or "
-  */
-  const re = new RegExp(
-    `(]\\(|src="|href=")(http[s]?:\\\/\\\/[\\w]+\\.(feishu\\.cn|larksuite\.com)\\\/.*)?(${node_token}.*)(\\)|")`,
-    'gm'
-  );
-  return content.replace(re, `$1${newLink}$5`);
+  return content;
 }
 
 /**

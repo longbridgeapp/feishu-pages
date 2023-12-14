@@ -99,42 +99,61 @@ describe('Utils', () => {
 
   test('replaceLinks', () => {
     let raw = `
-    ](https://ywh1bkansf.feishu.cn/wiki/aabbdd)
-    ](https://ywh1bkansf.feishu.cn/foo/aabbdd)
-    ](https://ywh1bkansf.feishu.cn/F8OMwrI3TisTPokQAJHcMG2knBh)
-    ](https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh)
-    href="https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh"
-    href="https://ywh1bkansf.larksuite.com/wiki/F8OMwrI3TisTPokQAJHcMG2knBh"
-    src="https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh"
-    ](F8OMwrI3TisTPokQAJHcMG2knBh)
-    ](flasdjkgajklsdgjklajklsdgjklal)
-    href="F8OMwrI3TisTPokQAJHcMG2knBh"
-    href="./F8OMwrI3TisTPokQAJHcMG2knBh"
-    src="F8OMwrI3TisTPokQAJHcMG2knBh"
-    href="/F8OMwrI3TisTPokQAJHcMG2knBh/F8OMwrI3TisTPokQAJHcMG2knBh"
-    href="https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh?foo=bar#hash1"
+[](https://ywh1bkansf.feishu.cn/wiki/aabbdd)
+[](https://ywh1bkansf.feishu.cn/foo/aabbdd)
+[](https://ywh1bkansf.feishu.cn/F8OMwrI3TisTPokQAJHcMG2knBh)
+[](https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh)
+<a href="https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh">Link</a>
+<a href="https://ywh1bkansf.larksuite.com/wiki/F8OMwrI3TisTPokQAJHcMG2knBh" title="Foo">Link1</a>
+<img src="https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh" width="20" height="100"/>
+![](F8OMwrI3TisTPokQAJHcMG2knBh)
+![Img Alt](flasdjkgajklsdgjklajklsdgjklal)
+<a href='F8OMwrI3TisTPokQAJHcMG2knBh'>Link2</a>
+<a href="./F8OMwrI3TisTPokQAJHcMG2knBh" class="foo">Link3</a>
+<img src='F8OMwrI3TisTPokQAJHcMG2knBh' />
+<a href="/F8OMwrI3TisTPokQAJHcMG2knBh/F8OMwrI3TisTPokQAJHcMG2knBh">Link Complex</a>
+<a href="https://ywh1bkansf.feishu.cn/wiki/F8OMwrI3TisTPokQAJHcMG2knBh?foo=bar#hash1">Link with Query</a>
     `;
 
     let expected = `
-    ](https://ywh1bkansf.feishu.cn/wiki/aabbdd)
-    ](https://ywh1bkansf.feishu.cn/foo/aabbdd)
-    ](/new-link)
-    ](/new-link)
-    href="/new-link"
-    href="/new-link"
-    src="/new-link"
-    ](/new-link)
-    ](flasdjkgajklsdgjklajklsdgjklal)
-    href="/new-link"
-    href="./F8OMwrI3TisTPokQAJHcMG2knBh"
-    src="/new-link"
-    href="/F8OMwrI3TisTPokQAJHcMG2knBh/F8OMwrI3TisTPokQAJHcMG2knBh"
-    href="/new-link"
+[](https://ywh1bkansf.feishu.cn/wiki/aabbdd)
+[](https://ywh1bkansf.feishu.cn/foo/aabbdd)
+[](/new-link)
+[](/new-link)
+<a href="/new-link">Link</a>
+<a href="/new-link" title="Foo">Link1</a>
+<img src="/new-link" width="20" height="100"/>
+![](/new-link)
+![Img Alt](flasdjkgajklsdgjklajklsdgjklal)
+<a href='/new-link'>Link2</a>
+<a href="./F8OMwrI3TisTPokQAJHcMG2knBh" class="foo">Link3</a>
+<img src='/new-link' />
+<a href="/F8OMwrI3TisTPokQAJHcMG2knBh/F8OMwrI3TisTPokQAJHcMG2knBh">Link Complex</a>
+<a href="/new-link">Link with Query</a>
     `;
 
     assert.equal(
       replaceLinks(raw, 'F8OMwrI3TisTPokQAJHcMG2knBh', '/new-link'),
       expected
+    );
+
+    assert.equal(
+      replaceLinks(
+        `Hello world [链接 1](Yg5Dwtk30isnqBkNmbscxSK4nme) 說明公司行動預告數據導入方式 () [链接 2](PjI5wER20ic3VDkLX6ccjqv3nAh) 其他文字。`,
+        'Yg5Dwtk30isnqBkNmbscxSK4nme',
+        '/this-is-new-link'
+      ),
+      `Hello world [链接 1](/this-is-new-link) 說明公司行動預告數據導入方式 () [链接 2](PjI5wER20ic3VDkLX6ccjqv3nAh) 其他文字。`
+    );
+
+    assert.equal(
+      replaceLinks(
+        `<tr><td><p><a href="Yg5Dwtk30isnqBkNmbscxSK4nme">公司行動數據導入</a> </p></td><td><p>說明公司行動預告數據導入方式 (港股 05 / 02 文件)</p></td></tr><tr><td><p><a href="PjI5wER20ic3VDkLX6ccjqv3nAh">公司行動手動新增</a> </p></td></tr><tr>`,
+        'Yg5Dwtk30isnqBkNmbscxSK4nme',
+        '/this-is-new-link'
+      ),
+
+      `<tr><td><p><a href="/this-is-new-link">公司行動數據導入</a> </p></td><td><p>說明公司行動預告數據導入方式 (港股 05 / 02 文件)</p></td></tr><tr><td><p><a href="PjI5wER20ic3VDkLX6ccjqv3nAh">公司行動手動新增</a> </p></td></tr><tr>`
     );
   });
 });

@@ -25,6 +25,8 @@
     "axios": "^1.5.0",
     "dotenv": "^16.3.1",
     "feishu-docx": "0.6.0",
+    "marked": "^11.1.0",
+    "marked-xhtml": "^1.0.8",
     "mime-types": "^2.1.35",
     "typescript": "^5.2.2"
   },

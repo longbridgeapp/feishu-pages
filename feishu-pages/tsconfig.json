@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "target": "es6",
+    "lib": ["es2021"],
     "noImplicitAny": false,
     "moduleResolution": "node",
     "outDir": "dist",
