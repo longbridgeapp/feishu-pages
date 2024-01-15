@@ -4,14 +4,14 @@
 <p>🎉 This site build by GitHub Actions with feishu-pages.</p>
 </div>
 
-<div class="grid gap-3 grid-cols-3">
-<div>
+<div class="flex gap-3 columns-3" column-size="3">
+<div class="w-[33%]" width-ratio="33">
 <img src="Bwk8bcQH6oLQn1xjzdacPBckn8d" src-width="1000" src-height="500" align="center"/>
 </div>
-<div>
+<div class="w-[33%]" width-ratio="33">
 <img src="DkwibdF3ooVi0KxttdocdoQ5nPh" src-width="400" src-height="354" align="center"/>
 </div>
-<div>
+<div class="w-[33%]" width-ratio="33">
 <img src="M9hDb8WXzo7TU5xg4xtcvArPnxe" src-width="410" src-height="404" align="center"/>
 </div>
 </div>
@@ -131,14 +131,14 @@ yarn feishu-pages
 <p>所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 <code>slug</code> 来整理文件夹和文件名。</p>
 </div>
 
-<div class="grid gap-3 grid-cols-2">
-<div>
+<div class="flex gap-3 columns-2" column-size="2">
+<div class="w-[49%]" width-ratio="49">
 <img src="SzJmbprNwo5Y7Cx2MzAc7k7dnCt" src-width="2532" src-height="1480" align="center"/>
 
 <p><a href="https://twitter.com/WaytoAGI">欢迎订阅我们的 X &lt;Twitter&gt;<br/>https://twitter.com/xxx</a></p>
 <p>最新知识库精选同步</p>
 </div>
-<div>
+<div class="w-[49%]" width-ratio="49">
 <img src="DPH0bRiUuohOKlxHKnCce5SRnMd" src-width="1642" src-height="847" align="center"/>
 
 <p><a href="https://www.xiaohongshu.com/user/profile/633332ae0000000023038bf6?xhsshare=WeixinSession&appuid=574c21775e87e729545ad275&apptime=1692161211">通往 AI 绘画之路</a>（小红书）</p>

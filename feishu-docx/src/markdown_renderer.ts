@@ -617,8 +617,11 @@ export class MarkdownRenderer extends Renderer {
 
   parseGrid(block: Block) {
     const buf = new Buffer();
+    const { column_size } = block.grid;
 
-    buf.write(`<div class="grid gap-3 grid-cols-${block.grid.column_size}">\n`);
+    buf.write(
+      `<div class="flex gap-3 columns-${column_size}" column-size="${column_size}">\n`
+    );
 
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
@@ -632,7 +635,11 @@ export class MarkdownRenderer extends Renderer {
   parseGridColumn(block: Block): Buffer | string {
     const buf = new Buffer();
 
-    buf.write(`<div>\n`);
+    let { width_ratio } = block.grid_column;
+
+    buf.write(
+      `<div class="w-[${width_ratio}%]" width-ratio="${width_ratio}">\n`
+    );
 
     let inner = block.children
       ?.map((childId) => {
