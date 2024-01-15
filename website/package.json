@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "yarn generate-releases && vitepress dev",
+    "dev": "VITEPRESS_DOCS_ROOT=../dist vitepress dev",
     "build": "vitepress build",
     "generate-releases": "node generate-releases.js",
     "preview": "vitepress preview"

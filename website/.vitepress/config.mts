@@ -1,6 +1,16 @@
+import fs from 'fs';
+import path from 'path';
 import { DefaultTheme, defineConfig } from 'vitepress';
 
-import docs from '../docs.json';
+let docsPath = 'docs.json';
+let srcDir = 'docs';
+if (process.env.VITEPRESS_DOCS_ROOT) {
+  docsPath = path.join(process.env.VITEPRESS_DOCS_ROOT, 'docs.json');
+  srcDir = path.join(process.env.VITEPRESS_DOCS_ROOT, 'docs');
+}
+docsPath = path.resolve(docsPath);
+console.info(`Loading ${docsPath}`);
+const docs = JSON.parse(fs.readFileSync(docsPath).toString());
 
 /**
  * Convert feishu-pages's docs.json into VitePress's sidebar config
@@ -51,7 +61,7 @@ export default defineConfig({
   },
   cleanUrls: true,
   srcExclude: ['SUMMARY.md'],
-  srcDir: 'docs',
+  srcDir: srcDir,
   markdown: {
     math: true,
   },
