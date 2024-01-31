@@ -1224,9 +1224,21 @@
         "elements": [
           {
             "text_run": {
-              "content": "Name",
+              "content": "名",
               "text_element_style": {
-                "bold": false,
+                "bold": true,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "称",
+              "text_element_style": {
+                "bold": true,
                 "inline_code": false,
                 "italic": false,
                 "strikethrough": false,

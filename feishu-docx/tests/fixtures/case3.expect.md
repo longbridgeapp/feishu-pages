@@ -60,7 +60,7 @@ yarn add feishu-pages
 </colgroup>
 <thead>
 <tr>
-<th><p>Name</p></th><th><p>Description</p></th><th><p>Required</p></th><th><p>Default</p></th></tr>
+<th><p><strong>名称</strong></p></th><th><p>Description</p></th><th><p>Required</p></th><th><p>Default</p></th></tr>
 </thead>
 <tbody>
 <tr>
@@ -82,7 +82,7 @@ yarn add feishu-pages
 ### **创建飞书应用并开通权限**
 
 1. 请访问 [https://open.feishu.cn/app](https://open.feishu.cn/app) 创建一个新应用，并获得：
-    - `App ``ID`
+    - `App ID`
     - `App Secret` - 请注意保管 App Secret，不要泄露到互联网。
 
 2. 为应用开启 `机器人` 应用能力。
@@ -91,7 +91,7 @@ yarn add feishu-pages
 5. 在飞书 IM 中创建新群 `Feishu Pages`，将应用添加为该群机器人，知识库管理员在「知识空间设置」-&gt; 「权限设置」-&gt;「添加管理员」中添加，把这个 `Feishu Pages` 群加成 **管理员**。
     - 否则会遇到 `permission denied: wiki space permission denied` 错误。 [ref](https://open.feishu.cn/document/server-docs/docs/wiki-v2/wiki-qa)
 
-### **获取飞书知识库 ****space_id**
+### **获取飞书知识库 space_id**
 
 我们需要配置 `FEISHU_SPACE_ID` 的环境变量，这个为飞书知识库的 `space_id`，你可以访问知识库设置界面，从 URL 中获取。
 

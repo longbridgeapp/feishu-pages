@@ -229,7 +229,7 @@ export class MarkdownRenderer extends Renderer {
     const inline = block.elements.length > 1;
 
     block.elements?.forEach((el) => {
-      buf.write(this.parseTextElement(el, inline));
+      this.parseTextElement(buf, el, inline);
     });
 
     if (buf.length > 0) {
@@ -306,10 +306,9 @@ export class MarkdownRenderer extends Renderer {
     return buf;
   }
 
-  parseTextElement(el: TextElement, inline: boolean): Buffer | string {
-    const buf = new Buffer();
+  parseTextElement(buf: Buffer, el: TextElement, inline: boolean) {
     if (el.text_run) {
-      buf.write(this.parseTextRun(el.text_run));
+      this.parseTextRun(buf, el.text_run);
     } else if (el.equation) {
       let symbol = inline ? '$' : '$$';
       buf.write(symbol);
@@ -319,36 +318,34 @@ export class MarkdownRenderer extends Renderer {
       const node_token = decodeURIComponent(el.mention_doc.token);
       buf.write(`[${el.mention_doc.title}](${node_token})`);
     }
-
-    return buf;
   }
 
-  parseTextRun(textRun: TextRun): Buffer | string {
-    const buf = new Buffer();
+  parseTextRun(buf: Buffer, textRun: TextRun) {
+    let preWrite = '';
     let postWrite = '';
 
     let style = textRun.text_element_style;
     let escape = true;
     if (style) {
       if (style.bold) {
-        buf.write('**');
+        preWrite = '**';
         postWrite = '**';
       } else if (style.italic) {
-        buf.write('_');
+        preWrite = '_';
         postWrite = '_';
       } else if (style.strikethrough) {
-        buf.write('~~');
+        preWrite = '~~';
         postWrite = '~~';
       } else if (style.underline) {
-        buf.write('<u>');
+        preWrite = '<u>';
         postWrite = '</u>';
       } else if (style.inline_code) {
-        buf.write('`');
+        preWrite = '`';
         postWrite = '`';
         escape = false;
       } else if (style.link) {
         const unescapeURL = decodeURIComponent(style.link.url);
-        buf.write(`[`);
+        preWrite = `[`;
         postWrite = `](${unescapeURL})`;
       }
     }
@@ -362,10 +359,16 @@ export class MarkdownRenderer extends Renderer {
       plainText = escapeHTMLTags(plainText);
     }
 
+    // If the previus style is same as current, we can merge them.
+    // For example:
+    // Last is: **He**
+    // Current is: **llo**
+    // Then we can merge them to **Hello**
+    if (!buf.trimLastIfEndsWith(preWrite)) {
+      buf.write(preWrite);
+    }
     buf.write(plainText);
     buf.write(postWrite);
-
-    return buf;
   }
 
   parseImage(image: ImageBlock): Buffer | string {
