@@ -35,13 +35,15 @@ marked.use(markedXhtml());
  */
 export class MarkdownRenderer extends Renderer {
   parseBlock(block: Block, indent: number) {
+    this.indent = indent;
+
     if (!block) {
       return '';
     }
 
     const buf = new Buffer();
+    buf.writeIndent(this.indent);
 
-    buf.write(' '.repeat(indent * 4));
     this.currentBlock = block;
     switch (block.block_type) {
       case BlockType.Page:
@@ -214,11 +216,13 @@ export class MarkdownRenderer extends Renderer {
         }
       }
 
-      let childText = this.parseBlock(child, 0);
-      if (childText.length > 0) {
-        buf.write(childText);
-        buf.write('\n');
-      }
+      this.withSubIndent(() => {
+        let childText = this.parseBlock(child, 0);
+        if (childText.length > 0) {
+          buf.write(childText);
+          buf.write('\n');
+        }
+      });
     });
 
     return buf;
@@ -254,10 +258,12 @@ export class MarkdownRenderer extends Renderer {
 
     buf.write(itemText);
 
-    block.children?.forEach((childId, idx) => {
-      const child = this.blockMap[childId];
-      this.nextBlock = null;
-      buf.write(this.parseBlock(child, indent + 1));
+    this.withSubIndent(() => {
+      block.children?.forEach((childId, idx) => {
+        const child = this.blockMap[childId];
+        this.nextBlock = null;
+        buf.write(this.parseBlock(child, indent + 1));
+      });
     });
 
     return buf;
@@ -296,11 +302,13 @@ export class MarkdownRenderer extends Renderer {
     buf.write(itemText);
 
     // Sub items
-    block.children?.forEach((childId, idx) => {
-      const child = this.blockMap[childId];
-      // Peek next block
-      this.nextBlock = null;
-      buf.write(this.parseBlock(child, indent + 1));
+    this.withSubIndent(() => {
+      block.children?.forEach((childId, idx) => {
+        const child = this.blockMap[childId];
+        // Peek next block
+        this.nextBlock = null;
+        buf.write(this.parseBlock(child, indent + 1));
+      });
     });
 
     return buf;
@@ -404,9 +412,11 @@ export class MarkdownRenderer extends Renderer {
   parseTableCell(block: Block): Buffer | string {
     const buf = new Buffer();
 
-    block.children?.forEach((childId) => {
-      const child = this.blockMap[childId];
-      buf.write(this.parseBlock(child, 0));
+    this.withSubIndent(() => {
+      block.children?.forEach((childId) => {
+        const child = this.blockMap[childId];
+        buf.write(this.parseBlock(child, 0));
+      });
     });
 
     return buf;
@@ -419,17 +429,19 @@ export class MarkdownRenderer extends Renderer {
 
     let rows: string[][] = [[]];
 
-    table.cells.forEach((blockId, idx) => {
-      const block = this.blockMap[blockId];
-      let cellText = this.parseBlock(block, 0);
-      cellText = trimLastNewline(cellText).replace(/\n/gm, '<br/>');
-      const row = Math.floor(idx / table.property.column_size);
+    this.withSubIndent(() => {
+      table.cells.forEach((blockId, idx) => {
+        const block = this.blockMap[blockId];
+        let cellText = this.parseBlock(block, 0);
+        cellText = trimLastNewline(cellText).replace(/\n/gm, '<br/>');
+        const row = Math.floor(idx / table.property.column_size);
 
-      if (rows.length < row + 1) {
-        rows.push([]);
-      }
+        if (rows.length < row + 1) {
+          rows.push([]);
+        }
 
-      rows[row].push(cellText);
+        rows[row].push(cellText);
+      });
     });
 
     const buf = new Buffer();
@@ -468,15 +480,18 @@ export class MarkdownRenderer extends Renderer {
 
   parseTableAsHTML(table: TableBlock): Buffer | string {
     let rows: string[][] = [[]];
-    table.cells.forEach((blockId, idx) => {
-      const block = this.blockMap[blockId];
-      let cellHTML = this.markdownToHTML(this.parseBlock(block, 0));
-      const row = Math.floor(idx / table.property.column_size);
-      if (rows.length < row + 1) {
-        rows.push([]);
-      }
 
-      rows[row].push(cellHTML.trim());
+    this.withSubIndent(() => {
+      table.cells.forEach((blockId, idx) => {
+        const block = this.blockMap[blockId];
+        let cellHTML = this.markdownToHTML(this.parseBlock(block, 0));
+        const row = Math.floor(idx / table.property.column_size);
+        if (rows.length < row + 1) {
+          rows.push([]);
+        }
+
+        rows[row].push(cellHTML.trim());
+      });
     });
 
     // Build table attrs
@@ -496,16 +511,17 @@ export class MarkdownRenderer extends Renderer {
     }
 
     const buf = new Buffer();
-    buf.write(`<table${attrHTML}>\n`);
+    buf.writeln(`<table${attrHTML}>`);
 
     // Write colgroup for col width
-    buf.write('<colgroup>\n');
+    buf.writeln('<colgroup>');
+
     for (let i = 0; i < table.property?.column_size; i++) {
       let width = table.property?.column_width[i];
       let widthAttr = width ? ` width="${width}"` : '';
-      buf.write(`<col${widthAttr}/>\n`);
+      buf.writeln(`<col${widthAttr}/>`);
     }
-    buf.write('</colgroup>\n');
+    buf.writeln('</colgroup>');
 
     let cellIdx = 0;
 
@@ -559,37 +575,39 @@ export class MarkdownRenderer extends Renderer {
       let headRow = [];
       headRow = rows.shift();
 
-      buf.write('<thead>\n');
-      buf.write('<tr>\n');
+      buf.writeln('<thead>');
+      buf.write('<tr>');
       for (let i = 0; i < columnSize; i++) {
         writeCell(buf, headRow[i], 'th');
       }
-      buf.write('</tr>\n');
-      buf.write('</thead>\n');
+      buf.writeln('</tr>');
+      buf.writeln('</thead>');
     }
 
     // Render tbody
-    buf.write('<tbody>\n');
+    buf.writeln('<tbody>');
     for (const row of rows) {
-      buf.write('<tr>\n');
+      buf.write('<tr>');
       row.forEach((cell) => {
         writeCell(buf, cell, 'td');
       });
-      buf.write('</tr>\n');
+      buf.writeln('</tr>');
     }
-    buf.write('</tbody>\n');
-    buf.write('</table>\n');
+    buf.writeln('</tbody>');
+    buf.writeln('</table>');
 
-    return buf;
+    return buf.toString({ indent: this.indent });
   }
 
   parseQuoteContainer(block: Block): Buffer | string {
     const buf = new Buffer();
 
-    block.children?.forEach((childId) => {
-      const child = this.blockMap[childId];
-      buf.write('> ');
-      buf.write(this.parseBlock(child, 0));
+    this.withSubIndent(() => {
+      block.children?.forEach((childId) => {
+        const child = this.blockMap[childId];
+        buf.write('> ');
+        buf.write(this.parseBlock(child, 0));
+      });
     });
 
     return buf;
@@ -598,9 +616,11 @@ export class MarkdownRenderer extends Renderer {
   parseView(block: Block): Buffer | string {
     const buf = new Buffer();
 
-    block.children?.forEach((childId) => {
-      const child = this.blockMap[childId];
-      buf.write(this.parseBlock(child, 0));
+    this.withSubIndent(() => {
+      block.children?.forEach((childId) => {
+        const child = this.blockMap[childId];
+        buf.write(this.parseBlock(child, 0));
+      });
     });
 
     return buf;
@@ -622,17 +642,17 @@ export class MarkdownRenderer extends Renderer {
     const buf = new Buffer();
     const { column_size } = block.grid;
 
-    buf.write(
-      `<div class="flex gap-3 columns-${column_size}" column-size="${column_size}">\n`
+    buf.writeln(
+      `<div class="flex gap-3 columns-${column_size}" column-size="${column_size}">`
     );
 
     block.children?.forEach((childId) => {
       const child = this.blockMap[childId];
       buf.write(this.parseGridColumn(child));
     });
-    buf.write('</div>\n');
+    buf.writeln('</div>');
 
-    return buf;
+    return buf.toString({ indent: this.indent });
   }
 
   parseGridColumn(block: Block): Buffer | string {
@@ -640,20 +660,25 @@ export class MarkdownRenderer extends Renderer {
 
     let { width_ratio } = block.grid_column;
 
-    buf.write(
-      `<div class="w-[${width_ratio}%]" width-ratio="${width_ratio}">\n`
+    buf.writeln(
+      `<div class="w-[${width_ratio}%]" width-ratio="${width_ratio}">`
     );
 
-    let inner = block.children
-      ?.map((childId) => {
-        const child = this.blockMap[childId];
-        return this.parseBlock(child, 0);
-      })
-      .join('\n');
-    buf.write(this.markdownToHTML(inner));
-    buf.write('</div>\n');
+    let inner = '';
 
-    return buf;
+    this.withSubIndent(() => {
+      inner = block.children
+        ?.map((childId) => {
+          const child = this.blockMap[childId];
+          return this.parseBlock(child, 0);
+        })
+        .join('\n');
+    });
+
+    buf.write(this.markdownToHTML(inner));
+    buf.writeln('</div>');
+
+    return buf.toString({ indent: this.indent });
   }
 
   parseCallout(block: Block): Buffer | string {
@@ -686,7 +711,7 @@ export class MarkdownRenderer extends Renderer {
       })
       .join('; ');
 
-    buf.write(`<div class="${classNames.join(' ')}">\n`);
+    buf.writeln(`<div class="${classNames.join(' ')}">`);
 
     // Inner of the Callout, we need ouput as HTML
     let markdownBuf = new Buffer();
@@ -695,21 +720,22 @@ export class MarkdownRenderer extends Renderer {
       markdownBuf.write(' ');
     }
 
-    markdownBuf.write(
-      block.children
-        ?.map((childId) => {
-          const child = this.blockMap[childId];
-          return this.parseBlock(child, 0);
-        })
-        .join('\n')
-    );
+    this.withSubIndent(() => {
+      markdownBuf.write(
+        block.children
+          ?.map((childId) => {
+            const child = this.blockMap[childId];
+            return this.parseBlock(child, 0);
+          })
+          .join('\n')
+      );
+    });
 
     let html = this.markdownToHTML(markdownBuf.toString());
-
     buf.write(html);
-    buf.write('</div>\n');
+    buf.writeln('</div>');
 
-    return buf;
+    return buf.toString({ indent: this.indent });
   }
 
   parseIframe(block: Block): Buffer | string {
@@ -728,9 +754,11 @@ export class MarkdownRenderer extends Renderer {
   parseSyncedBlock(block: Block): Buffer {
     const buf = new Buffer();
 
-    block.children?.forEach((childId) => {
-      const child = this.blockMap[childId];
-      buf.write(this.parseBlock(child, 0));
+    this.withSubIndent(() => {
+      block.children?.forEach((childId) => {
+        const child = this.blockMap[childId];
+        buf.write(this.parseBlock(child, 0));
+      });
     });
 
     return buf;

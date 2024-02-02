@@ -11,6 +11,7 @@ export class Renderer {
    * Current Block
    */
   currentBlock?: Block | null;
+  indent: number = 0;
   debug: boolean;
   outputUnsupported: boolean = false;
 
@@ -40,6 +41,17 @@ export class Renderer {
 
   parseBlock(block: Block, indent: number): string {
     throw new Error('Not implemented');
+  }
+
+  /**
+   * Wrap with sub indent, after the function, will restore the old indent
+   * @param indent
+   * @param fn
+   */
+  withSubIndent(fn: () => void) {
+    const oldIndent = this.indent;
+    fn();
+    this.indent = oldIndent;
   }
 
   /**

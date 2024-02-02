@@ -19,6 +19,15 @@ export class Buffer {
     }
   }
 
+  writeln(s: string | Buffer) {
+    this.write(s);
+    this.write('\n');
+  }
+
+  writeIndent(indent: number) {
+    this.write(' '.repeat(indent * 4));
+  }
+
   /**
    * Remove last string if ends with part
    * @param part
@@ -43,7 +52,24 @@ export class Buffer {
     return false;
   }
 
-  toString() {
-    return this.buffer.join('');
+  toString(opts?: { indent?: number }) {
+    const { indent = 0 } = opts || {};
+    let out = this.buffer.join('');
+    if (indent > 0) {
+      out = out
+        .split('\n')
+        .map((line, idx) => {
+          if (idx === 0 || line.length == 0) {
+            return line;
+          }
+          if (line.trim() == '') {
+            return '';
+          }
+
+          return ' '.repeat(indent * 4) + line;
+        })
+        .join('\n');
+    }
+    return out;
   }
 }
