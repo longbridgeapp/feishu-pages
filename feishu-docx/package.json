@@ -1,6 +1,6 @@
 {
   "name": "feishu-docx",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Convert Feishu Docx into other format (Markdown, HTML ...)",
   "module": "src/index.ts",
   "main": "dist/index.js",
