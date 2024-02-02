@@ -1,7 +1,8 @@
 # Feishu Pages
 
 <div class="callout callout-bg-3 callout-border-2">
-<p>🎉 This site build by GitHub Actions with feishu-pages.</p>
+<div class='callout-emoji'>🎉</div>
+<p>This site build by GitHub Actions with feishu-pages.</p>
 </div>
 
 <div class="flex gap-3 columns-3" column-size="3">
@@ -81,7 +82,8 @@ yarn add feishu-pages
         > 这里是一段 BlockQuote
         这里是另外一个段落
         <div class="callout callout-bg-3 callout-border-3">
-        <p>💡 这里 Callout 的内容</p>
+        <div class='callout-emoji'>💡</div>
+        <p>这里 Callout 的内容</p>
         <p>这是第二行</p>
         </div>
 
@@ -127,7 +129,8 @@ yarn feishu-pages
 <iframe src="https://www.bilibili.com/video/BV1L94y1t7Yb/"/>
 
 <div class="callout callout-bg-3 callout-border-3">
-<p>💡 文档内 <a href="J1o5w2l0NiV8tekJvXycfkkengb">Page Mata</a> 标识为 <code>hide: true</code> 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。</p>
+<div class='callout-emoji'>💡</div>
+<p>文档内 <a href="J1o5w2l0NiV8tekJvXycfkkengb">Page Mata</a> 标识为 <code>hide: true</code> 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。</p>
 <p>所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 <code>slug</code> 来整理文件夹和文件名。</p>
 </div>
 
