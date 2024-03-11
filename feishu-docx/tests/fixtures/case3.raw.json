@@ -2563,7 +2563,7 @@
           },
           {
             "text_run": {
-              "content": "管理员",
+              "content": "管理员：",
               "text_element_style": {
                 "bold": true,
                 "inline_code": false,

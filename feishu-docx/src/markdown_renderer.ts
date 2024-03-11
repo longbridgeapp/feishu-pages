@@ -367,6 +367,20 @@ export class MarkdownRenderer extends Renderer {
       plainText = escapeHTMLTags(plainText);
     }
 
+    // If the endof char in plainText is punctuations (: or ：), then use HTML tag
+    if (plainText.match(/[:：]$/)) {
+      if (style.bold) {
+        preWrite = "<b>";
+        postWrite = "</b>";
+      } else if (style.italic) {
+        preWrite = "<i>";
+        postWrite = "</i>";
+      } else if (style.strikethrough) {
+        preWrite = "<del>";
+        postWrite = "</del>";
+      }
+    }
+
     // If the previus style is same as current, we can merge them.
     // For example:
     // Last is: **He**
