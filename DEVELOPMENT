@@ -1,0 +1,29 @@
+## Development in Local
+
+```bash
+bun install
+```
+
+And then you can update `feishu-pages/.env` to setup your own ENV variables.
+
+### Export Feishu Pages
+
+Here is the command to export Feishu Pages to local:
+
+```bash
+bun run export
+```
+
+### Start VitePress Server
+
+```bash
+bun run dev
+```
+
+## Release a New Version
+
+1. Update `feishu-pages/package.json` with a new version number.
+2. Create git tag with the same version number.
+3. Push the tag to GitHub.
+4. Then the GitHub Action will automatically release the new version to npm.
+5. Write Releate Notes in [Release Page](https://github.com/longbridgeapp/feishu-pages/releases)
