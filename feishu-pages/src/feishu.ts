@@ -219,6 +219,21 @@ export const feishuFetch = async (method, path, payload): Promise<any> => {
 };
 
 /**
+ * Check if Cache File exist, and content-length > 0
+ */
+const isValidCacheExist = (cacheFilePath: string) => {
+  if (fs.existsSync(cacheFilePath)) {
+    const stats = fs.statSync(cacheFilePath);
+    if (stats.size > 0) {
+      return true;
+    } else {
+      console.warn("file", cacheFilePath, "size is 0");
+    }
+  }
+  return false;
+};
+
+/**
  * Download Feishu File into a Local path
  *
  * If download failed, return null
@@ -235,7 +250,10 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   let res: { data?: fs.ReadStream; headers?: Record<string, any> } = {};
   let hasCache = false;
 
-  if (fs.existsSync(cacheFilePath) && fs.existsSync(cacheFileMetaPath)) {
+  if (
+    isValidCacheExist(cacheFilePath) &&
+    isValidCacheExist(cacheFileMetaPath)
+  ) {
     hasCache = true;
     res.headers = JSON.parse(fs.readFileSync(cacheFileMetaPath, "utf-8"));
     console.info(" -> Cache hit:", fileToken);
@@ -300,14 +318,6 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
     return null;
   }
 
-  // Check cacheFile size, if is 0kb remove it
-  const stats = fs.statSync(cacheFilePath);
-  if (stats.size === 0) {
-    fs.rmSync(cacheFilePath);
-    console.error(" -> ERROR: Invalid image, size is 0, token:", fileToken);
-    return null;
-  }
-
   let extension = mime.extension(res.headers["content-type"]);
   let fileSize = res.headers["content-length"];
   if (!hasCache) {
@@ -326,7 +336,7 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
   if (!hasCache) {
     console.info(" -> Writing file:", localPath);
   }
-  if (!fs.existsSync(cacheFilePath)) {
+  if (!isValidCacheExist(cacheFilePath)) {
     console.warn("file not found,", cacheFilePath, "may be is download 404");
     return null;
   }
