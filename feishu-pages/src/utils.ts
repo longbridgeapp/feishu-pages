@@ -1,16 +1,16 @@
-import fs from 'fs';
-import { marked } from 'marked';
-import { markedXhtml } from 'marked-xhtml';
-import os from 'os';
-import path from 'path';
-import { FileDoc } from './summary';
+import fs from "fs";
+import { marked } from "marked";
+import { markedXhtml } from "marked-xhtml";
+import os from "os";
+import path from "path";
+import { FileDoc } from "./summary";
 
 marked.use(markedXhtml());
 
 export const normalizeSlug = (slug: string | number) => {
   // force convert slug into string
   slug = String(slug);
-  return slug.replace(/^wik(cn|en)/, '');
+  return slug.replace(/^wik(cn|en)/, "");
 };
 
 /**
@@ -22,13 +22,17 @@ export const normalizeSlug = (slug: string | number) => {
  * @return Formatted string.
  */
 export const humanizeFileSize = (bytes, dp = 1) => {
+  if (typeof bytes === "string") {
+    bytes = parseInt(bytes);
+  }
+
   const thresh = 1024;
 
   if (Math.abs(bytes) < thresh) {
-    return bytes + ' B';
+    return bytes + " B";
   }
 
-  const units = ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const units = ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
   let u = -1;
   const r = 10 ** dp;
 
@@ -40,23 +44,23 @@ export const humanizeFileSize = (bytes, dp = 1) => {
     u < units.length - 1
   );
 
-  return bytes.toFixed(dp) + ' ' + units[u];
+  return bytes.toFixed(dp) + " " + units[u];
 };
 
 const allowKeys = [
-  'depth',
-  'title',
-  'slug',
-  'filename',
-  'node_token',
-  'parent_node_token',
-  'children',
-  'obj_create_time',
-  'obj_edit_time',
-  'obj_token',
-  'has_child',
-  'meta',
-  'position',
+  "depth",
+  "title",
+  "slug",
+  "filename",
+  "node_token",
+  "parent_node_token",
+  "children",
+  "obj_create_time",
+  "obj_edit_time",
+  "obj_token",
+  "has_child",
+  "meta",
+  "position",
 ];
 
 export function cleanupDocsForJSON(docs: FileDoc[]) {
@@ -89,7 +93,7 @@ export function cleanupDocsForJSON(docs: FileDoc[]) {
 export function replaceLinks(
   content: string,
   node_token: string,
-  newLink?: string
+  newLink?: string,
 ): string {
   if (!newLink) {
     return content;
@@ -105,21 +109,21 @@ export function replaceLinks(
   */
   const htmlRe = new RegExp(
     `((src|href)=["|'])(http[s]?:\\\/\\\/[\\w]+\\.(feishu\\.cn|larksuite\.com)\\\/.*)?(${node_token}[^"']*)("|')`,
-    'gm'
+    "gm",
   );
   content = content.replace(htmlRe, `$1${newLink}$6`);
 
   /*
     match all links in markdown links, images
 
-    1 - ]( 
+    1 - ](
     2 - https://ywh1bkansf.feishu.cn/wiki/aabbdd
     3 - node_token
     4 - )
    */
   const mdRe = new RegExp(
     `(\\]\\()(http[s]?:\\\/\\\/[\\w]+\\.(feishu\\.cn|larksuite\.com)\\\/.*)?(${node_token}[^\\)]*)(\\))`,
-    'gm'
+    "gm",
   );
   content = content.replace(mdRe, `$1${newLink}$5`);
 
@@ -133,8 +137,8 @@ export function replaceLinks(
 export function writeTemplfile(content: string): string {
   let filename = path.join(
     os.tmpdir(),
-    'feishi-pages',
-    Math.random().toString(36)
+    "feishi-pages",
+    Math.random().toString(36),
   );
   if (!fs.existsSync(path.dirname(filename))) {
     fs.mkdirSync(path.dirname(filename), { recursive: true });
@@ -150,8 +154,8 @@ export function writeTemplfile(content: string): string {
  * Remove /tmp/feishi-pages
  */
 export function cleanupTmpFiles() {
-  const tmpDir = path.join(os.tmpdir(), 'feishi-pages');
-  console.log('Cleanup temp files:', tmpDir);
+  const tmpDir = path.join(os.tmpdir(), "feishi-pages");
+  console.log("Cleanup temp files:", tmpDir);
 
   if (fs.existsSync(tmpDir)) {
     fs.rmSync(tmpDir, { recursive: true });
@@ -159,20 +163,20 @@ export function cleanupTmpFiles() {
 }
 
 export function printMemoryUsage(prefix?: string) {
-  if (process.env.DEBUG !== '1' && process.env.DEBUG !== 'true') {
+  if (process.env.DEBUG !== "1" && process.env.DEBUG !== "true") {
     return;
   }
 
   const used = process.memoryUsage();
   if (prefix) {
-    prefix = prefix + ' ';
+    prefix = prefix + " ";
   }
 
   console.log(
     `${prefix}${humanizeFileSize(used.rss)} RSS, ${humanizeFileSize(
-      used.heapTotal
+      used.heapTotal,
     )} heapTotal, ${humanizeFileSize(
-      used.heapUsed
-    )} heapUsed, ${humanizeFileSize(used.external)} external`
+      used.heapUsed,
+    )} heapUsed, ${humanizeFileSize(used.external)} external`,
   );
 }
