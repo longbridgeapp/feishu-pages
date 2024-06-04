@@ -4,7 +4,7 @@
 
 ## Overview
 
-**Markdown** is created by [Daring Fireball](http://daringfireball.net/); the original guideline is [here](http://daringfireball.net/projects/markdown/syntax). Its syntax, however, varies between different parsers or editors. **Typora** is using [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/).
+<b>Markdown</b> is created by [Daring Fireball](http://daringfireball.net/); the original guideline is [here](http://daringfireball.net/projects/markdown/syntax). Its syntax, however, varies between different parsers or editors. <b>Typora</b> is using [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/).
 
 [toc]
 
@@ -103,13 +103,13 @@ puts markdown.to_html
 
 ### Math Blocks
 
-You can render _LaTeX_ mathematical expressions using **MathJax**.
+You can render <em>LaTeX</em> mathematical expressions using <b>MathJax</b>.
 
-To add a mathematical expression, input `$$` and press the 'Return' key. This will trigger an input field which accepts _Tex/LaTex_ source. For example:
+To add a mathematical expression, input `$$` and press the 'Return' key. This will trigger an input field which accepts <em>Tex/LaTex</em> source. For example:
 
 $$\mathbf{V}_1 \times \mathbf{V}_2 = \begin{vmatrix}\mathbf{i} & \mathbf{j} & \mathbf{k} \\\frac{\partial X}{\partial u} & \frac{\partial Y}{\partial u} & 0 \\\frac{\partial X}{\partial v} & \frac{\partial Y}{\partial v} & 0 \\\end{vmatrix}$$
 
-In the markdown source file, the math block is a _LaTeX_ expression wrapped by a pair of ‘$$’ marks:
+In the markdown source file, the math block is a <em>LaTeX</em> expression wrapped by a pair of ‘$$’ marks:
 
 ```md
 $$
@@ -208,7 +208,7 @@ This is [an example](http://example.com/) inline link. (`<p>This is <a href="htt
 
 #### Internal Links
 
-**You can set the href to headers**, which will create a bookmark that allow you to jump to that section after clicking. For example:
+<b>You can set the href to headers</b>, which will create a bookmark that allow you to jump to that section after clicking. For example:
 
 Command(on Windows: Ctrl) + Click This link will jump to header `Block Elements`. To see how to write that, please move cursor or click that link with `⌘` key pressed to expand the element into markdown source.
 
@@ -275,9 +275,9 @@ _single underscores_
 
 output:
 
-_single asterisks_
+<em>single asterisks</em>
 
-_single underscores_
+<em>single underscores</em>
 
 GFM will ignore underscores in words, which is commonly used in code and names, like this:
 
@@ -305,9 +305,9 @@ __double underscores__
 
 output:
 
-**double asterisks**
+<b>double asterisks</b>
 
-**double underscores**
+<b>double underscores</b>
 
 Typora recommends using the `**` symbol.
 
@@ -327,7 +327,7 @@ Use the `printf()` function.
 
 GFM adds syntax to create strikethrough text, which is missing from standard Markdown.
 
-`~~Mistaken text.~~` becomes ~~Mistaken text.~~
+`~~Mistaken text.~~` becomes <del>Mistaken text.</del>
 
 ### Underlines
 

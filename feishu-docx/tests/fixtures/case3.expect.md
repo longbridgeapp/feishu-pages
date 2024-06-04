@@ -17,19 +17,19 @@
 </div>
 </div>
 
-导出**飞书知识库**，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
+导出<b>飞书知识库</b>，并按相同目录结构生成 [Static Page Generator](https://www.google.com/search?q=Static+Page+Generator) 支持 Markdown 文件组织方式，用于发布为静态网站。
 
 内容格式支持：[Content Examples](Ks7jwPEtJiyUXckawcRcJ68jnvg) [直接连接](https://longbridge.feishu.cn/wiki/Ks7jwPEtJiyUXckawcRcJ68jnvg)
 
-## **Features**
+## <b>Features</b>
 
-- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（_目前只支持 Markdown_）
+- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（<em>目前只支持 Markdown</em>）
 - 目录结构组织
 - 图片下载
 - 与 GitHub Actions 结合
 - 生成支持 [Docusaurus](https://docusaurus.io/) 支持的 Markdown 格式，以实现目录结构组织（基于 `sidebar_position`）
 
-## **Installation**
+## <b>Installation</b>
 
 Feishu Pages 可以以 Npm 的方式引入到 Static Page Generator 的项目中。
 
@@ -44,13 +44,13 @@ yarn add feishu-pages
 
 [test-file.zip](TVEyb1pmWo8oIwxyL3kcIfrrnGd)
 
-## **Feishu Permissions**
+## <b>Feishu Permissions</b>
 
 - `docx:document:readonly`
 - `wiki:wiki:readonly`
 - `drive:drive:readonly`
 
-## **Configuration**
+## <b>Configuration</b>
 
 <table header_column="1" header_row="1">
 <colgroup>
@@ -60,7 +60,7 @@ yarn add feishu-pages
 <col width="405"/>
 </colgroup>
 <thead>
-<tr><th><p><strong>名称</strong></p></th><th><p>Description</p></th><th><p>Required</p></th><th><p>Default</p></th></tr>
+<tr><th><p><b>名</b><b>称</b></p></th><th><p>Description</p></th><th><p>Required</p></th><th><p>Default</p></th></tr>
 </thead>
 <tbody>
 <tr><td><p>FEISHU_APP_ID</p></td><td><p>飞书应用 ID</p></td><td><p>YES</p></td><td></td></tr>
@@ -72,9 +72,9 @@ yarn add feishu-pages
 </tbody>
 </table>
 
-## **Usage**
+## <b>Usage</b>
 
-### **创建飞书应用并开通权限**
+### <b>创建飞书应用并开通权限</b>
 
 1. 请访问 [https://open.feishu.cn/app](https://open.feishu.cn/app) 创建一个新应用，并获得：
     - `App ID`
@@ -93,13 +93,13 @@ yarn add feishu-pages
 5. 在飞书 IM 中创建新群 `Feishu Pages`，将应用添加为该群机器人，知识库管理员在「知识空间设置」-&gt; 「权限设置」-&gt;「添加管理员」中添加，把这个 `Feishu Pages` 群加成 <b>管理员：</b>。
     - 否则会遇到 `permission denied: wiki space permission denied` 错误。 [ref](https://open.feishu.cn/document/server-docs/docs/wiki-v2/wiki-qa)
 
-### **获取飞书知识库 space_id**
+### <b>获取飞书知识库 </b><b>space_id</b>
 
 我们需要配置 `FEISHU_SPACE_ID` 的环境变量，这个为飞书知识库的 `space_id`，你可以访问知识库设置界面，从 URL 中获取。
 
 例如：`https://your-company.feishu.cn/wiki/settings/6992046856314306562` 这里面 `6992046856314306562` 为 `space_id`。
 
-### **环境变量配置**
+### <b>环境变量配置</b>
 
 Feishu Pages 支持 `.env` 文件，如果执行的根目录有个 `.env` 文件，将会自动读取。
 
@@ -107,7 +107,7 @@ Feishu Pages 支持 `.env` 文件，如果执行的根目录有个 `.env` 文件
 
 如需在 GitHub Actions 的 CI 流程里面使用，建议添加到 Secrets 中，再通过环境变量的方式获取。
 
-## **从知识库导出 Markdown 文档**
+## <b>从知识库导出 Markdown 文档</b>
 
 ```bash
 cd your-project/
@@ -116,9 +116,9 @@ yarn feishu-pages
 
 按上面默认的配置，最终会在 `./dist` 目录下生成 Markdown 文件以及导出的图片文件，如果你期望调整目录，可以自己设置 `OUTPUT_DIR` 环境变量。
 
-## **常见问题**
+## <b>常见问题</b>
 
-### **Rate Limit 相关错误**
+### <b>Rate Limit 相关错误</b>
 
 > Error: request trigger frequency limit
 
@@ -167,6 +167,6 @@ yarn feishu-pages
 </tbody>
 </table>
 
-## **License**
+## <b>License</b>
 
 MIT

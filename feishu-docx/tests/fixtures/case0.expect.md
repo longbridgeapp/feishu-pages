@@ -35,9 +35,9 @@
 
 Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 
-**下载 feishu2md **-** **得益于 golang 本身的多平台编译特性，我已经为 Windows/Linux/Mac 都预编译了该工具的可执行文件，可以直接从 [Github Release](https://github.com/Wsine/feishu2md/releases) 中下载，从压缩包中提取自己平台的 feishu2md 二进制可执行文件即可，建议放置在 PATH 路径中。
+<b>下载 feishu2md </b>-<b> </b>得益于 golang 本身的多平台编译特性，我已经为 Windows/Linux/Mac 都预编译了该工具的可执行文件，可以直接从 [Github Release](https://github.com/Wsine/feishu2md/releases) 中下载，从压缩包中提取自己平台的 feishu2md 二进制可执行文件即可，建议放置在 PATH 路径中。
 
-**生成配置文件** - feishu2md 需要使用飞书的 Open API 提取飞书文档，因此需要配置相应的 App ID 和 App Secret 进行 API 的调用。首先，进入飞书的 [开发者后台](https://open.feishu.cn/app) 然后创建一个企业自建应用，信息可以任意填，发布但不必等待审核通过。然后在创建的应用页面中，找到「凭证与基础信息」，即可找到 App ID 和 App Secret 信息。
+<b>生成配置文件</b> - feishu2md 需要使用飞书的 Open API 提取飞书文档，因此需要配置相应的 App ID 和 App Secret 进行 API 的调用。首先，进入飞书的 [开发者后台](https://open.feishu.cn/app) 然后创建一个企业自建应用，信息可以任意填，发布但不必等待审核通过。然后在创建的应用页面中，找到「凭证与基础信息」，即可找到 App ID 和 App Secret 信息。
 
 <img src="boxcnh7JKLbFaWhHKHveYzGMNZg" src-width="1168" src-height="555"/>
 
@@ -51,7 +51,7 @@ Feishu2Md 已开源并发布在 Github 中：https://github.com/Wsine/feishu2md
 
 将 App ID 和 App Secret 填入配置文件 config.json 中的相应位置。另外，image_dir 配置项为存放文档中图片的文件夹名称。
 
-**下载飞书文档** - 通过 `feishu2md 你的飞书文档链接` 直接下载，文档链接可以通过 分享 &gt; 开启链接分享 &gt; 复制链接 获得。
+<b>下载飞书文档</b> - 通过 `feishu2md 你的飞书文档链接` 直接下载，文档链接可以通过 分享 &gt; 开启链接分享 &gt; 复制链接 获得。
 
 <img src="boxcnqt9YDTirkKlTATlQI025Ig" src-width="1538" src-height="488"/>
 
@@ -70,4 +70,3 @@ feishu2md [一日一技：飞书文档转换为 Markdown](doccnrOvzeQ8BSnfsXj8jw
 由于 lark_docs_md 是使用 golang 实现的，因此这也是我首次使用 golang 进行开发。对于开发小工具，整体的开发体验非常良好，而且还能编译得到二进制以及享受多平台编译的好处。工具可能还有一些不是很完善的地方，如有问题可以提 issue，我有时间会进行修复的。
 
 最后，欢迎试用，欢迎 PR ~
-
