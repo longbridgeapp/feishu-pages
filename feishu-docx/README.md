@@ -4,6 +4,10 @@ Convert Feishu Docx into other formats (Markdown, HTML ...)
 
 Visit [https://github.com/longbridgeapp/feishu-pages](https://github.com/longbridgeapp/feishu-pages) to learn more.
 
+## How to add new fixture
+
+https://open.feishu.cn/document/server-docs/docs/docs/docx-v1/document/list
+
 ## Installation
 
 ```bash

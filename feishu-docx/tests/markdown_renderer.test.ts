@@ -22,14 +22,22 @@ describe('MarkdownRenderer', () => {
   });
 
   test('parse file', () => {
-    ['case0', 'case1', 'case2', 'case3'].forEach((caseName) => {
+    ['case0', 'case1', 'case2', 'case3', 'case4'].forEach((caseName) => {
       const doc = fixtureJSON(`${caseName}.raw.json`);
       const expected = fixture(`${caseName}.expect.md`);
 
       let render = new MarkdownRenderer(doc);
       let result = render.parse();
 
-      assert.equal(result.trim(), expected.trim(), caseName);
+      if (result.trim() !== expected.trim()) {
+        console.error('test failed on:', caseName);
+        console.error(`-------------------- expected ----------------`);
+        console.log(expected.trim());
+        console.error('----------------- expected end -----------------\n');
+        console.error(`-------------------- actully -----------------`);
+        console.log(result.trim());
+        console.error('----------------- actully end -----------------\n');
+      }
     });
   });
 

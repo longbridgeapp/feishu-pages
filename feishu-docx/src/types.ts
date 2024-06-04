@@ -301,6 +301,7 @@ export interface InlineFile {
 export interface TextBlock {
   style: TextStyle;
   elements: TextElement[];
+  children: string[];
 }
 
 export interface ImageBlock {
