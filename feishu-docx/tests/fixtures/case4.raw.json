@@ -1,0 +1,283 @@
+{
+  "document": {
+    "document_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+    "revision_id": 214,
+    "title": "Test"
+  },
+  "blocks": [
+    {
+      "block_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+      "block_type": 1,
+      "children": [
+        "SqSvduwatoJP1AxfLKuc8TtonCe",
+        "G0zrdrzlOovFhVxnWWHcWYu9nBe",
+        "EKEzdDkQso7dN4xHvY4cMNEen8b",
+        "CkibdO05PoFZX8x8GQ4c8M0Rnwh",
+        "PPVydhzGkoIqBix4h24ceJ9pnyf",
+        "GIBvdbWJSoUjnOxeUEjcRJtZnJh",
+        "K9Izd6lmfopGeexSZXtckBcjny6"
+      ],
+      "page": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "复杂 case 测试",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1
+        }
+      },
+      "parent_id": ""
+    },
+    {
+      "block_id": "SqSvduwatoJP1AxfLKuc8TtonCe",
+      "block_type": 2,
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "当前部分是记录一些特别的文档场景，尝试还原情况",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "G0zrdrzlOovFhVxnWWHcWYu9nBe",
+      "block_type": 4,
+      "heading2": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "Bad Case",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      },
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f"
+    },
+    {
+      "block_id": "EKEzdDkQso7dN4xHvY4cMNEen8b",
+      "block_type": 2,
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "错误的 Heading",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "CkibdO05PoFZX8x8GQ4c8M0Rnwh",
+      "block_type": 4,
+      "heading2": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "\n",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          },
+          {
+            "text_run": {
+              "content": "这个 Heading 下面有个多余的换行",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      },
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f"
+    },
+    {
+      "block_id": "PPVydhzGkoIqBix4h24ceJ9pnyf",
+      "block_type": 2,
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "GIBvdbWJSoUjnOxeUEjcRJtZnJh",
+      "block_type": 2,
+      "children": [
+        "GvyqdtfFYo96HUxPKfTcPKI6nXd",
+        "JlM3dK8k7oCsfqxUBABchtQ1nUd"
+      ],
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "错误的有序列表，直接是第二层",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    },
+    {
+      "block_id": "GvyqdtfFYo96HUxPKfTcPKI6nXd",
+      "block_type": 12,
+      "bullet": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "Item 1",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      },
+      "parent_id": "GIBvdbWJSoUjnOxeUEjcRJtZnJh"
+    },
+    {
+      "block_id": "JlM3dK8k7oCsfqxUBABchtQ1nUd",
+      "block_type": 12,
+      "bullet": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "Item 2",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      },
+      "parent_id": "GIBvdbWJSoUjnOxeUEjcRJtZnJh"
+    },
+    {
+      "block_id": "K9Izd6lmfopGeexSZXtckBcjny6",
+      "block_type": 2,
+      "parent_id": "W9Pwd8mxZor2kmxBTy6cKjiUn9f",
+      "text": {
+        "elements": [
+          {
+            "text_run": {
+              "content": "",
+              "text_element_style": {
+                "bold": false,
+                "inline_code": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false
+              }
+            }
+          }
+        ],
+        "style": {
+          "align": 1,
+          "folded": false
+        }
+      }
+    }
+  ]
+}

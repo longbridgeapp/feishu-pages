@@ -52,6 +52,10 @@ export class Buffer {
     return false;
   }
 
+  trimStart(): string {
+    return this.toString().trimStart();
+  }
+
   toString(opts?: { indent?: number }) {
     const { indent = 0 } = opts || {};
     let out = this.buffer.join('');

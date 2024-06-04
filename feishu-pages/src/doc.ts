@@ -7,7 +7,7 @@ import { printMemoryUsage, writeTemplfile } from './utils';
 
 /**
  * Fetch doc content
- * https://open.feishu.cn/document/server-docs/docs/docs/docx-v1/document/raw_content
+ * https://open.feishu.cn/document/server-docs/docs/docs/docx-v1/document/list
  * @param document_id doc.obj_token
  * @returns
  */
