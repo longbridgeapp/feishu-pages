@@ -1,6 +1,7 @@
 import { describe, test } from '@jest/globals';
 import assert from 'assert';
 import fs from 'fs';
+import { diff } from 'jest-diff';
 import path from 'path';
 import { MarkdownRenderer, TableMergeInfo } from '../src';
 import { escapeHTMLTags } from '../src/renderer';
@@ -30,13 +31,10 @@ describe('MarkdownRenderer', () => {
       let result = render.parse();
 
       if (result.trim() !== expected.trim()) {
+        const diffResult = diff(expected.trim(), result.trim());
         console.error('test failed on:', caseName);
-        console.error(`-------------------- expected ----------------`);
-        console.log(expected.trim());
-        console.error('----------------- expected end -----------------\n');
-        console.error(`-------------------- actully -----------------`);
-        console.log(result.trim());
-        console.error('----------------- actully end -----------------\n');
+        console.log(diffResult);
+        // console.log(result);
       }
     });
   });
