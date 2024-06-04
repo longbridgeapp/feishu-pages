@@ -1,0 +1,4 @@
+## Release a version
+
+- Update the version in `package.json`
+- Run `bun run release` to build and publish NPM to the registry.
