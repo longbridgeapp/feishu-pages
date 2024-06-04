@@ -344,14 +344,14 @@ export class MarkdownRenderer extends Renderer {
     let escape = true;
     if (style) {
       if (style.bold) {
-        preWrite = '**';
-        postWrite = '**';
+        preWrite = '<b>';
+        postWrite = '</b>';
       } else if (style.italic) {
-        preWrite = '_';
-        postWrite = '_';
+        preWrite = '<em>';
+        postWrite = '</em>';
       } else if (style.strikethrough) {
-        preWrite = '~~';
-        postWrite = '~~';
+        preWrite = '<del>';
+        postWrite = '</del>';
       } else if (style.underline) {
         preWrite = '<u>';
         postWrite = '</u>';
