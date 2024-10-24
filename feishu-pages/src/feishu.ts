@@ -259,7 +259,7 @@ export const feishuDownload = async (fileToken: string, localPath: string, type:
     console.info(" -> Cache hit:", fileToken);
   } else {
     console.info("Downloading file", fileToken, "...");
-    console.info("File type is ", type, "...");
+    console.info("File type is", type, "...");
     res = await axios
       .get(
         type === "board" ?
