@@ -39,6 +39,7 @@
 - `docx:document:readonly`
 - `wiki:wiki:readonly`
 - `drive:drive:readonly`
+- `board:whiteboard:node:read`
 
 ### **获取飞书知识库 \*\***space_id\*\*
 
