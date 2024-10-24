@@ -66,10 +66,14 @@ export enum BlockType {
   TableCell = 32,
   View = 33,
   QuoteContainer = 34,
+  /** 
+   * 画板
+   */
+  Board = 43,
   /**
    * 同步块
    */
-  SyncedBlock = 999,
+  SyncedBlock = 999
 }
 
 export enum StyleAlign {
@@ -462,6 +466,8 @@ export interface Block {
   image: ImageBlock;
   table: TableBlock;
   table_cell: TextBlock;
+  // TODO: 画板（Board）
+  board: ImageBlock;
 }
 
 export function getAlignStyle(align: StyleAlign) {
@@ -479,5 +485,5 @@ export function getAlignStyle(align: StyleAlign) {
 
 export interface FileToken {
   token: string;
-  type: 'file' | 'image';
+  type: 'file' | 'image' | 'board';
 }

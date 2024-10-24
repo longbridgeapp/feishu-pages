@@ -59,7 +59,7 @@ export class Renderer {
    * @param type
    * @param token
    */
-  addFileToken(type: 'file' | 'image', token: string) {
+  addFileToken(type: 'file' | 'image' | 'board', token: string) {
     this.fileTokens[token] = {
       token,
       type,

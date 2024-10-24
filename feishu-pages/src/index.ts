@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { FileToken } from 'feishu-docx';
+import { FileToken } from 'feishu-docx/src';
 import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFrontmatter } from './doc';
@@ -139,6 +139,7 @@ const fetchDocAndWriteFile = async (
  *
  * @param content
  * @param fileTokens
+ * @param boardTokens
  * @param docFolder
  * @returns
  */
@@ -155,7 +156,8 @@ const downloadFiles = async (
   for (const fileToken in fileTokens) {
     const filePath = await feishuDownload(
       fileToken,
-      path.join(path.join(DOCS_DIR, 'assets'), fileToken)
+      path.join(path.join(DOCS_DIR, 'assets'), fileToken),
+      fileTokens[fileToken].type
     );
     if (!filePath) {
       continue;
