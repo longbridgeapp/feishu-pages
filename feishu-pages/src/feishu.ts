@@ -242,7 +242,7 @@ const isValidCacheExist = (cacheFilePath: string) => {
  * @param localPath
  * @returns
  */
-export const feishuDownload = async (fileToken: string, localPath: string) => {
+export const feishuDownload = async (fileToken: string, localPath: string, type: string) => {
   const cacheFilePath = path.join(CACHE_DIR, fileToken);
   const cacheFileMetaPath = path.join(CACHE_DIR, `${fileToken}.headers.json`);
   fs.mkdirSync(CACHE_DIR, { recursive: true });
@@ -259,9 +259,12 @@ export const feishuDownload = async (fileToken: string, localPath: string) => {
     console.info(" -> Cache hit:", fileToken);
   } else {
     console.info("Downloading file", fileToken, "...");
+    console.info("File type is", type, "...");
     res = await axios
       .get(
-        `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
+        type === "board" ?
+          `${feishuConfig.endpoint}/open-apis/board/v1/whiteboards/${fileToken}/download_as_image` :
+          `${feishuConfig.endpoint}/open-apis/drive/v1/medias/${fileToken}/download`,
         {
           responseType: "stream",
           headers: {

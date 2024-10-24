@@ -143,6 +143,9 @@ export class MarkdownRenderer extends Renderer {
       case BlockType.Iframe:
         buf.write(this.parseIframe(block));
         break;
+      case BlockType.Board:
+        buf.write(this.parseBoard(block.board));
+        break;
       case BlockType.SyncedBlock:
         buf.write(this.parseSyncedBlock(block));
         break;
@@ -771,6 +774,37 @@ export class MarkdownRenderer extends Renderer {
     el.setAttribute('src', decodeURIComponent(block.iframe.component.url));
     buf.write(el.outerHTML);
     buf.write('\n');
+    return buf;
+  }
+
+  parseBoard(board: ImageBlock): Buffer | string {
+    const buf = new Buffer();
+
+    const align = getAlignStyle(board.align);
+    let alignAttr = '';
+    if (align != 'left') {
+      alignAttr = ` align="${align}"`;
+    }
+
+    const el = createElement('img');
+    el.setAttribute('src', board.token);
+    if (board.width) {
+      el.setAttribute('src-width', board.width.toString());
+    }
+    // Only give height when width is not given
+    if (board.height) {
+      el.setAttribute('src-height', board.height.toString());
+    }
+    if (align && align != 'left') {
+      el.setAttribute('align', align);
+    }
+
+    buf.write(el.outerHTML);
+    buf.write('\n');
+    
+    this.addFileToken('board', board.token);
+    console.info("New board added: " + board.token)
+
     return buf;
   }
 

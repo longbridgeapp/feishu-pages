@@ -2012,20 +2012,6 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-feishu-docx@0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/feishu-docx/-/feishu-docx-0.6.3.tgz#9c9a2f0d49324a262053f02278d7dc0e2973e4bc"
-  integrity sha512-+zibgYVY7chFu/jHwKiv0y/BZvLk6AqIe6iRm7gYswJDB2JIbjb5tFBMXcv/vYAUpH80gNDmR2hcInq4R24mNA==
-  dependencies:
-    "@types/node" "^20.5.7"
-    dotenv "^16.3.1"
-    feishu-docx "^0.1.3"
-    js-yaml "^4.1.0"
-    jsdom "^22.1.0"
-    marked "^9.1.2"
-    marked-xhtml "^1.0.7"
-    typescript "^5.2.2"
-
 feishu-docx@^0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/feishu-docx/-/feishu-docx-0.1.4.tgz#53e506ec7d8acc8641522b55c9e8625d2fff0648"
@@ -2568,6 +2554,16 @@ jest-diff@^29.6.4:
     diff-sequences "^29.6.3"
     jest-get-type "^29.6.3"
     pretty-format "^29.6.3"
+
+jest-diff@^29.7.0:
+  version "29.7.0"
+  resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-29.7.0.tgz#017934a66ebb7ecf6f205e84699be10afd70458a"
+  integrity sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==
+  dependencies:
+    chalk "^4.0.0"
+    diff-sequences "^29.6.3"
+    jest-get-type "^29.6.3"
+    pretty-format "^29.7.0"
 
 jest-docblock@^29.6.3:
   version "29.6.3"
@@ -3442,6 +3438,15 @@ pretty-format@^29.6.3:
   version "29.6.3"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-29.6.3.tgz#d432bb4f1ca6f9463410c3fb25a0ba88e594ace7"
   integrity sha512-ZsBgjVhFAj5KeK+nHfF1305/By3lechHQSMWCTl8iHSbfOm2TN5nHEtFc/+W7fAyUeCs2n5iow72gld4gW0xDw==
+  dependencies:
+    "@jest/schemas" "^29.6.3"
+    ansi-styles "^5.0.0"
+    react-is "^18.0.0"
+
+pretty-format@^29.7.0:
+  version "29.7.0"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-29.7.0.tgz#ca42c758310f365bfa71a0bda0a807160b776812"
+  integrity sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==
   dependencies:
     "@jest/schemas" "^29.6.3"
     ansi-styles "^5.0.0"
