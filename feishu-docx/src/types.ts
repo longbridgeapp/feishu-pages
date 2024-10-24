@@ -466,7 +466,6 @@ export interface Block {
   image: ImageBlock;
   table: TableBlock;
   table_cell: TextBlock;
-  // TODO: 画板（Board）
   board: ImageBlock;
 }
 
