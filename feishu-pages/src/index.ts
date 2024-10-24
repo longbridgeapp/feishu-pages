@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { FileToken } from 'feishu-docx/src';
+import { FileToken } from 'feishu-docx';
 import fs from 'fs';
 import path from 'path';
 import { fetchDocBody, generateFrontmatter } from './doc';
