@@ -73,7 +73,7 @@ export enum BlockType {
   /**
    * 同步块
    */
-  SyncedBlock = 999
+  SyncedBlock = 999,
 }
 
 export enum StyleAlign {
