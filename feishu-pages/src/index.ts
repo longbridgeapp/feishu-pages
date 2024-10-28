@@ -154,9 +154,14 @@ const downloadFiles = async (
   }
 
   for (const fileToken in fileTokens) {
+    let base_filename = fileToken;
+   if (fileTokens[fileToken].type == 'board') {
+     base_filename = base_filename + '-board';
+   }
+
     const filePath = await feishuDownload(
       fileToken,
-      path.join(path.join(DOCS_DIR, 'assets'), fileToken),
+      path.join(path.join(DOCS_DIR, 'assets'), base_filename),
       fileTokens[fileToken].type
     );
     if (!filePath) {
@@ -165,7 +170,7 @@ const downloadFiles = async (
 
     const extension = path.extname(filePath);
 
-    let assetURL = `/assets/${fileToken}${extension}`;
+    let assetURL = `/assets/${base_filename}${extension}`;
 
     // Replase Markdown image
     content = replaceLinks(content, fileToken, assetURL);
