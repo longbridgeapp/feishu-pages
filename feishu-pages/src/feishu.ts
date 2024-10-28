@@ -331,9 +331,6 @@ export const feishuDownload = async (fileToken: string, localPath: string, type:
     );
   }
 
-  let suffix = type == 'board' ? '-board' : '';
-  localPath = localPath + suffix;
-
   if (extension) {
     localPath = localPath + "." + extension;
   }
