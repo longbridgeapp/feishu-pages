@@ -242,7 +242,12 @@ const isValidCacheExist = (cacheFilePath: string) => {
  * @param localPath
  * @returns
  */
-export const feishuDownload = async (fileToken: string, localPath: string, type: 'file' | 'image' | 'board') => {
+export const feishuDownload = async (
+  fileToken: string,
+  localPath: string,
+  type: 'file' | 'image' | 'board',
+  hasDocCache: boolean,
+) => {
   const cacheFilePath = path.join(CACHE_DIR, fileToken);
   const cacheFileMetaPath = path.join(CACHE_DIR, `${fileToken}.headers.json`);
   fs.mkdirSync(CACHE_DIR, { recursive: true });
@@ -250,7 +255,7 @@ export const feishuDownload = async (fileToken: string, localPath: string, type:
   let res: { data?: fs.ReadStream; headers?: Record<string, any> } = {};
   let hasCache = false;
   // The board file can't be cached, because we can't get the content-length
-  let canCache = type != 'board';
+  let canCache = type != 'board' || hasDocCache;
 
   let cacheFileHeaders = {};
   try {

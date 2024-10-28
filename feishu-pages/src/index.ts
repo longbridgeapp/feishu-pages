@@ -119,9 +119,7 @@ const fetchDocAndWriteFile = async (
     let out = '';
     out += metaInfo + '\n\n';
 
-    if (!doc.hasCache) {
-      content = await downloadFiles(content, fileTokens, folder);
-    }
+    content = await downloadFiles(content, fileTokens, doc.hasCache);
 
     out += content;
 
@@ -149,7 +147,7 @@ const fetchDocAndWriteFile = async (
 const downloadFiles = async (
   content: string,
   fileTokens: Record<string, FileToken>,
-  docFolder: string
+  hasDocCache: boolean,
 ) => {
   if (SKIP_ASSETS) {
     console.info('skip assets download.');
@@ -165,7 +163,8 @@ const downloadFiles = async (
     const filePath = await feishuDownload(
       fileToken,
       path.join(path.join(DOCS_DIR, 'assets'), base_filename),
-      fileTokens[fileToken].type
+      fileTokens[fileToken].type,
+      hasDocCache,
     );
     if (!filePath) {
       continue;
