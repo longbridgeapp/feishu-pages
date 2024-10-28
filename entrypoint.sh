@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "Running feishu-pages..."
 /usr/local/bin/feishu-pages $@
 echo "Trimming whiteboard images to remove whitespace..."
