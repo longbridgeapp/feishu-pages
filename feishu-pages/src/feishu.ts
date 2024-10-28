@@ -249,13 +249,22 @@ export const feishuDownload = async (fileToken: string, localPath: string, type:
 
   let res: { data?: fs.ReadStream; headers?: Record<string, any> } = {};
   let hasCache = false;
+  // The board file can't be cached, because we can't get the content-length
+  let canCache = type != 'board';
+
+  let cacheFileHeaders = {};
+  try {
+    cacheFileHeaders = JSON.parse(fs.readFileSync(cacheFileMetaPath, "utf-8"));
+  } catch {}
+  let cacheContentLength = cacheFileHeaders["content-length"] || null;
 
   if (
     isValidCacheExist(cacheFilePath) &&
-    isValidCacheExist(cacheFileMetaPath)
+    isValidCacheExist(cacheFileMetaPath) &&
+    canCache
   ) {
     hasCache = true;
-    res.headers = JSON.parse(fs.readFileSync(cacheFileMetaPath, "utf-8"));
+    res.headers = cacheFileHeaders;
     console.info(" -> Cache hit:", fileToken);
   } else {
     console.info("Downloading file", fileToken, "...");
@@ -283,21 +292,26 @@ export const feishuDownload = async (fileToken: string, localPath: string, type:
           return null;
         }
 
-        // Write cache info
-        fs.writeFileSync(cacheFileMetaPath, JSON.stringify(res.headers));
+        if (res.headers["Content-Length"] && res.headers["Content-Length"] == cacheContentLength) {
+          console.info(" -> Cache hit", fileToken);
+          hasCache = true;
+        } else {
+          // Write cache info
+          fs.writeFileSync(cacheFileMetaPath, JSON.stringify(res.headers));
 
-        return new Promise((resolve: any, reject: any) => {
-          const writer = fs.createWriteStream(cacheFilePath);
-          res.data.pipe(writer);
-          writer.on("finish", () => {
-            resolve({
-              headers: res.headers,
+          return new Promise((resolve: any, reject: any) => {
+            const writer = fs.createWriteStream(cacheFilePath);
+            res.data.pipe(writer);
+            writer.on("finish", () => {
+              resolve({
+                headers: res.headers,
+              });
+            });
+            writer.on("error", (e) => {
+              reject(e);
             });
           });
-          writer.on("error", (e) => {
-            reject(e);
-          });
-        });
+        }
       })
       .catch((err) => {
         const { message } = err;
