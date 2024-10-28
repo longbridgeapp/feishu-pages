@@ -66,11 +66,12 @@ import { fetchAllDocs } from './wiki';
 const fetchDocBodies = async (docs: FileDoc[]) => {
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
-    const { cotnent_file, fileTokens, meta } = await fetchDocBody(doc);
+    const { contentFile, fileTokens, meta, hasCache } = await fetchDocBody(doc);
 
-    doc.cotnent_file = cotnent_file;
+    doc.contentFile = contentFile;
     doc.meta = meta;
     doc.fileTokens = fileTokens;
+    doc.hasCache = hasCache;
 
     await fetchDocBodies(doc.children);
   }
@@ -97,9 +98,9 @@ const fetchDocAndWriteFile = async (
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
 
-    let { cotnent_file, fileTokens } = doc;
+    let { contentFile, fileTokens } = doc;
 
-    let content = fs.readFileSync(cotnent_file, 'utf-8');
+    let content = fs.readFileSync(contentFile, 'utf-8');
 
     // Replace node_token to slug
 
@@ -118,7 +119,9 @@ const fetchDocAndWriteFile = async (
     let out = '';
     out += metaInfo + '\n\n';
 
-    content = await downloadFiles(content, fileTokens, folder);
+    if (!doc.hasCache) {
+      content = await downloadFiles(content, fileTokens, folder);
+    }
 
     out += content;
 
