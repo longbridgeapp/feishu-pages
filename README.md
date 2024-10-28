@@ -151,7 +151,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './website/.vitepress/dist'
+          path: "./website/.vitepress/dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
@@ -164,6 +164,14 @@ jobs:
 > Error: request trigger frequency limit
 
 飞书 API 有总每分钟 100 次请求的[总频率限制](https://open.feishu.cn/document/ukTMukTMukTM/uUzN04SN3QjL1cDN)，这个项目实现的时候为每个请求之前做了 300ms 的延迟，以避免超过这个频率。如有遇到此类问题，请提交 Issue。
+
+### 画板图片导出会有空白区域
+
+这个是由于飞书画板导出图片本身的问题，如果你使用 feishu-pages 提供的 GitHub Actions，这个里面会用 ImageMagick 来修复这些图片。如果你是手工导出的，可以用下面的命令来修复（请先安装 [ImageMagick](https://www.imagemagick.org)）：
+
+```bash
+find ./dist -name "*-board.png" -exec mogrify -trim {} +
+```
 
 ## License
 

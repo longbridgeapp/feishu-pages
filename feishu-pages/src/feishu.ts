@@ -242,7 +242,7 @@ const isValidCacheExist = (cacheFilePath: string) => {
  * @param localPath
  * @returns
  */
-export const feishuDownload = async (fileToken: string, localPath: string, type: string) => {
+export const feishuDownload = async (fileToken: string, localPath: string, type: 'file' | 'image' | 'board') => {
   const cacheFilePath = path.join(CACHE_DIR, fileToken);
   const cacheFileMetaPath = path.join(CACHE_DIR, `${fileToken}.headers.json`);
   fs.mkdirSync(CACHE_DIR, { recursive: true });
@@ -330,6 +330,9 @@ export const feishuDownload = async (fileToken: string, localPath: string, type:
       humanizeFileSize(fileSize),
     );
   }
+
+  let suffix = type == 'board' ? '-board' : '';
+  localPath = localPath + suffix;
 
   if (extension) {
     localPath = localPath + "." + extension;
