@@ -7,10 +7,11 @@ export interface FileDoc extends Doc {
   position: number;
   filename: string;
   /// The content file path (in Tmp path)
-  cotnent_file?: string;
+  contentFile?: string;
   meta?: Record<string, any>;
   fileTokens?: any;
   children: FileDoc[];
+  hasCache?: boolean;
 }
 
 /**
