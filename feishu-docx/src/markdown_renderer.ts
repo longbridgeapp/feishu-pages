@@ -243,8 +243,20 @@ export class MarkdownRenderer extends Renderer {
       buf.write('\n');
     }
 
-    // For type: 2 render children
-    if (block.block_type == BlockType.Text) {
+    // For block with children: render children
+    const childrenBlockList = [
+      BlockType.Text,
+      BlockType.Heading1,
+      BlockType.Heading2,
+      BlockType.Heading3,
+      BlockType.Heading4,
+      BlockType.Heading5,
+      BlockType.Heading6,
+      BlockType.Heading7,
+      BlockType.Heading8,
+      BlockType.Heading9
+    ]
+    if (childrenBlockList.find(type => type === block.block_type)) {
       block.children?.forEach((childId, _) => {
         const child = this.blockMap[childId];
         buf.write(this.parseBlock(child, this.indent));
