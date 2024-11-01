@@ -24,7 +24,7 @@ jobs:
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
-          FEISHU_SPACE_ID: '7273324757679325186'
+          FEISHU_SPACE_ID: "7273324757679325186"
           OUTPUT_DIR: ./dist
           BASE_URL: https://longbridgeapp.github.io/feishu-pages/
         uses: longbridgeapp/feishu-pages@main
@@ -41,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: './website/.vitepress/dist'
+          path: "./website/.vitepress/dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2

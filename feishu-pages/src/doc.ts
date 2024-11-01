@@ -11,7 +11,7 @@ import { printMemoryUsage, writeTemplfile } from './utils';
  * @param document_id doc.obj_token
  * @returns
  */
-export const fetchDocBody = async (fileDoc: Doc) => {
+ export const fetchDocBody = async (fileDoc: Doc): Promise<{ contentFile: string; meta: Record<string, any>; fileTokens: Record<string, any>; hasCache: boolean }> => {
   let document_id = fileDoc.obj_token;
 
   const doc = {
@@ -21,15 +21,20 @@ export const fetchDocBody = async (fileDoc: Doc) => {
     blocks: [],
   };
 
-  const fetchDocBlocks = async (document_id: string) => {
+  const fetchDocBlocks = async (document_id: string): Promise<{ hasCache: boolean; blocks: any[] }> => {
     // Check cache in .cache/docs/${document_id}.json
+    let hasCache = false;
     let cacheBlocks = path.join(CACHE_DIR, 'blocks', document_id + '.json');
     fs.mkdirSync(path.dirname(cacheBlocks), { recursive: true });
     if (fs.existsSync(cacheBlocks)) {
       const doc = JSON.parse(fs.readFileSync(cacheBlocks, 'utf-8'));
       if (doc?.obj_edit_time === fileDoc.obj_edit_time) {
+        hasCache = true;
         console.info('Cache hit doc: ', document_id, '...');
-        return doc.blocks;
+        return {
+          hasCache,
+          blocks: doc.blocks,
+        };
       }
     }
 
@@ -49,10 +54,13 @@ export const fetchDocBody = async (fileDoc: Doc) => {
         blocks,
       })
     );
-    return blocks;
+    return { hasCache, blocks };
   };
 
-  doc.blocks = await fetchDocBlocks(document_id);
+
+  let { blocks, hasCache } = await fetchDocBlocks(document_id);
+
+  doc.blocks = blocks;
   printMemoryUsage('loaded doc blocks');
 
   const render = new MarkdownRenderer(doc as any);
@@ -64,9 +72,10 @@ export const fetchDocBody = async (fileDoc: Doc) => {
   let tmp_filename = writeTemplfile(content);
 
   return {
-    cotnent_file: tmp_filename,
+    contentFile: tmp_filename,
     meta,
     fileTokens,
+    hasCache,
   };
 };
 

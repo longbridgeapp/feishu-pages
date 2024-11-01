@@ -66,11 +66,12 @@ import { fetchAllDocs } from './wiki';
 const fetchDocBodies = async (docs: FileDoc[]) => {
   for (let idx = 0; idx < docs.length; idx++) {
     const doc = docs[idx];
-    const { cotnent_file, fileTokens, meta } = await fetchDocBody(doc);
+    const { contentFile, fileTokens, meta, hasCache } = await fetchDocBody(doc);
 
-    doc.cotnent_file = cotnent_file;
+    doc.contentFile = contentFile;
     doc.meta = meta;
     doc.fileTokens = fileTokens;
+    doc.hasCache = hasCache;
 
     await fetchDocBodies(doc.children);
   }
@@ -97,9 +98,9 @@ const fetchDocAndWriteFile = async (
     const folder = path.dirname(filename);
     fs.mkdirSync(folder, { recursive: true });
 
-    let { cotnent_file, fileTokens } = doc;
+    let { contentFile, fileTokens } = doc;
 
-    let content = fs.readFileSync(cotnent_file, 'utf-8');
+    let content = fs.readFileSync(contentFile, 'utf-8');
 
     // Replace node_token to slug
 
@@ -118,7 +119,7 @@ const fetchDocAndWriteFile = async (
     let out = '';
     out += metaInfo + '\n\n';
 
-    content = await downloadFiles(content, fileTokens, folder);
+    content = await downloadFiles(content, fileTokens, doc.hasCache);
 
     out += content;
 
@@ -146,7 +147,7 @@ const fetchDocAndWriteFile = async (
 const downloadFiles = async (
   content: string,
   fileTokens: Record<string, FileToken>,
-  docFolder: string
+  hasDocCache: boolean,
 ) => {
   if (SKIP_ASSETS) {
     console.info('skip assets download.');
@@ -154,10 +155,16 @@ const downloadFiles = async (
   }
 
   for (const fileToken in fileTokens) {
+    let base_filename = fileToken;
+   if (fileTokens[fileToken].type == 'board') {
+     base_filename = base_filename + '-board';
+   }
+
     const filePath = await feishuDownload(
       fileToken,
-      path.join(path.join(DOCS_DIR, 'assets'), fileToken),
-      fileTokens[fileToken].type
+      path.join(path.join(DOCS_DIR, 'assets'), base_filename),
+      fileTokens[fileToken].type,
+      hasDocCache,
     );
     if (!filePath) {
       continue;
@@ -165,7 +172,7 @@ const downloadFiles = async (
 
     const extension = path.extname(filePath);
 
-    let assetURL = `/assets/${fileToken}${extension}`;
+    let assetURL = `/assets/${base_filename}${extension}`;
 
     // Replase Markdown image
     content = replaceLinks(content, fileToken, assetURL);
