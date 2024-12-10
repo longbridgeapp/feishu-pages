@@ -1,10 +1,12 @@
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
       - release-pages
   release:
     types: [published, edited, deleted, unpublished]
+  
 permissions:
   contents: read
   pages: write
