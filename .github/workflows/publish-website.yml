@@ -6,7 +6,7 @@ on:
       - release-pages
   release:
     types: [published, edited, deleted, unpublished]
-  
+
 permissions:
   contents: read
   pages: write
@@ -28,8 +28,8 @@ jobs:
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_SPACE_ID: "7273324757679325186"
           OUTPUT_DIR: ./dist
-          BASE_URL: https://longbridgeapp.github.io/feishu-pages/
-        uses: longbridgeapp/feishu-pages@main
+          BASE_URL: https://longbridge.github.io/feishu-pages/
+        uses: longbridge/feishu-pages@main
       - name: Build Website
         run: |
           cp -r dist/docs/* website/docs/

@@ -2,7 +2,7 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 
 const targetFile = 'docs/releases.md';
-const repo = 'longbridgeapp/feishu-pages';
+const repo = 'longbridge/feishu-pages';
 const pageSize = 200;
 
 const fetchRelease = async () => {
