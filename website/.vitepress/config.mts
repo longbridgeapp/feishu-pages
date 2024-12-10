@@ -80,7 +80,7 @@ export default defineConfig({
       },
       {
         text: 'GitHub',
-        link: 'https://github.com/longbridgeapp/feishu-pages',
+        link: 'https://github.com/longbridge/feishu-pages',
       },
     ],
 
@@ -89,7 +89,7 @@ export default defineConfig({
       'zh-CN': docsSidebarZHCN,
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/longbridgeapp/feishu-pages' },
+      { icon: 'github', link: 'https://github.com/longbridge/feishu-pages' },
     ],
   },
 });

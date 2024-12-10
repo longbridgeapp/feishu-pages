@@ -8,7 +8,7 @@
 
 ## Features
 
-- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（_目前只支持 Markdown_）
+- [feishu-docx](https://github.com/longbridge/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（_目前只支持 Markdown_）
 - 目录结构组织，与 URL 路径自定义
 - 图片、附件下载
 - 国际化支持
@@ -101,7 +101,7 @@ yarn feishu-pages
 
 按上面默认的配置，最终会在 `./dist` 目录下生成 Markdown 文件以及导出的图片文件，如果你期望调整目录，可以自己设置 `OUTPUT_DIR` 环境变量。
 
-> 💡 文档内 [Page Mata](https://longbridgeapp.github.io/feishu-pages/zh-CN/page-meta) 标识为 `hide: true` 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。
+> 💡 文档内 [Page Mata](https://longbridge.github.io/feishu-pages/zh-CN/page-meta) 标识为 `hide: true` 的文档将会被排除掉，你可以用来隐藏一些不想公开的文档。
 >
 > 所有的 Markdown 导出的文件名将遵循知识库的目录树，并按照 Page Meta 里面的 `slug` 来整理文件夹和文件名。
 
@@ -111,7 +111,7 @@ yarn feishu-pages
 
 > NOTE: 你需要用到 VitePress 或 Docusaurus 之类的文档工具，这里假设他们在项目根目录有 `yarn build` 命令可以将 `docs` 文件夹的 Markdown 文件生成为静态网站。
 >
-> 具体可以参考：https://github.com/longbridgeapp/feishu-pages/tree/main/website
+> 具体可以参考：https://github.com/longbridge/feishu-pages/tree/main/website
 
 ```yml
 on:
@@ -139,7 +139,7 @@ jobs:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
           FEISHU_SPACE_ID: ${{ secrets.FEISHU_SPACE_ID }}
-        uses: longbridgeapp/feishu-pages@main
+        uses: longbridge/feishu-pages@main
       - name: Build Pages
         run: |
           cp -r dist/docs ./

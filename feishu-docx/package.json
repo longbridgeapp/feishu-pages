@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
-    "url": "https://github.com/longbridgeapp/feishu-pages"
+    "url": "https://github.com/longbridge/feishu-pages"
   },
   "publisher": "Jason Lee",
   "author": {

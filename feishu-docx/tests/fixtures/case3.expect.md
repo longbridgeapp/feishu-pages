@@ -23,7 +23,7 @@
 
 ## <b>Features</b>
 
-- [feishu-docx](https://github.com/longbridgeapp/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（<em>目前只支持 Markdown</em>）
+- [feishu-docx](https://github.com/longbridge/feishu-pages/tree/main/feishu-docx) - 支持将飞书新版文档 Docx 转换为 Markdown 或其他格式（<em>目前只支持 Markdown</em>）
 - 目录结构组织
 - 图片下载
 - 与 GitHub Actions 结合

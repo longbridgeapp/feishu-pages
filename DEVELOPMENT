@@ -26,4 +26,4 @@ bun run dev
 2. Create git tag with the same version number.
 3. Push the tag to GitHub.
 4. Then the GitHub Action will automatically release the new version to npm.
-5. Write Releate Notes in [Release Page](https://github.com/longbridgeapp/feishu-pages/releases)
+5. Write Releate Notes in [Release Page](https://github.com/longbridge/feishu-pages/releases)

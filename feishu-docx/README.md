@@ -2,7 +2,7 @@
 
 Convert Feishu Docx into other formats (Markdown, HTML ...)
 
-Visit [https://github.com/longbridgeapp/feishu-pages](https://github.com/longbridgeapp/feishu-pages) to learn more.
+Visit [https://github.com/longbridge/feishu-pages](https://github.com/longbridge/feishu-pages) to learn more.
 
 ## How to add new fixture
 

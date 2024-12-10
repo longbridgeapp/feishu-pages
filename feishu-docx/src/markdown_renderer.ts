@@ -163,7 +163,7 @@ export class MarkdownRenderer extends Renderer {
    * Return false if not found first code block.
    * Otherwise return true if parsed as YAML, false if not YAML.
    *
-   * https://longbridgeapp.github.io/feishu-pages/zh-CN/page-meta
+   * https://longbridge.github.io/feishu-pages/zh-CN/page-meta
    *
    * @param block
    * @returns

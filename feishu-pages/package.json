@@ -3,7 +3,7 @@
   "version": "0.7.6",
   "description": "Generate Feishu Wiki into a Markdown for work with Static Page Generators.",
   "repository": {
-    "url": "https://github.com/longbridgeapp/feishu-pages"
+    "url": "https://github.com/longbridge/feishu-pages"
   },
   "license": "MIT",
   "readme": "../README.md",
